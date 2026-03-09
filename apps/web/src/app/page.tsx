@@ -20,9 +20,9 @@ export default function Home() {
               <ProjectCard key={projects.title} {...projects} />
             ))}
         </div>
-
-        <Skills />
       </section>
+      
+       <Skills />
     </main>
   )
 }
