@@ -1,0 +1,34 @@
+---
+id: github-integration
+title: GitHub Integration
+# slug: /Web/github-integration
+---
+
+# Portfolio v2 - GitHub Integration
+
+- The portfolio automatically retrieves project data using the GitHub API.
+
+## Purpose
+
+This integration allows the portfolio to dynamically display repositories without manually updating the website.
+
+--- 
+
+## Data Source
+
+GitHub REST API
+
+Example endpoint:
+
+- https://api.github.com/users/{username}/repos
+
+--- 
+
+## Benefits
+
+- automatic project updates
+
+- reduced manual maintenance
+
+- always up-to-date portfolio
+

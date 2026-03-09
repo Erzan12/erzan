@@ -1,7 +1,7 @@
 ---
 id: engineering-decisions
 title: Engineering Decisions
-slug: /
+slug: /Engineering/decisions
 ---
 
 # Portfolio v2 - Engineering Decisions

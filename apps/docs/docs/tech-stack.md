@@ -1,7 +1,6 @@
 ---
 id: tech-stack
 title: Technology Stack
-slug: /
 ---
 
 # Portfolio v2 - Technology Stack

@@ -1,7 +1,6 @@
 ---
 id: roadmap
 title: Project Roadmap
-slug: /
 ---
 
 # Portfolio v2 — Project Roadmap

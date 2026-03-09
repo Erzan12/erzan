@@ -1,7 +1,6 @@
 ---
 id: intro
-title: Portfolio v2 — Engineering Documentation
-slug: /
+title: Introduction 
 ---
 
 # Portfolio v2 — Engineering Documentation
