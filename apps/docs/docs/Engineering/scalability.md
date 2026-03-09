@@ -1,7 +1,6 @@
 ---
 id: scalability
 title: Scalability
-slug: /Engineering/scalability
 ---
 
 # Portfolio v2 - Scalability

@@ -1,7 +1,6 @@
 ---
 id: performance
 title: Performance
-slug: /Engineering/performance
 ---
 
 # Portfolio v2 - Performance
