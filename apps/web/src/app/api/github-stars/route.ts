@@ -5,6 +5,9 @@ export async function GET(req: Request) {
   const repo = searchParams.get("repo");
 
   // console.log("Repo received:", repo); // DEBUG
+  if (!repo) {
+    return NextResponse.json({ stars: 0});
+  }
 
   const res = await fetch(`https://api.github.com/repos/${repo}`, {
     headers: {
@@ -17,6 +20,6 @@ export async function GET(req: Request) {
   // console.log("GitHub response:", data); // DEBUG
 
   return NextResponse.json({
-    stars: data.stargazers_count,
+    stars: data.stargazers_count ?? 0,
   });
 }
