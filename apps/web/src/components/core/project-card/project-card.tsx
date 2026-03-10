@@ -1,14 +1,17 @@
 "use client";
 
-import { useGithubStars } from "@/components/hooks/github-stars";
+import { useGithubStars } from "@/components/hooks/useGithubStars";
 import { Github } from "lucide-react";
 import { motion } from "framer-motion";
+import { useGithubRepos } from "@/components/hooks/useGithubRepos";
 
 type Props = {
   title: string;
   description: string;
   stack: string[];
   github: string;
+  repo: string;
+  repos: any;
 };
 
 const container = {
@@ -21,8 +24,9 @@ const item = {
   visible: { opacity: 1, y: 0},
 }
 
-export default function ProjectCard({ title, description, stack, github }: Props) {
-  const stars = useGithubStars(github);
+export default function ProjectCard({ title, description, stack, repo, github }: Props) {
+  // const stars = useGithubStars(github);
+  const repos = useGithubRepos();
 
   const techColors: Record<string, string> = {
     React: "bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100",
@@ -87,11 +91,12 @@ export default function ProjectCard({ title, description, stack, github }: Props
       >
         <Github size={16} />
         View Repository
-        {stars ? (
-          <span className="ml-1 text-gray-600 dark:text-gray-300">
-            ⭐ {stars}
-          </span>
-        ) : null}
+        {repos && repos[repo] && (
+          <>
+            <span>⭐ {repos[repo].stars}</span>
+            <span>🍴 {repos[repo].forks}</span>
+          </>
+        )}
       </a>
     </motion.div>
   );
