@@ -17,6 +17,12 @@ Possible additions:
 
 - shared packages
 
+- personal platform
+
+- blog
+
+- developer labs and tools
+
 ---
 
 ## Component Reusability
