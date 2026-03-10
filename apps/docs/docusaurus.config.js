@@ -103,7 +103,9 @@ const config = {
             position: 'left'
           },
           {
-            href: "https://erzan.dev",
+            // href: "https://erzan.dev",
+            //local dev
+            href: "http://localhost:3001",
             label: "Portfolio",
             position: "right",
           },

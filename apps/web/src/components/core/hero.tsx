@@ -26,7 +26,9 @@ export default function Hero() {
           </a>
 
           <a
-            href="https://docs.erzan.dev"
+            // href="https://docs.erzan.dev"
+            //local dev purposes
+            href="http://localhost:3000"
             target="_blank"
             className="px-6 py-3 rounded-lg border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 transition"
           >
