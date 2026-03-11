@@ -1,7 +1,6 @@
 ---
 id: github-integration
 title: GitHub Integration
-# slug: /Web/github-integration
 ---
 
 # Portfolio v2 - GitHub Integration
