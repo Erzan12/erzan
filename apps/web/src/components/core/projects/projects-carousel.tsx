@@ -15,7 +15,15 @@ export default function ProjectsCoverflowCarousel({ projects, repos }: Props) {
   const [index, setIndex] = useState(0);
   const [cardWidth, setCardWidth] = useState(360); // default desktop
 
-  // Update card width on client only
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((i) => (i + 1) % projects.length); // auto-next
+    }, 5000); // 5000ms = 5 seconds per card
+
+    return () => clearInterval(interval); // cleanup on unmount
+  }, [projects.length]);
+
+  //update card width on client only
   useEffect(() => {
     const updateWidth = () => {
       if (window.innerWidth < 640) setCardWidth(280);      // mobile
