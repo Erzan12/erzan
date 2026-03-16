@@ -21,8 +21,9 @@ type Props = {
     description: string;
     stack?: string[];
     topics?: string[];
-    updated_by?: string;
-    link: string;
+    last_update?: string;
+    link?: string;
+    showArchitectureLink: boolean;
     techColors: Record<string, string>;
 };
 
@@ -31,14 +32,16 @@ export default function SystemCard({
     description,
     stack,
     topics,
+    last_update,
     link,
+    showArchitectureLink = true,
     techColors,
 }: Props) {
     return (
         <div className="border rounded-lg p-6">
             <h3 className="text-xl font-semibold">{title}</h3>
 
-            <p className="mt-2 text-sm text-gray-gray-500">{description}</p>
+            <p className="mt-2 text-sm text-gray-500">{description}</p>
 
             <motion.div
                 className="mt-4 flex flex-wrap gap-2 overflow-auto max-h-16"
@@ -74,13 +77,11 @@ export default function SystemCard({
                     </motion.span>
                 ))}
             </motion.div>
-            <Link
-                href={link}
-                className="inline-block mt-4 underline"
-                target="_black"
-            >
-                Read Architecture
-            </Link>
+            {showArchitectureLink && link &&(
+                <Link href={link} className="inline-block mt-4 underline" target="_black">
+                    Read Architecture
+                </Link>
+            )}
         </div>
     );
 }
