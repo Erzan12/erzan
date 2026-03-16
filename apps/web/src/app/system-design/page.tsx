@@ -1,12 +1,33 @@
-import Link from "next/link";
+"use client";
+
+import { motion } from "framer-motion";
+import SystemCard from "@/components/core/system-design/System-Card";
 
 export default function SystemDesign() {
+
+    const techColors: Record<string, string> = {
+        React: "bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100",
+        NextJS: "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100",
+        TypeScript: "bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100",
+        NestJS: "bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100",
+        Prisma: "bg-indigo-100 text-indigo-800 dark:bg-indigo-800 dark:text-indigo-100",
+        PostgreSQL: "bg-blue-50 text-blue-900 dark:bg-blue-900 dark:text-blue-50",
+        Docker: "bg-blue-50 text-blue-900 dark:bg-blue-900 dark:text-blue-50",
+        Docusaurus: "bg-blue-50 text-blue-900 dark:bg-blue-900 dark:text-blue-50",
+        Tailwind: "bg-sky-100 text-sky-800 dark:bg-sky-800 dark:text-sky-100",
+        PHP: "bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100",
+        Laravel: "bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100",
+        CodeIgniter: "bg-red-50 text-red-900 dark:bg-red-900 dark:text-red-50",
+    };
+
     const systems = [
         {
             title: "ERP Backend Architecture",
             description:
                 "Architecture behind the ERP backend API including modules, database design, and role-based access control.",
-            link: "http://localhost:3000/docs/Case-studies/erp-backend-api",
+            stack: ["NestJS", "PostgreSQL", "Prisma", "JWT"],
+            topics: ["RBAC", "REST APIs", "Modular Architecture"],
+            link: "/docs/Case-studies/erp-backend-api",
         },
         {
             title: "Authentication System",
@@ -24,7 +45,7 @@ export default function SystemDesign() {
 
     return (
         <main className="container mx-auto px-6 py-20">
-            <h1 className="text-3x1 font-bold mb-8">
+            <h1 className="text-3xl font-bold mb-8">
                 System Design
             </h1>
             
@@ -34,29 +55,17 @@ export default function SystemDesign() {
                 systems, and platform infrastructure.
             </p>
 
-            <div className="grid md:grid-colds-2 gap-6">
-                {systems.map((systems) => (
-                    <div
-                        key={systems.title}
-                        className="border rounded-lg p-6"
-                    >
-                        <h3 className="text-x1 fond-semibold">
-                            {systems.title}
-                        </h3>
-
-                        <p className="mt-2 text-sm text-gray-500">
-                            {systems.description}
-                        </p>
-
-                        <Link
-                            href={systems.link}
-                            className="inline-block mt-4 underline"
-                        >
-                            Read Architecture
-                        </Link>
-                    </div>
+            <motion.div className="grid md:grid-cols-2 gap-6">
+                {systems.map((system) => (
+                    <SystemCard
+                        key={system.title}
+                        {...system}
+                        techColors={techColors}
+                        showArchitectureLink={true}
+                        showRepositoryLink={false}
+                    />
                 ))}
-            </div>
+            </motion.div>
         </main>
     )
 }

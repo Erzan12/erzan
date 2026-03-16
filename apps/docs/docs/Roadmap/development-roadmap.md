@@ -384,3 +384,211 @@ This project follows several guiding principles:
 
 
 The portfolio is intended to grow over time and reflect the evolution of the developer behind it.
+
+---
+
+## Updated Development Roadmap
+### v0.7.0 — Documentation & Interaction Update (Released)
+
+Focus: Documentation clarity and UI interaction improvements.
+
+### Added
+
+- Demo GIFs showcasing platform features
+
+- Visual documentation for navigation and system sections
+
+- Improved documentation structure and sidebar organization
+
+- UI Improvements
+
+- Automated homepage card rotation
+
+- Hover-based animation pause
+
+- Improved homepage interaction behavior
+
+### Result
+
+The platform now provides visual demonstrations of functionality and a clearer documentation structure for users and contributors.
+
+---
+
+## Upcoming Development Phases
+### v0.8.0 — Portfolio Platform Expansion
+
+Focus: Turning the project into a full developer portfolio platform.
+
+### Planned Features
+- About / Developer Story
+
+#### Introduce a section explaining:
+
+- developer background
+
+- engineering philosophy
+
+- project motivations
+
+- Portfolio Projects Section
+
+#### Create a structured project showcase including:
+
+```
+Project Name
+Description
+Tech Stack
+Repository Link
+Last Updated
+```
+
+Projects will be displayed as interactive cards similar to the current featured projects.
+
+---
+
+### Project Detail Pages
+
+#### Each project will include deeper information:
+
+```
+Overview
+Architecture
+Tech Stack
+Development challenges
+Lessons learned
+```
+
+### Portfolio Navigation
+
+#### Add new site sections:
+
+```
+Projects
+About
+Contact
+```
+
+---
+
+### v0.9.0 — GitHub Integration & Dynamic Data
+
+Focus: Automating project data and showing real development activity using the GitHub API.
+
+### Planned Features
+
+#### Automatic Repository Fetching
+- Fetch public repositories
+- Display them dynamically on the portfolio site
+
+#### Smart Project Sorting
+Repositories sorted by:
+```
+Latest update
+Commit activity
+```
+
+This ensures active projects appear first.
+
+#### Repository Metadata Display
+Each project card may display:
+```
+Repository name
+Description
+Primary language
+Stars
+Last updated date
+```
+
+#### Recent Activity Section
+Introduce a section showing:
+```
+Recently updated projects
+Recent commits
+Development activity
+```
+
+This keeps the portfolio live and continuously updated.
+
+---
+
+### v0.9.5 — Platform Polish
+
+Focus: Improving the overall experience before the stable release.
+
+#### Improvements
+- Performance optimization
+
+- UI/UX polish across the site
+
+- improved project card layout
+
+- accessibility improvements
+
+- responsive design refinements
+
+#### Documentation Enhancements
+
+- additional visual demos
+
+- contributor guidelines
+
+- improved system design documentation
+
+---
+
+### v1.0.0 — Public Platform Release
+
+Focus: First stable public release of the portfolio platform.
+
+### Major Milestones
+
+#### Full Web Application Deployment
+The portfolio platform will be deployed using **Vercel.
+
+#### Documentation Deployment
+Documentation site will be publicly accessible with:
+
+- guides
+- system design documentation
+- engineering philosophy
+- feature demos
+
+#### Stable Platform Features
+
+The platform will include:
+```
+Interactive homepage
+Project portfolio showcase
+GitHub repository integration
+Developer profile section
+Documentation portal
+```
+
+#### Release Outcome
+v1.0.0 represents the transition from a development project into a fully accessible developer platform.
+
+### Long-Term Vision (Post v1.0)
+
+Future directions may include:
+
+#### Developer Platform Features
+
+- blog or devlog system
+
+- architecture deep dives
+
+- engineering articles
+
+#### Project Analytics
+
+- repository statistics
+
+- development metrics
+
+#### Community Contributions
+
+- contribution guidelines
+
+- external project submissions
+
+- open-source collaboration support
