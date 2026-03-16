@@ -11,16 +11,25 @@ export async function GET() {
 
     const data = await res.json();
 
-    // console.log("GitHub response:", data); // DEBUG
+    console.log("GitHub response:", data); // DEBUG
 
-    const repos = data.reduce((acc: any, repo: any) => {
-        acc[repo.name] = {
-            stars: repo.stargazers_count,
-            forks: repo.forks_count,
-            updated: repo.updated_at,
-        };
-        return acc;
-    }, {});
+    // const repos = data.reduce((acc: any, repo: any) => {
+    //     acc[repo.name] = {
+    //         stars: repo.stargazers_count,
+    //         forks: repo.forks_count,
+    //         updated: repo.updated_at,
+    //     };
+    //     return acc;
+    // }, {});
+    const repos = data.map((repo: any) => ({
+        id: repo.id,
+        name: repo.name,
+        description: repo.description,
+        stars: repo.stargazers_count,
+        forks: repo.forks_count,
+        updated_at: repo.updated_at,
+        html_url: repo.html_url,
+    }));
 
-    return NextResponse.json(repos);
+    return NextResponse.json({ repos });
 }
