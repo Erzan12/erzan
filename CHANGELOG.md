@@ -41,7 +41,7 @@ Major step toward a fully dynamic and data-driven portfolio platform
 
 Strengthens GitHub as a single source of truth for project data
 
-Continued progress toward v1.0.0 release
+Continued progress toward v1.0.0 release with expected release of the web app Personal Platform
 
 ---
 
