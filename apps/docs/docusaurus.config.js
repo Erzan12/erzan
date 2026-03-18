@@ -189,7 +189,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Erzan Engineering Docs, Inc. Built with Docusaurus.❤️`,
+        copyright: `© ${new Date().getFullYear()} Erzan Engineering Docs. Built with Docusaurus.❤️`,
       },
       prism: {
         theme: prismThemes.github,
