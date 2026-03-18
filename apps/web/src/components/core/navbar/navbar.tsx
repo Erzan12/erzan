@@ -27,7 +27,7 @@ export default function Navbar() {
           <NavLink href="/about" onClick={() => setOpen(false)}> About </NavLink>
           <NavLink href="/contact" onClick={() => setOpen(false)}> Contact </NavLink>
           <a
-            href="https://docs.erzan.dev"
+            href="https://erzan-docs.vercel.app"
             target="_blank"
             className="flex items-center gap-1 hover:text-black dark:hover:text-white transition relative after:absolute 
             after:left-0 after:-bottom-1 after:h-[1px] after:w-0 after:bg-current after:transition-all hover:after:w-full"

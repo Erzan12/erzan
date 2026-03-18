@@ -107,7 +107,8 @@ const config = {
             position: 'left'
           },
           {
-            href: "https://erzan.dev",
+            to: '/portfolio',
+            // href: "https://erzan-dev.vercel.app",
             //local dev
             // href: "http://localhost:3001",
             label: "Portfolio",
