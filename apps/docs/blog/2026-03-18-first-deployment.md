@@ -1,13 +1,11 @@
 ---
-slug: long-blog-post
-title: Long Blog Post
-authors: yangshun
-tags: [hello, docusaurus]
+slug: first-blog
+title: The First Deployment
+authors: erzan
+tags: [first deployment, docs, vercel, versioning]
 ---
 
-This is the summary of a very long blog post,
-
-Use a `<!--` `truncate` `-->` comment to limit blog post size in the list view.
+This is a blog post about my journey from planning, building, pre releases and first mature release with vercel deployment
 
 <!-- truncate -->
 
