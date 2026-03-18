@@ -168,7 +168,8 @@ const config = {
             items: [
               {
                 label: "Portfolio",
-                href: "https://erzan.dev",
+                // href: "https://erzan.dev",
+                to: '/portfolio'
               },
               {
                 label: "GitHub",

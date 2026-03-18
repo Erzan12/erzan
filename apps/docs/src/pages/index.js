@@ -2,6 +2,7 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
+import { Analytics } from '@vercel/analytics/next';
 
 const HomepageHeader = () => {
   return (
@@ -35,6 +36,7 @@ export default function Home() {
     <Layout
       title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />">
+      <Analytics />
       <HomepageHeader />
       <main>
         <HomepageFeatures />
