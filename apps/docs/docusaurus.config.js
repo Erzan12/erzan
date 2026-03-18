@@ -19,6 +19,10 @@ const config = {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
+  stylesheets: [
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css',
+  ],
+
   // Set the production url of your site here
   url: 'https://docs.erzan.dev',
   // Set the /<baseUrl>/ pathname under which your site is served
