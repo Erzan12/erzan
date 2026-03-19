@@ -2,12 +2,13 @@
 
 import Hero from "@/components/core/hero";
 import ProjectCard from "@/components/core/projects/project-card";
-import ProjectsCarousel from "@/components/core/projects/projects-carousel";
+
 import Skills from "@/components/core/skills";
 import { useGithubRepos } from "@/hooks/useGithubRepos";
 import { projects } from "@/data/projects";
 
 import Faq02 from "../components/core/faq/faq-02"
+import ProjectsCarousel from "@/components/core/projects/projects-carousel";
 
 export default function Home() {
   const repos = useGithubRepos();
