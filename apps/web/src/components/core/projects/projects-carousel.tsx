@@ -1,120 +1,98 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import ProjectCard from "./project-card";
-import { Project } from "@/lib/types/project";
+import * as React from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Github, ExternalLink } from "lucide-react";
+import { projects } from "@/data/projects"; // Your data
+import { Project } from "@/lib/types/project"; // Your type
 
-type Props = {
+interface ProjectsCarouselProps {
   projects: Project[];
-  repos: any;
-};
+  repos: any; //or use the specific type from your hook
+}
 
-export default function ProjectsCoverflowCarousel({ projects, repos }: Props) {
-  const [index, setIndex] = useState(0);
-  const [cardWidth, setCardWidth] = useState(360); 
-  const [isPaused, setIsPaused] = useState(false);
-
-  useEffect(() => {
-    if (isPaused) return;
-
-    const interval = setInterval(() => {
-      setIndex((i) => (i + 1) % projects.length); 
-    }, 5000); 
-
-    return () => clearInterval(interval); 
-  }, [projects.length, isPaused]);
-
-  useEffect(() => {
-    const updateWidth = () => {
-      // Made mobile card slightly smaller to fit better on screens like iPhone SE
-      if (window.innerWidth < 640) setCardWidth(260);      
-      else if (window.innerWidth < 1024) setCardWidth(320); 
-      else setCardWidth(360);                               
-    };
-
-    updateWidth(); 
-    window.addEventListener("resize", updateWidth);
-
-    return () => window.removeEventListener("resize", updateWidth);
-  }, []);
-
-  // Adjusted spacing for mobile. If it's a small card, reduce the gap.
-  const SPACING = cardWidth < 300 ? cardWidth + 40 : cardWidth + 80; 
-  const SCALE_SIDE = 0.75;
-  const ROTATION = 25;
-
-  const prev = () => setIndex((i) => (i - 1 + projects.length) % projects.length);
-  const next = () => setIndex((i) => (i + 1) % projects.length);
-
-  const getPosition = (i: number) => {
-    let diff = i - index;
-    if (diff > 1) diff = diff - projects.length;
-    if (diff < -1) diff = diff + projects.length;
-
-    if (diff === 0) return { x: 0, scale: 1, opacity: 1, rotateY: 0, zIndex: 10 };
-    if (diff === 1) return { x: SPACING, scale: SCALE_SIDE, opacity: 0.7, rotateY: -ROTATION, zIndex: 5 };
-    if (diff === -1) return { x: -SPACING, scale: SCALE_SIDE, opacity: 0.7, rotateY: ROTATION, zIndex: 5 };
-
-    return { x: diff * SPACING, scale: 0.6, opacity: 0, rotateY: 0, zIndex: 0 };
-  };
-
+export default function ProjectCarousel({ projects, repos }: ProjectsCarouselProps) {
   return (
-    <div className="w-full max-w-[1200px] mx-auto flex flex-col items-center">
-      <div 
-        // CHANGED: Force overflow-hidden on all screen sizes to prevent horizontal scroll
-        className="relative w-full h-[440px] flex items-center justify-center perspective-[1200px] overflow-hidden"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-        onTouchStart={() => setIsPaused(true)} // Added touch pause for mobile
-        onTouchEnd={() => setIsPaused(false)}
+    <div className="w-full px-4 py-12">
+      <Carousel
+        opts={{
+          align: "start",
+          loop: true,
+        }}
+        className="w-full max-w-6xl mx-auto"
       >
-        {/* Arrows */}
-        <button
-          onClick={prev}
-          className="absolute left-2 md:left-4 z-20 bg-white dark:bg-gray-800 p-2 md:p-3 rounded-full shadow-lg hover:scale-110 transition"
-        >
-          <ChevronLeft size={24} className="md:w-7 md:h-7" />
-        </button>
-        <button
-          onClick={next}
-          className="absolute right-2 md:right-4 z-20 bg-white dark:bg-gray-800 p-2 md:p-3 rounded-full shadow-lg hover:scale-110 transition"
-        >
-          <ChevronRight size={24} className="md:w-7 md:h-7" />
-        </button>
+        <CarouselContent className="-ml-4">
+          {projects.map((project: Project, index: number) => (
+            <CarouselItem 
+              key={`${project.repo}-${index}`} 
+              className="pl-4 basis-full md:basis-1/2 lg:basis-1/3"
+            >
+              <Card className="h-[480px] flex flex-col bg-card border-border rounded-2xl overflow-hidden shadow-none transition-all duration-300 hover:border-primary/50 group">
+                <CardHeader className="p-0">
+                  {/* Project Image Placeholder */}
+                  <div className="w-full h-48 bg-muted flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 group-hover:scale-105 transition-transform duration-500" />
+                    <span className="text-muted-foreground relative z-10 font-sans text-sm italic">
+                      {project.title} Preview
+                    </span>
+                  </div>
+                </CardHeader>
+                
+                <CardContent className="p-6 flex-1">
+                  <CardTitle className="text-xl font-bold mb-2 font-sans">
+                    {project.title}
+                  </CardTitle>
+                  <p className="text-sm text-muted-foreground line-clamp-4 font-sans leading-relaxed">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {project.stack.map((tech: string) => (
+                      <Badge 
+                        key={tech} 
+                        variant="secondary" 
+                        className="rounded-full text-[10px] font-sans px-2.5 py-0.5"
+                      >
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
 
-        {/* Cards */}
-        <div className="relative w-full flex justify-center items-center">
-          {projects.map((project, i) => {
-            const pos = getPosition(i);
-            return (
-              <motion.div
-                key={project.title}
-                animate={pos}
-                transition={{ type: "spring", stiffness: 260, damping: 25 }}
-                className="absolute h-[420px] origin-center"
-                style={{ width: cardWidth, zIndex: pos.zIndex, perspective: 1200 }}
-              >
-                <ProjectCard {...project} repo={repos} />
-              </motion.div>
-            );
-          })}
+                <CardFooter className="p-6 pt-0 flex gap-3">
+                  <a 
+                    href={`https://github.com/${project.github}`} 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="flex-1"
+                  >
+                    <Button variant="outline" size="sm" className="w-full rounded-full gap-2 font-sans">
+                      <Github className="w-4 h-4" /> Code
+                    </Button>
+                  </a>
+                  <Button size="sm" className="flex-1 rounded-full gap-2 font-sans">
+                    <ExternalLink className="w-4 h-4" /> Demo
+                  </Button>
+                </CardFooter>
+              </Card>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        
+        {/* Navigation - Hidden on mobile, shown on md+ screens */}
+        <div className="hidden md:block">
+          <CarouselPrevious className="-left-12 border-border" />
+          <CarouselNext className="-right-12 border-border" />
         </div>
-      </div>
-
-      {/* Pagination Dots */}
-      <div className="mt-4 flex gap-2">
-        {projects.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setIndex(i)}
-            className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full transition-colors ${
-              i === index ? "bg-blue-500" : "bg-gray-400"
-            }`}
-          />
-        ))}
-      </div>
+      </Carousel>
     </div>
   );
 }

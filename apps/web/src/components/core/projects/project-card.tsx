@@ -45,7 +45,7 @@ export default function ProjectCard({ title, description, stack, repo, github }:
   return (
     <motion.div
       className="border border-gray-200 dark:border-gray-700 rounded-xl p-6 bg-white dark:bg-gray-900 shadow-sm hover:shadow-lg transition-shadow duration-300
-                 w-[360px] h-[420px] flex flex-col justify-between overflow-hidden"
+             w-full h-[420px] flex flex-col justify-between overflow-hidden"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
