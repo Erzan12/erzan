@@ -6,8 +6,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Database, ShieldCheck, Box } from "lucide-react";
 import SystemCard from "@/components/core/system-design/system-card";
+import { useGithubRepos } from "@/hooks/useGithubRepos";
+import { SystemCardSkeleton } from "@/components/core/system-design/system-card-skeleton";
 
 export default function SystemDesign() {
+    const { repos, loading } = useGithubRepos();
+
     const techColors: Record<string, string> = {
         React: "bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100",
         NextJS: "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100",
@@ -69,19 +73,26 @@ export default function SystemDesign() {
 
         {/* Grid Layout matching About Page grid behavior */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {systems.map((system) => (
-            <SystemCard
-                key={system.title}
-                title={system.title}
-                description={system.description}
-                stack={system.stack}
-                link={system.link}
-                icon={system.icon} // Pass the lucide icon here
-                techColors={techColors}
-                showArchitectureLink={true}
-                showRepositoryLink={false}
-            />
-          ))}
+          {loading || !repos || repos.length === 0 ? (
+            // 1. Loading State: Show 6 Skeletons
+            Array.from({ length: 6 }).map((_, i) => (
+              <SystemCardSkeleton key={`project-skeleton-${i}`} />
+            ))
+          ) : (
+            systems.map((system) => (
+              <SystemCard
+                  key={system.title}
+                  title={system.title}
+                  description={system.description}
+                  stack={system.stack}
+                  link={system.link}
+                  icon={system.icon} // Pass the lucide icon here
+                  techColors={techColors}
+                  showArchitectureLink={true}
+                  showRepositoryLink={false}
+              />
+            ))
+          )}
         </div>
       </div>
     </main>
