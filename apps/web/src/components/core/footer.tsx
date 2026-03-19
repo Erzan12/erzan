@@ -4,7 +4,7 @@ import { Github, Twitter, Linkedin } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="border-t mt-5 bg-primary/8 dark:bg-card">
+    <footer className="border-t mt-5 bg-primary/8 dark:bg-card/50">
       <div className="max-w-5xl mx-auto px-6 py-10 flex flex-col items-center gap-6 text-sm text-gray-600 dark:text-gray-400">
         
         {/* Branding / copyright */}
@@ -17,7 +17,7 @@ export default function Footer() {
           <a href="https://github.com/Erzan12" className="hover:text-primary flex items-center gap-1">
             <Github size={16} /> GitHub
           </a>
-          <a href="https://docs.erzan.dev" className="hover:text-primary">
+          <a href="https://erzan-docs.vercel.app" className="hover:text-primary" target="_blank">
             Docs
           </a>
           <a href="/blog" className="hover:text-primary">

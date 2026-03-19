@@ -26,11 +26,11 @@ function FAQItem({ question, answer, index }: FAQItemProps) {
         ease: "easeOut",
       }}
       className={cn(
-        "group rounded-lg border-[0.5px] border-gray-200/50 dark:border-gray-800/50",
-        "transition-all duration-200 ease-in-out",
+        "group rounded-lg border-[0.5px] border-gray-200/50 dark:border-gray-800/50 bg-card/40",
+        "transition-all duration-200 ease-in-out ",
         isOpen
-          ? "bg-linear-to-br from-white via-gray-50/50 to-white dark:from-white/5 dark:via-white/2 dark:to-white/5"
-          : "hover:bg-gray-50/50 dark:hover:bg-white/[0.02]",
+          ? "bg-primary/10 dark:bg-primary/20 border-primary/20"
+          : "hover:bg-primary/5 dark:hover:bg-card/95",
       )}
     >
       <button
@@ -58,7 +58,7 @@ function FAQItem({ question, answer, index }: FAQItemProps) {
           }}
           className={cn(
             "p-0.5 rounded-full shrink-0",
-            "transition-colors duration-200",
+            "transition-colors duration-200 bg-primary/30 hover:bg-primary/5",
             isOpen ? "text-primary" : "text-gray-400 dark:text-gray-500",
           )}
         >
@@ -121,24 +121,24 @@ function FAQItem({ question, answer, index }: FAQItemProps) {
 function Faq02() {
   const faqs: Omit<FAQItemProps, "index">[] = [
     {
-      question: "What makes your platform unique?",
+      question: "What makes my platform unique?",
       answer:
-        "Our platform stands out through its intuitive design, powerful automation capabilities, and seamless integration options. We've focused on creating a user experience that combines simplicity with advanced features.",
+        "It's a unique platform coming from a portfolio approach build but with the scalability in my mind, not just public facing portfolio but also for my own interest in growth and experimenting projects and case studies to be added in the future. I'm focused on creating a user experience that combines simplicity with advanced features.",
     },
     {
-      question: "How does the pricing structure work?",
+      question: "How to reach me?",
       answer:
-        "We offer flexible, transparent pricing tiers designed to scale with your needs. Each tier includes a core set of features, with additional capabilities as you move up. All plans start with a 14-day free trial.",
+        "Get to know me by just heading to the about section and all my details and other information's are there and you can reach me through my socials",
     },
     {
-      question: "What kind of support do you offer?",
+      question: "What other services this platform offers?",
       answer:
-        "We provide comprehensive support through multiple channels. This includes 24/7 live chat, detailed documentation, video tutorials, and dedicated account managers for enterprise clients.",
+        "In the near future or future updates I am planning to add dev tools and experimental projects and case studies, since I want to personally expand this project not just as a portfolio but for as a platform developers can use",
     },
     {
-      question: "How can I get started?",
+      question: "How can you get started?",
       answer:
-        "You can get started by signing up for a free trial. Once you've signed up, you'll have access to our platform's full range of features. You can also contact our support team for assistance.",
+        "You can get started by exploring my personal platform to test features and look for design ideas. Dont forgot to also explore the docs if you are interested in how or where is this platform going. Feel free to reach me if you have any questions.",
     },
   ]
 
@@ -154,7 +154,7 @@ function Faq02() {
           <h2 className="text-3xl font-semibold mb-3 bg-linear-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-white dark:via-gray-100 dark:to-white bg-clip-text text-transparent">
             Frequently Asked Questions
           </h2>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Everything you need to know about our platform</p>
+          <p className="text-sm text-gray-600 dark:text-gray-400">Everything you need to know about my personal platform</p>
         </motion.div>
 
         <div className="max-w-2xl mx-auto space-y-2">
