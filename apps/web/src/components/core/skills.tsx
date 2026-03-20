@@ -5,6 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Server, Layout, Database, Terminal, Code2, Cpu } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { 
+  SiReact, SiNextdotjs, SiTypescript, SiNestjs, SiPrisma, 
+  SiPostgresql, SiDocker, SiTailwindcss, SiPhp, SiLaravel, 
+  SiCodeigniter, SiNodedotjs, SiExpress, SiLinux, SiGit, 
+  SiVercel, SiMysql, SiRedis, SiFramer 
+} from "react-icons/si";
+import { ReactNode } from "react";
+import SkillCard from "./skills/skill-card";
 
 const item: Variants = {
   hidden: { 
@@ -21,19 +29,24 @@ const item: Variants = {
   },
 };
 
-const techColors: Record<string, string> = {
-  React: "bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100",
-  NextJS: "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100",
-  TypeScript: "bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100",
-  NestJS: "bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100",
-  Prisma: "bg-indigo-100 text-indigo-800 dark:bg-indigo-800 dark:text-indigo-100",
-  PostgreSQL: "bg-blue-50 text-blue-900 dark:bg-blue-900 dark:text-blue-50",
-  Docker: "bg-blue-50 text-blue-900 dark:bg-blue-900 dark:text-blue-50",
-  Docusaurus: "bg-blue-50 text-blue-900 dark:bg-blue-900 dark:text-blue-50",
-  Tailwind: "bg-sky-100 text-sky-800 dark:bg-sky-800 dark:text-sky-100",
-  PHP: "bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100",
-  Laravel: "bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100",
-  CodeIgniter: "bg-red-50 text-red-900 dark:bg-red-900 dark:text-red-50",
+const techIcons: Record<string, { icon: ReactNode, color: string }> = {
+  "React": { icon: <SiReact />, color: "#61DAFB" },
+  "Next.js": { icon: <SiNextdotjs />, color: "#000000" },
+  "NextJS": { icon: <SiNextdotjs />, color: "#000000" },
+  "TypeScript": { icon: <SiTypescript />, color: "#3178C6" },
+  "NestJS": { icon: <SiNestjs />, color: "#E0234E" },
+  "Prisma": { icon: <SiPrisma />, color: "#2D3748" },
+  "PostgreSQL": { icon: <SiPostgresql />, color: "#4169E1" },
+  "Docker": { icon: <SiDocker />, color: "#2496ED" },
+  "Tailwind CSS": { icon: <SiTailwindcss />, color: "#06B6D4" },
+  "PHP": { icon: <SiPhp />, color: "#777BB4" },
+  "Laravel": { icon: <SiLaravel />, color: "#FF2D20" },
+  "CodeIgniter": { icon: <SiCodeigniter />, color: "#EE4323" },
+  "Node.js": { icon: <SiNodedotjs />, color: "#339933" },
+  "Express": { icon: <SiExpress />, color: "#000000" },
+  "Git": { icon: <SiGit />, color: "#F05032" },
+  "Framer Motion": { icon: <SiFramer />, color: "#0055FF" },
+  // ... add the rest as needed
 };
 
 const skillData = [
@@ -42,30 +55,63 @@ const skillData = [
     icon: <Server className="w-6 h-6 text-red-500" />,
     items: ["NestJS", "PHP", "Laravel", "CodeIgniter", "Node.js", "Express"],
     description: "Architecting scalable server-side systems and RESTful APIs with a focus on performance and clean code.",
-    className: "lg:col-span-3 lg:row-span-2", // The Hero Card
+    gridConfig: "md:col-span-3 lg:col-span-3 lg:row-span-2",
   },
   {
     category: "Frontend",
     icon: <Layout className="w-6 h-6 text-blue-500" />,
     items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
     description: "Building interactive, high-performance web interfaces.",
-    className: "lg:col-span-2 lg:row-span-1",
+    gridConfig: "md:col-span-2 lg:col-span-2 lg:row-span-2 auto-rows",
   },
   {
     category: "DevOps",
     icon: <Terminal className="w-6 h-6 text-teal-500" />,
     items: ["Docker", "Linux", "Git", "Vercel", "CI/CD"],
     description: "Streamlining deployment workflows.",
-    className: "lg:col-span-1 lg:row-span-1",
+    gridConfig: "md:col-span-2 lg:col-span-2 lg:row-span-1 auto-rows",
   },
   {
     category: "Databases",
     icon: <Database className="w-6 h-6 text-indigo-500" />,
     items: ["PostgreSQL", "MySQL", "Prisma", "Redis"],
     description: "Relational modeling and query optimization.",
-    className: "lg:col-span-1 lg:row-span-1",
+    gridConfig: "md:col-span-3 lg:col-span-3 lg:row-span-1 auto-rows",
   },
 ];
+
+
+  // const skillData = [
+  //   {
+  //     category: "Backend Development",
+  //     icon: <Server className="w-6 h-6 text-red-500" />,
+  //     items: ["NestJS", "PHP", "Laravel", "Node.js"],
+  //     description: "Architecting scalable server-side systems.",
+  //     // CUSTOMIZABLE LAYOUT DATA
+  //     gridConfig: "lg:col-span-3 lg:row-span-2", 
+  //   },
+  //   {
+  //     category: "Frontend",
+  //     icon: <Layout className="w-6 h-6 text-blue-500" />,
+  //     items: ["React", "Next.js", "TypeScript"],
+  //     description: "Building interactive web interfaces.",
+  //     gridConfig: "lg:col-span-2 lg:row-span-1",
+  //   },
+  //   {
+  //     category: "Databases",
+  //     icon: <Database className="w-6 h-6 text-indigo-500" />,
+  //     items: ["PostgreSQL", "MySQL", "Prisma"],
+  //     description: "Relational modeling.",
+  //     gridConfig: "lg:col-span-2 lg:row-span-1", // This will sit under Frontend
+  //   },
+  //   {
+  //     category: "DevOps",
+  //     icon: <Terminal className="w-6 h-6 text-teal-500" />,
+  //     items: ["Docker", "Linux", "Git", "Vercel", "CI/CD"],
+  //     description: "Streamlining deployment workflows.",
+  //     className: "lg:col-span-1 lg:row-span-1",
+  //   },
+  // ];
 
 export default function Skills() {
   const container = {
@@ -80,7 +126,19 @@ export default function Skills() {
         <div className="h-1 w-20 bg-primary rounded-full" />
       </div>
 
-      <motion.div 
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 auto-rows-[230px]">
+        {skillData.map((skill, i) => (
+          <motion.div 
+            key={skill.category} 
+            // This line makes it customizable!
+            className={cn("flex items-stretch", skill.gridConfig)} 
+          >
+            <SkillCard skill={skill} index={i} />
+          </motion.div>
+        ))}
+      </div>
+
+      {/* <motion.div 
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 auto-rows-[180px]"
         variants={container}
         initial="hidden"
@@ -117,18 +175,40 @@ export default function Skills() {
                       variant="secondary"
                       className={cn(
                         "rounded-full px-3 py-0.5 font-sans text-[10px] font-semibold border-none transition-transform hover:scale-105",
-                        techColors[tech] || "bg-muted text-muted-foreground"
+                        techIcons[tech] || "bg-muted text-muted-foreground"
                       )}
                     >
                       {tech}
                     </Badge>
                   ))}
                 </div>
+                <div className="flex flex-wrap gap-3 mt-4">
+                  {skill.items.map((tech) => {
+                    const techData = techIcons[tech];
+                    return (
+                      <div 
+                        key={tech} 
+                        className="flex items-center gap-2 group/icon cursor-default"
+                        title={tech}
+                      >
+                        <div 
+                          className="text-xl transition-all duration-300 grayscale group-hover/icon:grayscale-0 group-hover/icon:scale-120"
+                          style={{ color: techData?.color || "inherit" }}
+                        >
+                          {techData?.icon || <Code2 className="w-5 h-5" />}
+                        </div>
+                        <span className="text-[11px] font-medium text-muted-foreground group-hover/icon:text-foreground transition-colors">
+                          {tech}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
               </CardContent>
             </Card>
           </motion.div>
         ))}
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 }
