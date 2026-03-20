@@ -5,6 +5,8 @@ const learning = [
   "Backend architecture with NestJS",
   "Performance optimization techniques",
   "Building developer tools",
+  "NextJS framework",
+  "CI/CD workflows"
 ]
 
 export default function CurrentlyLearning() {
