@@ -16,7 +16,7 @@ export default function CaseStudy() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="p-6 rounded-xl border bg-card hover:border-primary/40"
+          className="p-6 rounded-xl border bg-card/50 hover:border-primary/40"
         >
           <h3 className="text-xl font-semibold mb-4">
             SLSU Clinic Appointment System

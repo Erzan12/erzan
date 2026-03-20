@@ -37,7 +37,7 @@ export default function HowIThink() {
             whileInView={{ opacity: 1, y: 0 }}
             whileHover={{ y: -5 }}
             transition={{ delay: i * 0.1 }}
-            className="p-5 rounded-xl border bg-card hover:border-primary/40"
+            className="p-5 rounded-xl border bg-card/50 hover:border-primary/40"
           >
             <h3 className="font-semibold mb-2">{item.title}</h3>
             <p className="text-sm text-muted-foreground">{item.desc}</p>
