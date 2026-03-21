@@ -86,7 +86,7 @@ export default function Tabs() {
                             className="relative flex flex-col items-start group"
                             >
                             <div
-                                className={`flex items-center gap-3 text-2xl font-bold tracking-tight font-sans transition-all
+                                className={`flex items-center gap-3 text-3xl font-bold tracking-tight font-sans transition-all
                                 ${isActive ? "scale-105 text-black" : "text-gray-400 hover:text-gray-600"}`}
                             >
                                 {/* Pass isActive to trigger the internal Framer Motion logic */}
