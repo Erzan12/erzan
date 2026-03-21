@@ -7,10 +7,6 @@ import { motion } from "framer-motion";
 import { BookOpen, Flame, Sparkles } from "lucide-react"
 import { useState } from "react"
 
-type TabsProps = {
-  title: string;
-};
-
 //burning flame animation
 const AnimatedFlame = ({ isActive }: { isActive: boolean }) => (
   <motion.div
@@ -71,13 +67,13 @@ const tabs = [
     }
 ];
 
-export default function Tabs({title}: TabsProps) {
+export default function Tabs() {
     const [activeTab, setActiveTab] = useState("cooking");
 
     return (
         <section className="py-20 max-w-6xl mx-auto px-1">
-            {/* Header = Tabs */}
-            <div className="mb-16">
+            {/* tab as header */}
+            <div className="mt-16">
                 <div className="flex flex-wrap gap-8 items-center">
                     {tabs.map((tab) => {
                         const IconComponent = tab.icon; // Renamed for clarity
@@ -101,9 +97,9 @@ export default function Tabs({title}: TabsProps) {
                             {/* Underline Logic remains the same */}
                             {isActive && (
                                 <motion.div
-                                layoutId="tab-indicator"
-                                className="h-1 w-full bg-primary rounded-full mt-2"
-                                transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                                    layoutId="tab-indicator"
+                                    className="h-1 w-20 bg-primary rounded-full mt-2"
+                                    transition={{ type: "spring", stiffness: 200, damping: 20 }}
                                 />
                             )}
                             </button>
