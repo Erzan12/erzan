@@ -39,7 +39,7 @@ export default function IntoTab() {
       </p>
 
       {/* large card container */}
-      <div className="bg-gray-900/40 border border-white/10 backdrop-blur-xl rounded-3xl overflow-hidden shadow-2xl">
+      <div className="bg-gray-900/40 border border-white/10 hover:border-primary/30 backdrop-blur-xl rounded-3xl overflow-hidden shadow-2xl">
         <div className="divide-y divide-white/5">
             {items.map((item) => {
                 const Icon = item.icon;

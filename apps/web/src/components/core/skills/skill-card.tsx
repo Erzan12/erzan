@@ -42,7 +42,7 @@ export default function SkillCard({ skill, index }: { skill: any; index: number 
       transition={{ delay: index * 0.1 }}
       className={cn("flex", skill.className)}
     >
-      <Card className="group relative w-full h-full overflow-hidden border-border bg-card/40 backdrop-blur-md rounded-[2rem] shadow-none hover:border-primary/30 transition-all duration-500">
+      <Card className="bg-gray-900/40 group relative w-full h-full overflow-hidden border-border bg-card/40 backdrop-blur-md rounded-[2rem] shadow-none hover:border-primary/30 transition-all duration-500">
         
         {/* Dynamic Glow Layer */}
         <AnimatePresence>
