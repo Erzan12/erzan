@@ -76,33 +76,35 @@ export default function Tabs() {
             <div className="mt-16">
                 <div className="flex flex-wrap gap-8 items-center">
                     {tabs.map((tab) => {
-                        const IconComponent = tab.icon; // Renamed for clarity
+                        const IconComponent = tab.icon;
                         const isActive = activeTab === tab.id;
 
                         return (
-                            <button
-                            key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
-                            className="relative flex flex-col items-start group"
+                            <motion.button
+                                key={tab.id}
+                                onClick={() => setActiveTab(tab.id)}
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="relative flex flex-col items-start group"
                             >
-                            <div
-                                className={`flex items-center gap-3 text-3xl font-bold tracking-tight font-sans transition-all
-                                ${isActive ? "scale-105 text-black" : "text-gray-400 hover:text-gray-600"}`}
-                            >
-                                {/* Pass isActive to trigger the internal Framer Motion logic */}
-                                <IconComponent isActive={isActive} />
-                                {tab.label}
-                            </div>
+                                <div
+                                    className={`flex items-center gap-3 text-3xl font-bold tracking-tight font-sans transition-all
+                                    ${isActive ? "text-black dark:text-white" : "text-gray-400 hover:text-gray-600"}`}
+                                >
+                                    {/*pass isActive to trigger the internal framer motion logic */}
+                                    <IconComponent isActive={isActive} />
+                                    {tab.label}
+                                </div>
 
-                            {/* Underline Logic remains the same */}
-                            {isActive && (
-                                <motion.div
-                                    layoutId="tab-indicator"
-                                    className="h-1 w-20 bg-primary rounded-full mt-2"
-                                    transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                                />
-                            )}
-                            </button>
+                                {/*underline logic*/}
+                                {isActive && (
+                                    <motion.div
+                                        layoutId="tab-indicator"
+                                        className="h-1 w-20 bg-primary rounded-full mt-2"
+                                        transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                                    />
+                                )}
+                            </motion.button>
                         );
                     })}
                 </div>

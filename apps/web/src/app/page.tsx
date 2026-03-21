@@ -18,6 +18,7 @@ export default function Home() {
   return (
     <main className="container mx-auto px-6 overflow-x-hidden">
       <Hero />
+      <Tabs />
       <section className="py-20 max-w-6xl mx-auto px-1">
         <div className="mt-16">
           <h2 className="text-3xl font-bold tracking-tight font-sans mb-4">Featured Projects</h2>
@@ -36,12 +37,11 @@ export default function Home() {
           />
         </div>
       </section>
-      <Tabs />
       <Skills />
       <CaseStudy />
       <HowIThink />
       <Lab />
-      <CurrentlyLearning />
+      {/* <CurrentlyLearning /> */}
       {/* <Faq02 /> */}
     </main>
   )
