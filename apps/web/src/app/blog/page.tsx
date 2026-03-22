@@ -14,7 +14,6 @@ import {
   Sparkles
 } from "lucide-react"
 import Link from "next/link"
-import { main } from "framer-motion/client"
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -49,7 +48,7 @@ export default function BlogComingSoon() {
             animate="show"
             className="grid grid-cols-1 md:grid-cols-3 gap-6"
           >
-            {/* Main hero card */}
+            {/* blog hero card */}
             <motion.div variants={item} className="md:col-span-3">
               <Card className="p-8 md:p-12 bg-olive-about-card/70 dark:bg-olive-dark-about-card border-border rounded-3xl relative overflow-hidden shadow-none">
                 <div className="absolute top-0 right-0 p-8 opacity-10">
@@ -67,8 +66,8 @@ export default function BlogComingSoon() {
                   </h1>
                   
                   <p className="text-lg text-muted-foreground leading-relaxed font-sans mb-8">
-                    I'm currently architecting a space to share my thoughts on NestJS, 
-                    DevOps automation, and the lessons learned building scalable systems in the Philippines.
+                    I'm currently architecting a space to share my thoughts on NestJS, NextJS, React, Javascript, 
+                    CI/CD Workflows, and the lessons learned building scalable systems in the Philippines.
                   </p>
 
                   <div className="w-full max-w-md flex gap-2">
@@ -93,7 +92,7 @@ export default function BlogComingSoon() {
                   <Hammer className="text-primary w-6 h-6" />
                 </div>
                 <h3 className="font-bold font-sans mb-1">Status</h3>
-                <p className="text-sm text-muted-foreground font-sans">Drafting first articles & setting up the MDX engine.</p>
+                <p className="text-sm text-muted-foreground font-sans">Drafting first articles & setting up the MDX engine & figuring out which blog I will use since I have blogs in my Personal Docs in Docusaurus.</p>
               </Card>
             </motion.div>
 
@@ -104,7 +103,7 @@ export default function BlogComingSoon() {
                   <Sparkles className="text-blue-500 w-6 h-6" />
                 </div>
                 <h3 className="font-bold font-sans mb-1">What to expect</h3>
-                <p className="text-sm text-muted-foreground font-sans">Prisma tricks, NestJS patterns, and AWS vs OCI value guides.</p>
+                <p className="text-sm text-muted-foreground font-sans">Prisma ORMs, NestJS patterns, Typescript and Javascript valuable insights.</p>
               </Card>
             </motion.div>
 
@@ -115,7 +114,7 @@ export default function BlogComingSoon() {
                   <Wrench className="text-orange-500 w-6 h-6" />
                 </div>
                 <h3 className="font-bold font-sans mb-1">Stack</h3>
-                <p className="text-sm text-muted-foreground font-sans">Built with Next.js, Contentlayer, and Framer Motion.</p>
+                <p className="text-sm text-muted-foreground font-sans">Built with Next.js and Framer Motion with lucide-react icons, tailwindcss and shadcn themes.</p>
               </Card>
             </motion.div>
 
