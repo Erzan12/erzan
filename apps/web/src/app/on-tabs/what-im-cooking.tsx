@@ -1,14 +1,15 @@
 "use client"
 
 import { motion } from "framer-motion";
-import { Check, LayoutDashboard, Lightbulb, Cpu, Book } from "lucide-react";
+import { Check, LayoutDashboard, Lightbulb, Bell, Cpu, Book } from "lucide-react";
 
 const items = [
   { id: 1, text: "Portfolio revamp (this one)", icon: LayoutDashboard, status: "cooking" },
   { id: 2, text: "Personal Docs on Docusaurus (already deployed)", icon: Book, status: "cooking" },
-  { id: 3, text: "Simple dev tools (experimenting)", icon: Cpu, status: "todo" },
-  { id: 4, text: "Side project — Product Inventory System ERP", icon: Lightbulb, status: "todo" },
-  { id: 5, text: "Side project — Laravel Projects", icon: Lightbulb, status: "todo" },
+  { id: 3, text: "Blog Page section", icon: Bell, status: "todo" },
+  { id: 4, text: "Simple dev tools (experimenting)", icon: Cpu, status: "todo" },
+  { id: 5, text: "Side project — Product Inventory System ERP", icon: Lightbulb, status: "todo" },
+  { id: 6, text: "Side project — Laravel Projects", icon: Lightbulb, status: "todo" },
 ];
 
 //stagger container variants
