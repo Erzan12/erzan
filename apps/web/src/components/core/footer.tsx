@@ -15,7 +15,6 @@ export default function Footer() {
             “I don’t follow trends, I follow what’s important and what matters.”
           </blockquote>
         </div>
-          
 
         {/* Quick links */}
         <div className="flex flex-wrap justify-center gap-6">
@@ -25,7 +24,7 @@ export default function Footer() {
           <a href="https://erzan-docs.vercel.app" className="hover:text-primary" target="_blank">
             Docs
           </a>
-          <a href="https://erzan-docs.vercel.app/blog" className="hover:text-primary" target="_black">
+          <a href="/blog" className="hover:text-primary" target="_black">
             Blog
           </a>
           <a href="/about" className="hover:text-primary">
