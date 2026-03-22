@@ -36,7 +36,7 @@ export default function ProjectCarousel({ projects, repos }: ProjectsCarouselPro
               key={`${project.repo}-${index}`} 
               className="pl-4 basis-full md:basis-1/2 lg:basis-1/3"
             >
-              <Card className="h-[480px] flex flex-col bg-card border-border rounded-2xl overflow-hidden shadow-none transition-all duration-300 hover:border-primary/50 group">
+              <Card className="h-[480px] flex flex-col bg-cream-100 dark:bg-cream-50/70 border-border rounded-2xl overflow-hidden shadow-none transition-all duration-300 hover:border-primary/50 group">
                 <CardHeader className="p-0">
                   {/* Project Image Placeholder */}
                   <div className="w-full h-48 bg-muted flex items-center justify-center relative overflow-hidden">
@@ -48,10 +48,10 @@ export default function ProjectCarousel({ projects, repos }: ProjectsCarouselPro
                 </CardHeader>
                 
                 <CardContent className="p-6 flex-1">
-                  <CardTitle className="text-xl font-bold mb-2 font-sans">
+                  <CardTitle className="text-xl font-bold mb-2 text-primary font-sans">
                     {project.title}
                   </CardTitle>
-                  <p className="text-sm text-muted-foreground line-clamp-4 font-sans leading-relaxed">
+                  <p className="text-sm text-foreground dark:text-gray-900 line-clamp-4 font-sans leading-relaxed">
                     {project.description}
                   </p>
                   <div className="flex flex-wrap gap-2 mt-4">

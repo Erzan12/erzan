@@ -122,7 +122,18 @@
   --color-cream-dark-700: #4a4330;
   /* Deep shadows, strongest dark accents */
   --color-cream-dark-900: #362b22;
-
+  /* with grayish colors so standout */
+  --color-cream-dark-test: #e9edc9;
+  /* Warm near-black (best overall) */
+  --color-cream-dark-system-card-warm: #1f1d18;
+  /* Slightly lifted surface (if you want separation from bg) */
+  --color-cream-dark-system-card-out: #2a2721;
+  /* Olive-tinted dark (to match your sage palette dark mode) */
+  --color-olive-dark-about-card: #2f3028;
+  /* Olive-tinted light (to match your sage palette light mode) */
+  --color-olive-about-card: #e8eadc;
+  /* Olive-tinted stronger dark footer version (to match your sage palette dark mode) */
+  --color-olive-footer: #dde5c3;
   /* ============================================
      COMPLEMENTARY COLORS - Perfect with #cc785c
      ============================================ */
@@ -134,6 +145,8 @@
   --color-sand: #d9c2a6;
   /* Secondary buttons, warm accents */
   --color-tawny: #b89778;
+  /* earth */
+  --color-earth: #5f553d;
 
   /* ============================================
      SHADCN/UI SYSTEM COLORS - Your foundation
@@ -154,6 +167,23 @@
   --color-sidebar-foreground: var(--sidebar-foreground);
   /* Sidebar panels */
   --color-sidebar: var(--sidebar);
+
+  /* ============================================
+   FOOTER PALETTE - Perfect grounded finish
+   ============================================ */
+  --color-footer-bg: #e8dcb5;        /* Cookies & cream - warm footer background */
+  --color-footer-bg-alt: #d5b895;     /* Casual peach - alternate footer sections */
+  --color-footer-text: #9d9580;       /* Cream-900 - readable footer text */
+  --color-footer-text-muted: #c5bfa2; /* Cream-700 - links, secondary info */
+  --color-footer-accent: #a67a5b;     /* Café au lait - footer buttons, social icons */
+  --color-footer-border: #c19770;     /* Camel - subtle section dividers */
+  --color-footer-link-hover: #cc785c; /* Your primary - link hover states */
+
+  /* Dark mode footer variants */
+  --color-footer-dark-bg: #362b22;      /* Cream-dark-900 - deep footer background */
+  --color-footer-dark-text: #f8f6f2;    /* Cream-dark-50 - readable dark text */
+  --color-footer-dark-muted: #5f553d;   /* Your cream-dark - secondary dark text */
+  --color-footer-dark-accent: #b89778;  /* Tawny - dark mode social icons */
 
   /* ============================================
      CHART COLORS - Data visualization */

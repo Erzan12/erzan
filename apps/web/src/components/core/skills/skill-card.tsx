@@ -42,7 +42,7 @@ export default function SkillCard({ skill, index }: { skill: any; index: number 
       transition={{ delay: index * 0.1 }}
       className={cn("flex", skill.className)}
     >
-      <Card className="bg-gray-900/40 group relative w-full h-full overflow-hidden border-border bg-card/40 backdrop-blur-md rounded-[2rem] shadow-none hover:border-primary/30 transition-all duration-500">
+      <Card className="bg-cream-200 dark:bg-cream-dark group relative w-full h-full overflow-hidden border-border backdrop-blur-md rounded-[2rem] shadow-none hover:border-primary/30 transition-all duration-500">
         
         {/* Dynamic Glow Layer */}
         <AnimatePresence>
@@ -58,7 +58,7 @@ export default function SkillCard({ skill, index }: { skill: any; index: number 
         </AnimatePresence>
 
         <CardHeader className="relative z-10 flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-xl font-bold font-sans tracking-tight">
+          <CardTitle className="text-xl text-primary dark:text-gray-900 font-bold font-sans tracking-tight">
             {skill.category}
           </CardTitle>
           <div className="p-2 rounded-2xl bg-muted group-hover:bg-primary/10 transition-colors duration-500">
@@ -67,7 +67,7 @@ export default function SkillCard({ skill, index }: { skill: any; index: number 
         </CardHeader>
 
         <CardContent className="relative z-10 flex flex-col justify-between h-[calc(100%-80px)]">
-          <p className="text-sm text-muted-foreground font-sans leading-relaxed">
+          <p className="text-sm text-black dark:text-white/90 font-sans leading-relaxed">
             {skill.description}
           </p>
 

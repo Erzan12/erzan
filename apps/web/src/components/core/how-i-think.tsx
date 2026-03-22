@@ -37,10 +37,10 @@ export default function HowIThink() {
             whileInView={{ opacity: 1, y: 0 }}
             whileHover={{ y: -5 }}
             transition={{ delay: i * 0.1 }}
-            className="p-5 rounded-xl border bg-card/50 hover:border-primary/40"
+            className="p-5 rounded-xl border bg-cream-200 dark:bg-cream-dark hover:border-primary/40"
           >
-            <h3 className="font-semibold mb-2">{item.title}</h3>
-            <p className="text-sm text-muted-foreground">{item.desc}</p>
+            <h3 className="font-semibold mb-2 text-primary dark:text-gray-900">{item.title}</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-300">{item.desc}</p>
           </motion.div>
         ))}
       </div>
