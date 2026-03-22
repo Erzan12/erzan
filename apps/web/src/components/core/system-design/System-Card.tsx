@@ -56,7 +56,7 @@ export default function SystemCard({
       whileHover={{ y: -10, scale: 1.02 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
-      <Card className="h-[480px] flex flex-col bg-cream-50 dark:bg-cream-dark-system-card-out border-border rounded-2xl overflow-hidden shadow-none transition-all duration-300 hover:border-primary/50 group">
+      <Card className="h-[480px] flex flex-col bg-olive-about-card/40 dark:bg-olive-dark-about-card/50 border border-border rounded-2xl overflow-hidden shadow-none transition-all duration-300 hover:border-primary/50 group">
         <CardHeader className={icon ? "p-6 pb-0" : "p-6 pb-2"}>
           {icon && (
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">

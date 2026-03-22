@@ -16,7 +16,7 @@ export default function CaseStudy() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="p-6 rounded-xl border bg-olive-about-card/70 dark:bg-olive-dark-about-card dark:hover:bg-olive-dark-about-card/80 
+          className="p-6 bg-olive-about-card/40 dark:bg-olive-dark-about-card/50 border border-border h-full 
                        backdrop-blur-xl rounded-3xl shadow-none hover:border-primary/40 hover:bg-olive-about-card/40"
         >
           <h3 className="text-xl text-primary dark:text-primary font-semibold mb-4">

@@ -33,8 +33,7 @@ export default function Lab() {
             whileInView={{ opacity: 1, y: 0 }}
             whileHover={{ y: -5 }}
             transition={{ delay: i * 0.1 }}
-            className="p-5 rounded-xl border bg-olive-about-card/70 dark:bg-olive-dark-about-card dark:hover:bg-olive-dark-about-card/80 
-                       backdrop-blur-xl rounded-3xl shadow-none hover:border-primary/40 hover:bg-olive-about-card/40"
+            className="p-6 bg-olive-about-card/40 dark:bg-olive-dark-about-card/50 border border-border hover:border-primary/40 rounded-2xl h-full shadow-none flex flex-col justify-center items-center text-center group"
           >
             <h3 className="font-semibold mb-2 text-primary">{exp.title}</h3>
             <p className="text-sm text-gray-500 dark:text-gray-300">{exp.desc}</p>

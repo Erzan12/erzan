@@ -158,8 +158,8 @@ export default function SkillCard({
       /* Use the passed className and ensure h-full for Bento spanning */
       className={cn("w-full h-full", className)} 
     >
-      <Card className="group relative w-full h-full overflow-hidden border-border 
-                       bg-olive-about-card/70 dark:bg-olive-dark-about-card dark:hover:bg-olive-dark-about-card/80 
+      <Card className="group relative w-full h-full overflow-hidden border border-border 
+                       bg-olive-about-card/40 dark:bg-olive-dark-about-card/50 border border-border 
                        backdrop-blur-xl rounded-3xl shadow-none 
                        hover:border-primary/40 hover:bg-olive-about-card/40
                        transition-all duration-500 flex flex-col min-h-[300px]">
