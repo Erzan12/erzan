@@ -8,17 +8,6 @@ import { SystemCardSkeleton } from "@/components/core/system-design/system-card-
 import SystemCard from "@/components/core/system-design/system-card";
 import Link from "next/link";
 
-type GithubRepo = {
-  id: number;
-  name: string;
-  description: string | null;
-  stars: number;
-  forks: number;
-  language: string | null;
-  pushed_at: string;
-  html_url: string;
-};
-
 //define how many items per page (3 columns x 3 rows = 9)
 const ITEMS_PER_PAGE = 9;
 
