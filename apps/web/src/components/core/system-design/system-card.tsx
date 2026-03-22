@@ -9,6 +9,7 @@ import { ExternalLink, Github } from "lucide-react";
 import { getRelativeTime } from "@/lib/helper/date-format.helper";
 import { formatCommitDate } from "@/lib/helper/format-commit-date.helper";
 
+// Case-sensitivity fix trigger
 const container = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.1 } },

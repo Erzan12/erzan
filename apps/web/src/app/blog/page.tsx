@@ -70,13 +70,13 @@ export default function BlogComingSoon() {
                     CI/CD Workflows, and the lessons learned building scalable systems in the Philippines.
                   </p>
 
-                  <div className="w-full max-w-md flex gap-2">
+                  <div className="w-full max-w-md flex flex-col sm:flex-row gap-2">
                     <input 
                       type="email" 
                       placeholder="Enter your email" 
                       className="flex-1 px-4 py-2 rounded-xl border border-border bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary/50 font-sans"
                     />
-                    <Button className="rounded-xl px-6 gap-2">
+                    <Button className="rounded-xl px-6 gap-2 w-full sm:w-auto">
                       Notify Me
                       <Send className="w-4 h-4" />
                     </Button>
@@ -117,7 +117,6 @@ export default function BlogComingSoon() {
                 <p className="text-sm text-muted-foreground font-sans">Built with Next.js and Framer Motion with lucide-react icons, tailwindcss and shadcn themes.</p>
               </Card>
             </motion.div>
-
           </motion.div>
         </div>
       </div>
