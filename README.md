@@ -167,9 +167,11 @@ GITHUB_TOKEN=your_github_token_here
 - More quality of life changes UI/UX and content
 
 ### 📦 Releases
+```bash
 v0.7.0 – Documentation & UI Interaction Update
 v0.8.0 – Dynamic Projects & GitHub Integration
 v1.0.0 – Public Portfolio Platform Release 🎉
+```
 
 ### 📄 License
 
