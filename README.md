@@ -116,20 +116,29 @@ This project is built with the following principles:
 ## 🛠️ Getting Started
 
 ### 1. Clone the repository
-
-- git clone https://github.com/Erzan12/portfolio-v2.git
+```bash
+git clone https://github.com/Erzan12/portfolio-v2.git
 - cd portfolio-v2
+```
 
 ### 2. Install dependencies
+```bash
 npm install
+```
 
 ### 3. Run the apps
+
 ## Web App
-- cd apps/web
+```bash
+cd apps/web
 - npm run dev
+```
+
 ## Docs
+```bash
 - cd apps/docs
 - npm run start
+```
 
 ## 🔐 Environment Variables
 
