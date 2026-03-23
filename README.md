@@ -9,7 +9,7 @@ This project is more than a personal website — it is a **full-stack platform**
 ## 🌐 Live
 
 - 🧠 Documentation: https://erzan-docs.vercel.app  
-- 💻 Portfolio App: (your main domain here)
+- 💻 Portfolio App: https://erzan-dev.vercel.app/
 
 ---
 
