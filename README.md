@@ -141,9 +141,10 @@ npm run start
 ```
 
 ## 🔐 Environment Variables
-
+```bash
 Create a .env.local file in apps/web:
 GITHUB_TOKEN=your_github_token_here
+```
 
 ### 🚀 Roadmap
 
