@@ -183,7 +183,5 @@ v1.5.0 - Minor update in the blog page in Portfolio to make CMS to easily contro
 ### 👤 Author
 
 Erzan
-```bash
 GitHub: https://github.com/Erzan12
 Portfolio: https://erzan-dev.vercel.app/
-```
