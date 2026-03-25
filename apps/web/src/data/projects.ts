@@ -7,6 +7,7 @@ export const projects: Project[] = [
     stack: ["React", "NextJS", "TypeScript", "Tailwind"],
     repo: "portfolio-v2",
     github: "Erzan12/portfolio-v2",
+    demoLink: "https://erzan-dev.vercel.app/",
     featured: true,
   },
   {
@@ -15,6 +16,7 @@ export const projects: Project[] = [
     stack: ["NestJS", "Prisma", "PostgreSQL", "Docker"],
     repo: "Product-Inventory-System",
     github: "Erzan12/Product-Inventory-System",
+    demoLink: "/",
     featured: true,
   },
   {
@@ -23,6 +25,7 @@ export const projects: Project[] = [
     stack: ["Docusaurus", "TypeScript", "React"],
     repo: "portfolio-v2",
     github: "Erzan12/portfolio-v2/tree/master/apps/docs",
+    demoLink: "/",
     featured: true,
   },
   {
@@ -31,6 +34,7 @@ export const projects: Project[] = [
     stack: ["Laravel", "PHP", "Blade", "Vite", "SaaS"],
     repo: "ltpms-web",
     github: "Erzan12/ltpms-web",
+    demoLink: "/",
     featured: true,
   },
   {
@@ -39,6 +43,7 @@ export const projects: Project[] = [
     stack: ["Laravel", "PHP", "Blade", "Vite"],
     repo: "qr-code-attendance-management-system",
     github: "Erzan12/qr-code-attendance-management-system",
+    demoLink: "/",
     featured: true,
   },
   {
@@ -47,6 +52,7 @@ export const projects: Project[] = [
     stack: ["Laravel", "PHP", "Blade", "Vite"],
     repo: "slsu-clinic-appointment-system",
     github: "Erzan12/slsu-clinic-appointment-system",
+    demoLink: "/",
     featured: true,
   },
 ];

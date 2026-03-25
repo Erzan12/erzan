@@ -4,5 +4,6 @@ export type Project = {
   stack: string[];
   repo: string;
   github: string;
+  demoLink: string;
   featured: boolean;
 };

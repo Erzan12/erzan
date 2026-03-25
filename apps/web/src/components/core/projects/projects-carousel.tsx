@@ -86,8 +86,10 @@ export default function ProjectCarousel({ projects }: { projects: Project[] }) {
                       <Github className="w-4 h-4" /> Code
                     </a>
                   </Button>
-                  <Button size="sm" className="flex-1 rounded-full gap-2">
-                    <ExternalLink href={`https://github.com/${project.github}`}className="w-4 h-4" /> Demo
+                  <Button size="sm" className="flex-1 rounded-full gap-2" asChild>
+                    <a href={project.demoLink} target="_blank" rel="noreferrer">
+                      <ExternalLink className="w-4 h-4" /> Demo
+                    </a>
                   </Button>
                 </CardFooter>
               </Card>
