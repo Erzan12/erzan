@@ -25,7 +25,7 @@ export const projects: Project[] = [
     stack: ["Docusaurus", "TypeScript", "React"],
     repo: "portfolio-v2",
     github: "Erzan12/portfolio-v2/tree/master/apps/docs",
-    demoLink: "/",
+    demoLink: "https://erzan-docs.vercel.app/",
     featured: true,
   },
   {
