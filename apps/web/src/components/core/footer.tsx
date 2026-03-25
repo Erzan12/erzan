@@ -61,7 +61,7 @@ export default function Footer() {
         </form> */}
         {/* Branding / copyright */}
         <p className="text-center">
-          © {new Date().getFullYear()} erzan-dev.vercep.app built with NextJS ❤️
+          © {new Date().getFullYear()} erzan-dev.vercel.app built with NextJS ❤️
         </p>
       </div>
     </footer>
