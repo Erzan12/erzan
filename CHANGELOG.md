@@ -1,5 +1,30 @@
 # 🧾 CHANGELOG
 
+### 📓 Changelog for PortfolioV2
+### 🏷️ [1.0.1] – 2026-03-25 — Personal Platform improvements and bug fixes
+
+### 🐛 Fixed
+- Mobile documentation navbar link broken (#83)
+- Typing terminal scroll issue on mobile (#85)
+- "On break" badge broken in mobile tabs (#86)
+- Disarranged landing page icons on mobile (#87)
+- Typo in footer Vercel link (#90)
+
+### ✨ Added / Enhanced
+- Custom favicon (#84)
+- Arrow/swipe navigation in Featured Projects on mobile (#88)
+- Pagination dots under Featured Projects (#89)
+- Autoplay in Featured Projects cards (#97)
+- Small progress indicator in pagination (#98)
+- Demo button enabled for Featured Projects (#99)
+- "Coming Soon" disabled button for undeployed projects (#100)
+
+### 📝 Documentation
+- New blog on converting a repo to monorepo (#92)
+- Updated app development documentation for v1.0.1 (#93)
+
+---
+
 ### 🚀 [1.0.0] – 2026-03-22 — Personal Platform Launch
 ### ✨ What's Included
 
