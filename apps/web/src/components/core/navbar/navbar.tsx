@@ -7,6 +7,7 @@ import { Github, BookOpen } from "lucide-react";
 import { NavLink } from "@/components/core/navbar/nav-link";
 import { useState } from "react";
 import ThemeToggle from "@/components/dark-mode-toggle/theme-toggle";
+import Image from "next/image";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -16,8 +17,14 @@ export default function Navbar() {
       <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
 
         {/* logo */}
-        <Link href="/" className="font-semibold text-lg">
-          erzan.dev
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/favicon.ico"
+            alt="erzan.dev logo"
+            width={32}
+            height={32}
+          />
+          <span className="font-semibold text-lg">erzan.dev</span>
         </Link>
 
         {/* desktop menu */}
@@ -81,7 +88,7 @@ export default function Navbar() {
             </NavLink>
 
             <a
-                href="https://docs.erzan.dev"
+                href="https://erzan-docs.vercel.app"
                 target="_blank"
                 onClick={() => setOpen(false)}
             >
