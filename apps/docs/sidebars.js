@@ -86,6 +86,22 @@ const sidebars = {
 
     {
       type: 'category',
+      label: '🛠️ Projects ',
+      items: [
+        {
+          type: 'category',
+          label: '📦 Inventory System',
+          items: [
+            'Projects/Inventory-System/development-plan',
+            'Projects/Inventory-System/database-migration',
+            'Projects/Inventory-System/semantic-versioning-strat',
+          ]
+        }
+      ],
+    },
+
+    {
+      type: 'category',
       label: '📊 Case Studies',
       items: [
         'Case-studies/introduction',

@@ -1,0 +1,285 @@
+---
+id: development-plan
+title: Inventory Management System Architecture
+sidebar_label: 🛒 E-Commerce Inventory Management System
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 🧱 E-Commerce Inventory Management System — Architecture & Development Plan
+
+## 📌 Overview
+
+This project transitions a frontend built on a Shopify template into a fully custom, multi-tenant **Product Inventory System**.
+
+### 🎯 Goals
+
+- Own the **data layer**
+- Control **business logic**
+- Enable **multi-store support**
+- Build a **scalable DevOps-ready system**
+
+---
+
+# 🗺️ Development Phases
+
+---
+
+## Phase 1 — 👷‍♂️ Infrastructure & Backend Core
+
+### 🎯 Goal
+Establish backend as the **source of truth**
+
+---
+
+### 🧩 Database Schema (Prisma)
+
+```mermaid
+erDiagram
+    USER ||--o{ STORE : owns
+    STORE ||--o{ PRODUCT : contains
+    PRODUCT }o--|| CATEGORY : belongs_to
+    PRODUCT ||--|| INVENTORY : has
+
+    USER {
+        string id
+        string email
+        string password
+    }
+
+    STORE {
+        string id
+        string name
+        string handle
+        string userId
+    }
+
+    PRODUCT {
+        string id
+        string title
+        float price
+        string storeId
+        string categoryId
+    }
+
+    CATEGORY {
+        string id
+        string name
+    }
+
+    INVENTORY {
+        string id
+        int quantity
+        string productId
+    }
+```
+
+---
+
+### 🔄 Sequence Flow
+
+```mermaid
+sequenceDiagram
+    participant UI as Next.js Frontend
+    participant API as NestJS API
+    participant ORM as Prisma ORM
+    participant DB as PostgreSQL
+
+    UI->>API: GET /products
+    API->>ORM: fetchProducts()
+    ORM->>DB: SELECT * FROM products
+    DB-->>ORM: result
+    ORM-->>API: mapped data
+    API-->>UI: JSON response
+```
+
+---
+
+### 🧱 Architecture Flow
+
+```mermaid
+
+flowchart LR
+    A[Next.js Frontend Container] --> B[NestJS API Container]
+    B --> C[(PostgreSQL Database)]
+```
+
+---
+
+## Phase 2 — ⛓️‍💥 Frontend Decoupling
+
+### 🎯 Goal
+Replace Shopify dependencies with internal API
+
+### 🔄 Data Fetching Flow
+
+```mermaid
+sequenceDiagram
+    participant UI as React Components
+    participant Hook as React Query Hook
+    participant API as NestJS API
+    participant DB as Database
+
+    UI->>Hook: useProducts()
+    Hook->>API: fetch /products
+    API->>DB: query products
+    DB-->>API: data
+    API-->>Hook: JSON
+    Hook-->>UI: cached data
+```
+
+---
+
+### 🔧 Key Changes
+
+- Replace use-shopify → **custom hooks**
+- Use React Query
+- Replace environment variable:
+
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:3000
+```
+
+## Phase 3 — 🤝 Multi-Tenancy & Store System
+
+### 🎯 Goal
+
+Support **multiple** independent stores
+
+---
+
+### 🧩 Store Routing
+
+```mermaid
+flowchart TD
+    A[User visits /my-store/products]
+    B[Extract storeHandle]
+    C[Fetch storeId from API]
+    D[Query products by storeId]
+    E[Render products]
+
+    A --> B --> C --> D --> E
+```
+
+---
+
+### 🔄 Auth + Store Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant API
+    participant DB
+
+    User->>Frontend: Register Account
+    Frontend->>API: POST /auth/register
+    API->>DB: Create User + Store
+    DB-->>API: success
+    API-->>Frontend: JWT Token
+
+    User->>Frontend: Create Product
+    Frontend->>API: POST /products
+    API->>DB: Insert product (storeId scoped)
+    DB-->>API: success
+    API-->>Frontend: response
+```
+
+---
+
+## Phase 4 — 👨‍💻 DevOps & Scalability
+
+```mermaid
+flowchart TD
+    A[Git Push] --> B[GitHub Actions]
+    B --> C[Run Tests]
+    B --> D[Build Docker Images]
+    D --> E[Push to Registry]
+    E --> F[Deploy to Server / Kubernetes]
+```
+
+### 🧩 Migration Strategy in the future
+
+- Abstract service layer
+- Replace ORM without breaking API:
+  - Prisma → Drizzle / Supabase
+
+### 🧱 Monorepo Architecture (Turborepo)
+
+```mermaid
+flowchart TD
+    A[Root Monorepo]
+
+    subgraph Apps
+        B[apps/frontend - Next.js]
+        C[apps/backend - NestJS]
+    end
+
+    subgraph Packages
+        D[packages/ui]
+        E[packages/types]
+        F[packages/config]
+    end
+
+    A --> Apps
+    A --> Packages
+
+    B --> D
+    B --> E
+    C --> E
+    C --> F
+```
+
+## 📁 Suggested Structure
+
+```bash
+apps/
+  frontend/   # Next.js app
+  backend/    # NestJS API
+
+packages/
+  ui/         # shared components
+  types/      # shared types/interfaces
+  config/     # eslint, tsconfig, etc.
+```
+
+## 🔁 System-Wide Data Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant API
+    participant DB
+
+    User->>Frontend: Visit store page
+    Frontend->>API: Request products
+    API->>DB: Query by storeId
+    DB-->>API: Data
+    API-->>Frontend: JSON
+    Frontend-->>User: Render UI
+```
+
+## 🆚 Shopify vs Custom System
+
+| Feature         | Shopify Template     | Custom System   |
+|-----------------|----------------------|-----------------|
+| Database        | Shopify-managed      | SQL (Prisma)    |
+| API             | Shopify GraphQL      | NestJS API      |
+| Control         | Limited              | Full            |
+| Auth            | External             | Internal        |
+| Multi-tenancy   | Built-in             | Custom          |
+
+## 🧠 Design Principles
+- Decoupled Architecture
+- Interface Stability
+- Scalability-first mindset
+- ORM abstraction
+
+🚀 Future Enhancements
+- Role-based access control
+- Order management system
+- Analytics dashboard
+- Redis caching
+- Event-driven architecture (webhooks)
