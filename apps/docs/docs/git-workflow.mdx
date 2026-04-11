@@ -12,8 +12,8 @@ Use consistent, semantic branch names so your repo stays clean and scalable.
 
 ## 🔖 Main Branches
 
-main → Production (stable releases only)
-develop → Ongoing development (optional, if using Git Flow)
+- main → Production (stable releases only)
+- develop → Ongoing development (optional, if using Git Flow)
 
 ---
 
@@ -23,9 +23,9 @@ Used for fixing bugs after a stable release.
 
 ### From `main`:
 
-hotfix/v1.6.0-fix-cart-errors
-hotfix/v1.6.0-auth-session-fix
-hotfix/v1.6.0-critical-bugs
+- hotfix/v1.6.0-fix-cart-errors
+- hotfix/v1.6.0-auth-session-fix
+- hotfix/v1.6.0-critical-bugs
 
 ### Grouped fixes:
 
@@ -37,15 +37,15 @@ hotfix/v1.6.0-patch
 
 ## ✨ Feature / Enhancement
 
-feature/v1.6.0-improve-cart-ui
-feature/add-error-handling
+- feature/v1.6.0-improve-cart-ui
+- feature/add-error-handling
 
 ---
 
 ## 🐛 Bug Fix Branch (non-critical)
 
-fix/cart-quantity-bug
-fix/login-redirect-issue
+- fix/cart-quantity-bug
+- fix/login-redirect-issue
 
 ---
 
@@ -59,12 +59,12 @@ fix/login-redirect-issue
 
 ## 📌 Common Types
 
-fix → Bug fixes (most important for patch releases)
-feat → New features
-refactor → Code improvements (no behavior change)
-chore → Configs, build, cleanup
-docs → Documentation
-perf → Performance improvements
+- fix → Bug fixes (most important for patch releases)
+- feat → New features
+- refactor → Code improvements (no behavior change)
+- chore → Configs, build, cleanup
+- docs → Documentation
+- perf → Performance improvements
 
 ---
 
@@ -72,32 +72,32 @@ perf → Performance improvements
 
 ## 🐛 Bug Fixes
 
-fix(cart): resolve quantity update 400 error
-fix(cart): prevent 500 error when removing items
-fix(cart): fix cart clearing causing server error
-fix(auth): resolve session expiration edge case
-fix(api): correct inconsistent product response schema
+- fix(cart): resolve quantity update 400 error
+- fix(cart): prevent 500 error when removing items
+- fix(cart): fix cart clearing causing server error
+- fix(auth): resolve session expiration edge case
+- fix(api): correct inconsistent product response schema
 
 ---
 
 ## 🔐 Auth / Security Fixes
 
-fix(auth): handle refresh token validation properly
-fix(auth): prevent unauthorized access on expired session
+- fix(auth): handle refresh token validation properly
+- fix(auth): prevent unauthorized access on expired session
 
 ---
 
 ## 🔄 Refactors
 
-refactor(cart): simplify cart handler logic
-refactor(api): standardize response format across endpoints
+- refactor(cart): simplify cart handler logic
+- refactor(api): standardize response format across endpoints
 
 ---
 
 ## ⚙️ Deployment / Config Fixes
 
-chore(deploy): update render service configuration
-chore(env): fix production environment variables
+- chore(deploy): update render service configuration
+- chore(env): fix production environment variables
 
 ---
 
@@ -119,9 +119,9 @@ chore(release): v1.6.0 patch release
 
 ## 1. Create Branch
 
-git checkout main
-git pull
-git checkout -b hotfix/v1.6.0-patch
+- git checkout main
+- git pull
+- git checkout -b hotfix/v1.6.0-patch
 
 ---
 
@@ -143,8 +143,8 @@ git push origin hotfix/v1.6.0-patch
 
 ## 4. Tag Release
 
-git tag v1.6.0
-git push origin v1.6.0
+- git tag v1.6.0
+- git push origin v1.6.0
 
 ---
 
