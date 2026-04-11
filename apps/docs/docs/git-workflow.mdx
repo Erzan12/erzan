@@ -1,0 +1,158 @@
+---
+id: git-workflow
+title: Git Workflow & Commit Standards
+sidebar_label: 🌿 Git Workflow
+---
+
+# 🌿 Branch Naming Guide
+
+Use consistent, semantic branch names so your repo stays clean and scalable.
+
+---
+
+## 🔖 Main Branches
+
+main → Production (stable releases only)
+develop → Ongoing development (optional, if using Git Flow)
+
+---
+
+## 🛠️ Patch / Hotfix Branches (v1.6.0)
+
+Used for fixing bugs after a stable release.
+
+### From `main`:
+
+hotfix/v1.6.0-fix-cart-errors
+hotfix/v1.6.0-auth-session-fix
+hotfix/v1.6.0-critical-bugs
+
+### Grouped fixes:
+
+hotfix/v1.6.0-patch
+
+👉 Use `hotfix/` when fixing **production issues after release**
+
+---
+
+## ✨ Feature / Enhancement
+
+feature/v1.6.0-improve-cart-ui
+feature/add-error-handling
+
+---
+
+## 🐛 Bug Fix Branch (non-critical)
+
+fix/cart-quantity-bug
+fix/login-redirect-issue
+
+---
+
+# 🧾 Commit Message Guide (Conventional Commits)
+
+## 🔑 Format
+
+`<type>(scope): short description`
+
+---
+
+## 📌 Common Types
+
+fix → Bug fixes (most important for patch releases)
+feat → New features
+refactor → Code improvements (no behavior change)
+chore → Configs, build, cleanup
+docs → Documentation
+perf → Performance improvements
+
+---
+
+# ✅ Example Commit Messages (v1.6.0 Patch)
+
+## 🐛 Bug Fixes
+
+fix(cart): resolve quantity update 400 error
+fix(cart): prevent 500 error when removing items
+fix(cart): fix cart clearing causing server error
+fix(auth): resolve session expiration edge case
+fix(api): correct inconsistent product response schema
+
+---
+
+## 🔐 Auth / Security Fixes
+
+fix(auth): handle refresh token validation properly
+fix(auth): prevent unauthorized access on expired session
+
+---
+
+## 🔄 Refactors
+
+refactor(cart): simplify cart handler logic
+refactor(api): standardize response format across endpoints
+
+---
+
+## ⚙️ Deployment / Config Fixes
+
+chore(deploy): update render service configuration
+chore(env): fix production environment variables
+
+---
+
+## 🧪 Small Improvements (Optional)
+
+perf(products): optimize product query performance
+
+---
+
+## 🏷️ Release Commit
+
+When releasing:
+
+chore(release): v1.6.0 patch release
+
+---
+
+# 🔁 Suggested Workflow
+
+## 1. Create Branch
+
+git checkout main
+git pull
+git checkout -b hotfix/v1.6.0-patch
+
+---
+
+## 2. Development
+
+- Make fixes
+- Follow commit conventions
+
+---
+
+## 3. Push & Merge
+
+git push origin hotfix/v1.6.0-patch
+
+- Create Pull Request
+- Merge into `main`
+
+---
+
+## 4. Tag Release
+
+git tag v1.6.0
+git push origin v1.6.0
+
+---
+
+# 💡 Pro Tips
+
+- Keep commits **small and focused**
+- Use **scopes** (`cart`, `auth`, `api`, etc.)
+- Avoid mixing features in a patch release
+- If fixes grow large → consider a **minor release instead of patch**
+
+---
