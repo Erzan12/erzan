@@ -112,8 +112,8 @@ const config = {
             position: 'left'
           },
           {
-            to: '/portfolio',
-            // href: "https://erzan-dev.vercel.app",
+            // to: '/portfolio',
+            href: "https://erzan-dev.vercel.app",
             //local dev
             // href: "http://localhost:3001",
             label: "Portfolio",
@@ -173,8 +173,8 @@ const config = {
             items: [
               {
                 label: "Portfolio",
-                // href: "https://erzan.dev",
-                to: '/portfolio'
+                href: "https://erzan-dev.vercel.app",
+                // to: '/portfolio'
               },
               {
                 label: "GitHub",
