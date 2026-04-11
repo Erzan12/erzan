@@ -7,8 +7,6 @@ tags: [first deployment, docs, vercel, versioning]
 
 This is a blog post about my journey from planning, building, pre releases and first mature and stable release with vercel deployment on version 1.0.0.
 
-<!-- truncate -->
-
 After the following release at March 22, 2026 I have already new things and ideas in mind to add and implement. With this momentum I will be continuing to improved my public facing personal portfolio platform. Yes I noticed that there are bugs and errors and it will be patched soon as I already issued them at my GitHub Repository.
 
 The journey was really fun and the excitement and trill when day the release came even though I have to still polished many things up, but I managed and that is the most fulfiiling part and rewarding seeing what you have been working on bring to life. I always planned and wanted to build my own professional looking public facing portfolio but never started or started but got hit by something that cannot be fixed asap lol. But this year I mustered my courage and desciplined to really push and have something I can deploy to the web.
