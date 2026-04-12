@@ -2,125 +2,162 @@
 
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { motion, Variants } from "framer-motion"
-import { 
-  Hammer, 
-  Newspaper, 
-  ArrowLeft, 
-  Send, 
-  Clock, 
-  Wrench,
-  Sparkles
-} from "lucide-react"
+import { motion } from "framer-motion"
+import { Calendar, Clock, User, ArrowRight, Tag } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
+import { getReadingTime } from "@/lib/helper/get-reading-time.helper"
 
-const container: Variants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
+// Mock data - replace this with your Prisma/MDX fetch later
+const BLOG_POSTS = [
+  {
+    id: 1,
+    title: "Building Scalable Systems in the Philippines: Lessons Learned",
+    description: "An in-depth look at architecting robust CI/CD workflows and managing OCI infrastructure while navigating local technical constraints.",
+    content: "full text here for reading time calculation...",
+    date: "April 12, 2026",
+    category: "DevOps",
+    slug: "scalable-systems-philippines",
+    author: {
+      name: "Earl Jan Do",
+      avatar: "/avatar.png", // Path to your photo
+      role: "Full-Stack Developer"
+    }
   },
+  {
+    id: 2,
+    title: "Why I Switched from AWS to OCI Always Free",
+    description: "Comparing compute power, egress costs, and the generous ARM shapes that make Oracle Cloud a winner for personal projects.",
+    content: "short content...",
+    date: "March 28, 2026",
+    category: "Cloud",
+    slug: "aws-vs-oci-free-tier",
+    author: {
+      name: "Earl Jan Do",
+      avatar: "/avatar.png",
+      role: "Full-Stack Developer"
+    }
+  }
+];
+
+const container = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.1 } },
 }
 
-const item: Variants = {
+const item = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  show: { opacity: 1, y: 0 },
 }
 
-export default function BlogComingSoon() {
+export default function BlogPage() {
   return (
-    <main>
-      <div className="min-h-screen pt-20 pb-10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          {/* back button */}
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-8">
-            <Link href="/" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors font-sans text-sm group">
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              Back to Home
-            </Link>
-          </motion.div>
-
-          <motion.div 
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="grid grid-cols-1 md:grid-cols-3 gap-6"
-          >
-            {/* blog hero card */}
-            <motion.div variants={item} className="md:col-span-3">
-              <Card className="p-8 md:p-12 bg-olive-about-card/70 dark:bg-olive-dark-about-card border-border rounded-3xl relative overflow-hidden shadow-none">
-                <div className="absolute top-0 right-0 p-8 opacity-10">
-                  <Newspaper size={120} className="text-primary rotate-12" />
-                </div>
-                
-                <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto">
-                  <Badge variant="secondary" className="mb-6 px-4 py-1 rounded-full font-sans bg-primary/10 text-primary border-primary/20">
-                    <Clock className="w-3 h-3 mr-2 animate-spin-slow" />
-                    Coming Soon
-                  </Badge>
-                  
-                  <h1 className="text-4xl md:text-6xl font-bold font-sans tracking-tight mb-6">
-                    Deep Dives & <span className="text-primary">Dev Log</span>
-                  </h1>
-                  
-                  <p className="text-lg text-muted-foreground leading-relaxed font-sans mb-8">
-                    I'm currently architecting a space to share my thoughts on NestJS, NextJS, React, Javascript, 
-                    CI/CD Workflows, and the lessons learned building scalable systems in the Philippines.
-                  </p>
-
-                  <div className="w-full max-w-md flex flex-col sm:flex-row gap-2">
-                    <input 
-                      type="email" 
-                      placeholder="Enter your email" 
-                      className="flex-1 px-4 py-2 rounded-xl border border-border bg-background/50 focus:outline-none focus:ring-2 focus:ring-primary/50 font-sans"
-                    />
-                    <Button className="rounded-xl px-6 gap-2 w-full sm:w-auto">
-                      Notify Me
-                      <Send className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-            </motion.div>
-
-            {/* progress card */}
-            <motion.div variants={item}>
-              <Card className="p-6 bg-olive-about-card/40 dark:bg-olive-dark-about-card/50 border-border rounded-2xl h-full shadow-none flex flex-col justify-center items-center text-center group">
-                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Hammer className="text-primary w-6 h-6" />
-                </div>
-                <h3 className="font-bold font-sans mb-1">Status</h3>
-                <p className="text-sm text-muted-foreground font-sans">Drafting first articles & setting up the MDX engine & figuring out which blog I will use since I have blogs in my Personal Docs in Docusaurus.</p>
-              </Card>
-            </motion.div>
-
-            {/* feature card */}
-            <motion.div variants={item}>
-              <Card className="p-6 bg-olive-about-card/40 dark:bg-olive-dark-about-card/50 border-border rounded-2xl h-full shadow-none flex flex-col justify-center items-center text-center group">
-                <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Sparkles className="text-blue-500 w-6 h-6" />
-                </div>
-                <h3 className="font-bold font-sans mb-1">What to expect</h3>
-                <p className="text-sm text-muted-foreground font-sans">Prisma ORMs, NestJS patterns, Typescript and Javascript valuable insights.</p>
-              </Card>
-            </motion.div>
-
-            {/* tech stack card */}
-            <motion.div variants={item}>
-              <Card className="p-6 bg-olive-about-card/40 dark:bg-olive-dark-about-card/50 border-border rounded-2xl h-full shadow-none flex flex-col justify-center items-center text-center group">
-                <div className="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Wrench className="text-orange-500 w-6 h-6" />
-                </div>
-                <h3 className="font-bold font-sans mb-1">Stack</h3>
-                <p className="text-sm text-muted-foreground font-sans">Built with Next.js and Framer Motion with lucide-react icons, tailwindcss and shadcn themes.</p>
-              </Card>
-            </motion.div>
-          </motion.div>
+    <main className="min-h-screen pt-24 pb-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Header Section */}
+        <div className="mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold font-sans tracking-tight mb-4">
+            Mission <span className="text-primary">Log</span>
+          </h1>
+          <p className="text-muted-foreground max-w-2xl font-sans">
+            Technical deep dives into NestJS, Next.js, and the chaos of building scalable software.
+          </p>
         </div>
+
+        <motion.div 
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="grid grid-cols-1 md:grid-cols-12 gap-6"
+        >
+          {/* Main Featured Post */}
+          {BLOG_POSTS.slice(0, 1).map((post) => (
+            <motion.div key={post.id} variants={item} className="md:col-span-8">
+              <Link href={`/blog/${post.slug}`}>
+                <Card className="group h-full p-8 bg-olive-about-card/70 dark:bg-olive-dark-about-card border-border rounded-3xl overflow-hidden hover:border-primary/50 transition-all shadow-none flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-3 mb-6">
+                      <Badge className="bg-primary/10 text-primary border-primary/20">{post.category}</Badge>
+                      <span className="text-xs text-muted-foreground flex items-center gap-1">
+                        <Clock className="w-3 h-3" /> {getReadingTime(post.content)}
+                      </span>
+                    </div>
+                    <h2 className="text-3xl font-bold mb-4 group-hover:text-primary transition-colors">
+                      {post.title}
+                    </h2>
+                    <p className="text-muted-foreground line-clamp-3 mb-8">
+                      {post.description}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-6 border-t border-border/50">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-primary/20 overflow-hidden border border-primary/20">
+                         {/* Replace with <Image /> when you have your avatar */}
+                         <div className="w-full h-full flex items-center justify-center text-primary font-bold">JB</div>
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold">{post.author.name}</p>
+                        <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{post.author.role}</p>
+                      </div>
+                    </div>
+                    <div className="text-xs text-muted-foreground flex items-center gap-1">
+                      <Calendar className="w-3 h-3" /> {post.date}
+                    </div>
+                  </div>
+                </Card>
+              </Link>
+            </motion.div>
+          ))}
+
+          {/* Sidebar Info/Tags (Right Side) */}
+          <motion.div variants={item} className="md:col-span-4 space-y-6">
+             <Card className="p-6 bg-olive-about-card/40 dark:bg-olive-dark-about-card/50 border-border rounded-3xl shadow-none">
+                <h3 className="font-bold mb-4 flex items-center gap-2">
+                  <Tag className="w-4 h-4 text-primary" /> Categories
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {["Next.js", "NestJS", "DevOps", "OCI", "Prisma"].map(tag => (
+                    <Badge key={tag} variant="outline" className="hover:bg-primary/10 hover:text-primary transition-colors cursor-pointer">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+             </Card>
+             
+             <Card className="p-6 bg-primary/5 border-primary/10 rounded-3xl shadow-none border-dashed border-2">
+                <h3 className="font-bold mb-2 text-primary text-sm">Join the Dev Log</h3>
+                <p className="text-xs text-muted-foreground mb-4">Get notified when I drop a new deep dive into architecture.</p>
+                <div className="flex gap-2">
+                  <input className="w-full bg-background border border-border rounded-lg px-3 py-1 text-xs" placeholder="email..." />
+                  <button className="bg-primary text-primary-foreground px-3 py-1 rounded-lg text-xs font-bold">Join</button>
+                </div>
+             </Card>
+          </motion.div>
+
+          {/* Subsequent Posts Grid */}
+          {BLOG_POSTS.slice(1).map((post) => (
+            <motion.div key={post.id} variants={item} className="md:col-span-4">
+              <Link href={`/blog/${post.slug}`}>
+                <Card className="group p-6 bg-olive-about-card/40 dark:bg-olive-dark-about-card/50 border-border rounded-3xl h-full hover:border-primary/50 transition-all shadow-none">
+                  <div className="flex items-center justify-between mb-4">
+                    <Badge variant="outline" className="text-[10px]">{post.category}</Badge>
+                    <span className="text-[10px] text-muted-foreground">{getReadingTime(post.content)}</span>
+                  </div>
+                  <h3 className="font-bold mb-3 group-hover:text-primary transition-colors">
+                    {post.title}
+                  </h3>
+                  <div className="flex items-center justify-between mt-6">
+                     <span className="text-[10px] text-muted-foreground">{post.date}</span>
+                     <ArrowRight className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                  </div>
+                </Card>
+              </Link>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </main>
-    
   )
 }
