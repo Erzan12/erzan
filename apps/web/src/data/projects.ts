@@ -25,7 +25,7 @@ export const projects: Project[] = [
     stack: ["Laravel", "PHP", "Blade", "Vite", "SaaS"],
     repo: "ltpms-web",
     github: "Erzan12/ltpms-web",
-    demoLink: "",
+    demoLink: "https://ltpms-web.onrender.com/",
     featured: true,
   },
   {
