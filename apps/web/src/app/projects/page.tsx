@@ -174,8 +174,8 @@ export default function ProjectsPage() {
                 <SystemCard
                   title={repo.name}
                   description={repo.description ?? "No description provided"}
-                  stars={repo.stars}
-                  forks={repo.forks}
+                  stars={repo.stargazers_count}
+                  forks={repo.forks_count}
                   language={repo.language}
                   last_update={repo.pushed_at}
                   link={repo.html_url}
