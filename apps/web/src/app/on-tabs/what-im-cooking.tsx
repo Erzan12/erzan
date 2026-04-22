@@ -9,7 +9,7 @@ const items = [
   { id: 3, text: "Blog Page section in development and will be self-Hosted CMS with Supabase and Drizzle ORM", icon: Bell, status: "cooking" },
   { id: 4, text: "Simple dev tools (experimenting)", icon: Cpu, status: "todo" },
   { id: 5, text: "Side project — Product Inventory System ERP", icon: Lightbulb, status: "cooking" },
-  { id: 6, text: "Side project — Laravel Projects", icon: Lightbulb, status: "todo" },
+  { id: 6, text: "Side project — Laravel Projects", icon: Lightbulb, status: "deployed" },
   { id: 7, text: "Side project — ERP API", icon: Lightbulb, status: "deployed" },
 ];
 
