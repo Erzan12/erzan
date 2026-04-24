@@ -70,7 +70,8 @@ const sidebars = {
           ],
         },
         'semantic-versioning-strat',
-        'git-workflow'
+        'git-workflow',
+        'mermaid-diagrams-guide'
       ],
     },
 
