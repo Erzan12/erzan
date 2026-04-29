@@ -43,7 +43,7 @@ export const projects: Project[] = [
     stack: ["Laravel", "PHP", "Blade", "Vite"],
     repo: "slsu-clinic-appointment-system",
     github: "Erzan12/slsu-clinic-appointment-system",
-    demoLink: "",
+    demoLink: "https://slsu-clinic-appointment-system.onrender.com",
     featured: true,
   },
   {
