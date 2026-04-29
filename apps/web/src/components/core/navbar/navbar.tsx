@@ -7,9 +7,15 @@ import { NavLink } from "@/components/core/navbar/nav-link";
 import { useState } from "react";
 import ThemeToggle from "@/components/dark-mode-toggle/theme-toggle";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 export default function Navbar() {
+  const { theme } = useTheme();
+
   const [open, setOpen] = useState(false);
+
+  const logoSrc =
+    theme === "dark" ? "/favicon-light.ico" : "/favicon.ico";
 
   return (
     <nav className="border-b bg-white/80 dark:bg-black/80 backdrop-blur sticky top-0 z-50">
@@ -17,12 +23,7 @@ export default function Navbar() {
 
         {/* logo */}
         <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/favicon.ico"
-            alt="erzan.dev logo"
-            width={32}
-            height={32}
-          />
+          <Image src={logoSrc} alt="erzan.dev logo" width={32} height={32} />
           <span className="font-semibold text-lg">erzan.dev</span>
         </Link>
 

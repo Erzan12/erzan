@@ -31,7 +31,7 @@ export const metadata = {
   title: "Erzan | Full Stack Developer",
   description: "Backend-focused developer building scalable systems",
   icons: {
-    icon: "/favicon.ico"
+    icon: "/favicon-light.ico"
   }
 }
 
