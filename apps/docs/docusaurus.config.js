@@ -12,7 +12,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 const config = {
   title: 'Erzan Engineering Docs',
   tagline: 'Architecture, systems, and engineering behind my projects',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon-light.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -91,7 +91,8 @@ const config = {
         title: 'erzan.docs',
         logo: {
           alt: 'Erzan Logo',
-          src: 'img/logo.svg',
+          src: 'img/favicon.ico',   // shown in light mode
+          srcDark: 'img/favicon-light.ico',     // shown in dark mode
         },
         items: [
           {
