@@ -66,7 +66,7 @@ export default function ProjectCarousel({ projects }: { projects: Project[] }) {
                         className="object-cover"
                       /> 
                     ) : (
-                      <div className="flex items-center justify-center bg-gray-200 h-full text-center p-4">
+                      <div className="flex items-center justify-center bg-gray-200 text-foreground h-full text-center p-4">
                         {project.title}
                       </div>
                     )}
