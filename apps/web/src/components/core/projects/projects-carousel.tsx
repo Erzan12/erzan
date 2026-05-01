@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Github, ExternalLink, ArrowRightLeft } from "lucide-react";
 import { Project } from "@/lib/types/project";
+import Image from "next/image";
 
 export default function ProjectCarousel({ projects }: { projects: Project[] }) {
   const [api, setApi] = React.useState<CarouselApi>();
@@ -56,11 +57,19 @@ export default function ProjectCarousel({ projects }: { projects: Project[] }) {
             <CarouselItem key={index} className="pl-4 basis-full md:basis-1/2 lg:basis-1/3">
                <Card className="h-[480px] flex flex-col bg-cream-100 dark:bg-cream-50/70 border-border rounded-2xl overflow-hidden shadow-none transition-all duration-300 hover:border-primary/50 group">
                 <CardHeader className="p-0">
-                  <div className="w-full h-48 bg-muted flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 group-hover:scale-105 transition-transform duration-500" />
-                    <span className="text-muted-foreground relative z-10 font-sans text-sm italic">
-                      {project.title} Preview
-                    </span>
+                  <div className="relative w-full h-48 overflow-hidden">
+                    {project.image ? (
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        className="object-cover"
+                      /> 
+                    ) : (
+                      <div className="flex items-center justify-center bg-gray-200 h-full text-center p-4">
+                        {project.title}
+                      </div>
+                    )}
                   </div>
                 </CardHeader>
                 

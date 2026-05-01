@@ -5,5 +5,6 @@ export type Project = {
   repo: string;
   github: string;
   demoLink: string;
+  image: string;
   featured: boolean;
 };
