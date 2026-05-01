@@ -8,6 +8,7 @@ export const projects: Project[] = [
     repo: "Product-Inventory-System",
     github: "Erzan12/Product-Inventory-System",
     demoLink: "https://shopstack-commerce.netlify.app",
+    image: "/images/shopstack.png",
     featured: true,
   },
   {
@@ -17,6 +18,7 @@ export const projects: Project[] = [
     repo: "portfolio-v2",
     github: "Erzan12/portfolio-v2/tree/master/apps/docs",
     demoLink: "https://erzan-docs.vercel.app/",
+    image: "/images/docs-platform.png",
     featured: true,
   },
   {
@@ -26,6 +28,7 @@ export const projects: Project[] = [
     repo: "ltpms-web",
     github: "Erzan12/ltpms-web",
     demoLink: "https://ltpms-web.onrender.com/",
+    image: "/images/ltpms.png",
     featured: true,
   },
   {
@@ -35,6 +38,7 @@ export const projects: Project[] = [
     repo: "qr-code-attendance-management-system",
     github: "Erzan12/qr-code-attendance-management-system",
     demoLink: "",
+    image: "",
     featured: true,
   },
   {
@@ -44,6 +48,7 @@ export const projects: Project[] = [
     repo: "slsu-clinic-appointment-system",
     github: "Erzan12/slsu-clinic-appointment-system",
     demoLink: "https://slsu-clinic-appointment-system.onrender.com",
+    image: "/images/slsu-cas.png",
     featured: true,
   },
   {
@@ -53,6 +58,7 @@ export const projects: Project[] = [
     repo: "portfolio-v2",
     github: "Erzan12/portfolio-v2",
     demoLink: "https://erzan-dev.vercel.app/",
+    image: "/images/portfoliov2.png",
     featured: true,
   },
   {
@@ -62,6 +68,7 @@ export const projects: Project[] = [
     repo: "erp-api",
     github: "Erzan12/erp-api",
     demoLink: "https://erp-api-rp7t.onrender.com/",
+    image: "/images/erp-api.png",
     featured: true,
   },
   {
@@ -71,6 +78,7 @@ export const projects: Project[] = [
     repo: "shopstack-api",
     github: "Erzan12/Marketplace-Management-Inventory-System/tree/main/apps/backend",
     demoLink: "https://marketplace-management-inventory-system.onrender.com/",
+    image: "/images/shopstack-api.png",
     featured: true,
   },
 ];
