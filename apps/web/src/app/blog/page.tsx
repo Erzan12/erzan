@@ -4,17 +4,35 @@ import { Badge } from "@/components/ui/badge";
 import { Tag } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { BlogListAnimation } from "@/components/blog-cms/blog-animations"; // We'll move the motion logic here
+import { BlogListAnimation } from "@/components/blog-cms/blog-animations";
+import { AuthorCard } from "@/components/blog-cms/author-card";
 
 export default async function BlogPage() {
-  const posts = await prisma.post.findMany({
-    where: { published: true },
-    orderBy: { createdAt: "desc" },
-    include: { author: true, tags: true },
-  });
+  const [posts, profileRes] = await Promise.all([
+    prisma.post.findMany({
+      where: { published: true },
+      orderBy: { createdAt: "desc" },
+      include: { author: true, tags: true },
+    }),
+    fetch("https://api.github.com/users/Erzan12", {
+      next: { revalidate: 3600 },
+    }),
+  ]);
 
-  const featuredPost = posts[0];
-  const regularPosts = posts.slice(1);
+  const profile = await profileRes.json();
+
+  const avatar = profile.avatar_url;
+
+  const enrichedPosts = posts.map(post => ({
+    ...post,
+    author: {
+      ...post.author,
+      avatar: avatar, 
+    },
+  }));
+
+  const featuredPost = enrichedPosts[0];
+  const regularPosts = enrichedPosts.slice(1);
 
   return (
     <main className="min-h-screen pt-32 pb-20 bg-background">
@@ -42,12 +60,12 @@ export default async function BlogPage() {
                 <Card className="relative overflow-hidden p-0 border-none bg-transparent shadow-none">
                   <div className="relative aspect-[21/9] w-full rounded-3xl overflow-hidden mb-6">
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10" />
-                    <Image 
-                      src={featuredPost.coverImage || "/placeholder-dev.png"} 
-                      alt={featuredPost.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    <AuthorCard
+                      name={featuredPost.author.name ?? "Unknown"}
+                      role="Full-Stack Developer"
+                      avatar={featuredPost.author.avatar}
                     />
+                    
                   </div>
                   <div className="space-y-4">
                     <div className="flex items-center gap-4 text-xs font-mono text-primary uppercase tracking-widest">
@@ -92,11 +110,12 @@ export default async function BlogPage() {
               {/* Quick Connect / About Me Mini-Widget */}
               <section className="p-8 rounded-3xl border border-dashed border-primary/30">
                 <div className="flex items-center gap-4 mb-4">
-                  <Image src="/avatar.png" width={48} height={48} className="rounded-full grayscale hover:grayscale-0 transition-all" alt="Earl" />
-                  <div>
-                    <h4 className="font-bold">Earl Jan Do</h4>
-                    <p className="text-xs text-muted-foreground">Full-Stack System Architect</p>
-                  </div>
+                  {/* <Image src="/avatar.png" width={48} height={48} className="rounded-full grayscale hover:grayscale-0 transition-all" alt="Earl" /> */}
+                  <AuthorCard
+                    name="Earl Jan Do"
+                    role="Full-Stack Developer"
+                    avatar={avatar}
+                  />
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   Building high-performance applications in the Philippines. Currently scaling 

@@ -1,10 +1,12 @@
 "use client"
+
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { motion, Variants } from "framer-motion";
 import { Github, Linkedin, Twitter, Mail, ExternalLink, MapPin, Facebook, ArrowLeft } from "lucide-react"
 import Link from "next/link";
+import { useEffect, useState } from "react";
 // import ThemeToggle from "@/components/dark-mode-toggle/theme-toggle"
 
 // 1. Define the animation variants
@@ -24,6 +26,14 @@ const item: Variants = {
 };
 
 export default function About() {
+  const [ avatar, setAvatar ] = useState("");
+
+  useEffect(() => {
+    fetch("/api/github/profile")
+      .then(res => res.json())
+      .then(data => setAvatar(data.avatar));
+  }, []);
+
   return (
     <div className="min-h-screen pt-10 md:pt-20 pb-10">
       {/*added px-4 sm:px-6 to give breathing room on mobile devices */}
@@ -56,7 +66,14 @@ export default function About() {
               <div className="flex flex-col h-full relative z-10">
                 <div className="flex items-start gap-4 mb-4">
                   <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <span className="text-2xl font-bold text-primary font-sans">EJD</span>
+                    {/* <span className="text-2xl font-bold text-primary font-sans">EJD</span> */}
+                    {avatar && (
+                      <img
+                        src={avatar}
+                        alt="Profile"
+                        className="w-full h-full object-cover rounded-full"
+                      />
+                    )}
                   </div>
                   <div>
                     <h2 className="text-xl font-bold text-card-foreground font-sans">About Me</h2>
