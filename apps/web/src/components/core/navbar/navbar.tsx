@@ -14,17 +14,33 @@ export default function Navbar() {
 
   const [open, setOpen] = useState(false);
 
-  const logoSrc =
-    theme === "dark" ? "/favicon-light.ico" : "/favicon.ico";
-
   return (
     <nav className="border-b bg-white/80 dark:bg-black/80 backdrop-blur sticky top-0 z-50">
       <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
 
         {/* logo */}
         <Link href="/" className="flex items-center gap-2">
-          <Image src={logoSrc} alt="erzan.dev logo" width={32} height={32} />
-          <span className="font-semibold text-lg">erzan.dev</span>
+          <div className="flex items-center gap-2">
+            {/* Light mode logo */}
+            <Image
+              src="/favicon.ico"
+              alt="erzan.dev logo"
+              width={32}
+              height={32}
+              className="dark:hidden"
+            />
+
+            {/* Dark mode logo */}
+            <Image
+              src="/favicon-light.ico"
+              alt="erzan.dev logo"
+              width={32}
+              height={32}
+              className="hidden dark:block"
+            />
+
+            <span className="font-semibold text-lg">erzan.dev</span>
+          </div>
         </Link>
 
         {/* desktop menu */}
