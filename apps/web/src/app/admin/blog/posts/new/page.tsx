@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { createPost } from "@/components/blog-cms/actions/posts";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Editor from "@/components/blog-cms/editor"; // We will build this next
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { createPost } from "@/app/api/blog/posts/route";
 
 type PostStatus = "DRAFT" | "PUBLISHED";
 
@@ -41,7 +41,8 @@ export default function NewPostPage() {
           title: "Success",
           description: "Log Entry Synchronized",
         });
-        router.push(`/blog/${result.slug}`);
+        // router.push(`/blog/${result.slug}`);
+        router.push(`/admin`)
       }
     } catch {
       toast({
@@ -84,7 +85,10 @@ export default function NewPostPage() {
         </select>
         
         {/* The rich text editor component */}
-        <Editor onChange={setContent} />
+        <Editor 
+          value={content}
+          onChange={setContent} 
+        />
 
         <div className="flex justify-end gap-4">
           <Button variant="outline">Save Draft</Button>
