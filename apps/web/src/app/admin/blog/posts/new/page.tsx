@@ -16,7 +16,7 @@ export default function NewPostPage() {
   const [title, setTitle] = useState("");
   const [excerpt, setExcerpt ] = useState("");
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState<PostStatus>("DRAFT");
+  const [status, setStatus] = useState("");
 
   const router = useRouter();
 
@@ -91,10 +91,24 @@ export default function NewPostPage() {
         />
 
         <div className="flex justify-end gap-4">
-          <Button variant="outline">Save Draft</Button>
-          <Button type="submit" disabled={loading}>
-            {loading ? "Publishing..." : "Publish to Dev Log"}
-          </Button>
+          {status === "DRAFT" ? (
+            <Button
+              type="submit"
+              variant="outline"
+              disabled={loading}
+              onClick={() => setStatus("DRAFT")}
+            >
+              {loading ? "Saving..." : "Save Draft"}
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              disabled={loading}
+              onClick={() => setStatus("PUBLISHED")}
+            >
+              {loading ? "Publishing..." : "Publish to Dev Log"}
+            </Button>
+          )}
         </div>
       </form>
     </div>
