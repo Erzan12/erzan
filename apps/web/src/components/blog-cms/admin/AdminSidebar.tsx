@@ -66,7 +66,7 @@ export function AdminSidebar() {
 
    return (
     <aside className="w-64 border-r p-6 space-y-4">
-      <h2 className="font-bold text-lg mb-6">CMS</h2>
+      <h2 className="font-bold text-lg mb-6">Portfolio CMS V1.5.0</h2>
 
       {modules.map((mod) => (
         <div key={mod.title} className="space-y-2">
