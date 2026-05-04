@@ -1,10 +1,12 @@
 "use server"
 
 import { prisma } from "@/lib/prisma/prisma";
+import { requireAdmin } from "@/lib/route-protection/user-check";
 import { revalidatePath } from "next/cache";
 import slugify from "slugify";
 
 export async function createPost(formData: FormData) {
+  const session = await requireAdmin();
   const title = formData.get("title") as string;
   const content = formData.get("content") as string;
 
@@ -34,11 +36,11 @@ export async function createPost(formData: FormData) {
       slug: finalSlug,
       content,
       published: true,
-      authorId: "", // Reminder: replace with actual session ID later!
+      authorId: session.user.id, // Reminder: replace with actual session ID later!
     },
   });
 
-  revalidatePath("/blog");
+  revalidatePath("/blog/posts/new");
 
   return { success: true, slug: finalSlug };
 }
