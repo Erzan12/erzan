@@ -4,9 +4,16 @@ import { TableOfContents } from "@/components/blog-cms/table-of-contents"
 import { RecentPostsSidebar } from "@/components/blog-cms/recent-posts-sidebar"
 import Image from "next/image"
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+export default async function BlogPostPage({ 
+  params,
+ }: { 
+  params: Promise<{ slug: string }> 
+ }) {
+
+  const { slug } = await params
+
   const post = await prisma.post.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
     include: { author: true }
   })
 
