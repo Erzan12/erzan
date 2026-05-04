@@ -2,48 +2,71 @@ import { prisma } from "@/lib/prisma/prisma";
 import { requireAdmin } from "@/lib/route-protection/user-check";
 
 export default async function AdminDashboard() {
-  const session = await requireAdmin();
+  await requireAdmin();
 
-  const posts = await prisma.post.findMany();
+  const posts = await prisma.post.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+
   const published = posts.filter((p) => p.status === "PUBLISHED");
   const drafts = posts.filter((p) => p.status === "DRAFT");
 
+  const totalViews = posts.reduce((sum, p) => sum + p.views, 0);
+
+  const topPost = posts.sort((a, b) => b.views - a.views)[0];
+
+  const lastPost = posts[0];
+
   return (
     <div className="space-y-8">
-      {/* Header */}
+      {/* HEADER */}
       <div>
-        <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+        <h1 className="text-2xl font-bold">Dashboard</h1>
         <p className="text-sm text-gray-500">
-          Welcome back, {session.user?.name ||session.user?.email}
+          Smart overview of your content
         </p>
       </div>
 
-      {/* Stats cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* ANALYTICS CARDS */}
+      <div className="grid md:grid-cols-4 gap-4">
         <Card title="Total Posts" value={posts.length} />
         <Card title="Published" value={published.length} />
         <Card title="Drafts" value={drafts.length} />
+        <Card title="Total Views" value={totalViews} />
       </div>
 
-      {/* Quick actions */}
-      <div className="border rounded-lg p-6">
-        <h2 className="font-semibold mb-4">Quick Actions</h2>
+      {/* SMART INSIGHTS */}
+      <div className="border rounded-lg p-6 space-y-2">
+        <h2 className="font-semibold">Insights</h2>
 
-        <div className="flex gap-4">
-          <a
-            href="/admin/blog/posts/new"
-            className="px-4 py-2 border rounded-md hover:bg-gray-100"
-          >
-            + Create Post
-          </a>
+        <p>
+          🧠 You have <b>{drafts.length}</b> drafts pending
+        </p>
 
-          <a
-            href="/admin/blog/posts"
-            className="px-4 py-2 border rounded-md hover:bg-gray-100"
-          >
-            View All Posts
-          </a>
-        </div>
+        <p>
+          📅 Last post:{" "}
+          <b>{lastPost?.title || "No posts yet"}</b>
+        </p>
+
+        <p>
+          🔥 Top post:{" "}
+          <b>{topPost?.title || "No data yet"}</b> (
+          {topPost?.views || 0} views)
+        </p>
+      </div>
+
+      {/* QUICK ACTIONS */}
+      <div className="flex gap-3">
+        <a
+          href="/admin/blog/posts/new"
+          className="px-4 py-2 border rounded-md"
+        >
+          + Create Post
+        </a>
+
+        <a href="/admin/blog/posts" className="px-4 py-2 border rounded-md">
+          Manage Posts
+        </a>
       </div>
 
       {/* Recent posts */}
@@ -64,7 +87,7 @@ export default async function AdminDashboard() {
               </div>
 
               <a
-                href={`/admin/posts/${post.id}`}
+                href={`/admin/blog/posts/${post.id}`}
                 className="text-sm text-blue-500"
               >
                 Edit
@@ -77,7 +100,6 @@ export default async function AdminDashboard() {
   );
 }
 
-/* Small reusable card */
 function Card({
   title,
   value,
@@ -88,7 +110,7 @@ function Card({
   return (
     <div className="border rounded-lg p-4">
       <p className="text-sm text-gray-500">{title}</p>
-      <p className="text-2xl font-bold">{value}</p>
+      <p className="text-xl font-bold">{value}</p>
     </div>
   );
 }
