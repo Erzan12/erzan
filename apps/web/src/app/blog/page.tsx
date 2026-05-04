@@ -10,7 +10,7 @@ import { AuthorCard } from "@/components/blog-cms/author-card";
 export default async function BlogPage() {
   const [posts, profileRes] = await Promise.all([
     prisma.post.findMany({
-      where: { published: true },
+      where: { status: "PUBLISHED" },
       orderBy: { createdAt: "desc" },
       include: { author: true, tags: true },
     }),
