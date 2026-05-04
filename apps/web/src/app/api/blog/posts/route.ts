@@ -9,6 +9,7 @@ export async function createPost(formData: FormData) {
   const session = await requireAdmin();
   const title = formData.get("title") as string;
   const content = formData.get("content") as string;
+  const excerpt = formData.get("excerpt") as string;
 
   // Safety check: ensure title isn't null
   if (!title) return { error: "Title is required" };
@@ -34,6 +35,7 @@ export async function createPost(formData: FormData) {
     data: {
       title,
       slug: finalSlug,
+      excerpt,
       content,
       published: true,
       authorId: session.user.id, // Reminder: replace with actual session ID later!
@@ -43,4 +45,32 @@ export async function createPost(formData: FormData) {
   revalidatePath("/blog/posts/new");
 
   return { success: true, slug: finalSlug };
+}
+
+export async function updatePost(
+  blogID: string,
+  formData: FormData
+  ) {
+  const session = await requireAdmin();
+
+  const title = formData.get("title") as string | null;
+  const excerpt = formData.get("excerpt") as string | null;
+  const content = formData.get("content") as string | null;
+
+  const updatedPost = await prisma.post.update({
+    where: { id: blogID },
+    data: {
+      ...(title ? { title } : {}),
+      ...(excerpt ? { excerpt } : {}),
+      ...(content ? { content } : {}),
+      authorId: session.user.id, // only keep this if you REALLY want to overwrite author
+    },
+  });
+
+  revalidatePath(`/blog/${blogID}`);
+
+  return {
+    success: true,
+    post: updatedPost,
+  };
 }
