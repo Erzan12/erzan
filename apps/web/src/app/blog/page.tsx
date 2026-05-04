@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { BlogListAnimation } from "@/components/blog-cms/blog-animations";
 import { AuthorCard } from "@/components/blog-cms/author-card";
+import { RecentPostsSidebar } from "@/components/blog-cms/recent-posts-sidebar";
 
 export default async function BlogPage() {
   const [posts, profileRes] = await Promise.all([
@@ -36,7 +37,7 @@ export default async function BlogPage() {
 
   return (
     <main className="min-h-screen pt-32 pb-20 bg-background">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
         
         {/* Header Section: Minimalist & Clean */}
         <div className="max-w-3xl mb-16">
@@ -50,6 +51,12 @@ export default async function BlogPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+          <aside className="lg:col-span-3">
+            <div className="sticky top-32">
+              <RecentPostsSidebar />
+            </div>
+          </aside>
           
           {/* --- MAIN FEED (8 columns) --- */}
           <div className="lg:col-span-8 space-y-12">

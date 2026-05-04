@@ -20,7 +20,7 @@ type PostPreview = Prisma.PostGetPayload<{
 async function getRecentPosts(): Promise<PostPreview[]> {
   try {
     return await prisma.post.findMany({
-      where: { published: true },
+      where: { status: "PUBLISHED" },
       orderBy: { createdAt: "desc" },
       take: 8,
       select: {
