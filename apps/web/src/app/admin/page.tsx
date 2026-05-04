@@ -64,7 +64,7 @@ export default function NewPostPage() {
           placeholder="Post Title" 
           value={title} 
           onChange={(e) => setTitle(e.target.value)}
-          className="text-3xl font-bold border-none px-0 focus-visible:ring-0"
+          className="text-3xl font-bold border-none focus-visible:ring-0"
         />
 
         <Textarea

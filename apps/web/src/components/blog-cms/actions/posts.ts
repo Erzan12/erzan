@@ -34,7 +34,7 @@ export async function createPost(formData: FormData) {
       slug: finalSlug,
       content,
       published: true,
-      authorId: "your-user-id", // Reminder: replace with actual session ID later!
+      authorId: "", // Reminder: replace with actual session ID later!
     },
   });
 
