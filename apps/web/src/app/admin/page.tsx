@@ -1,98 +1,94 @@
-"use client";
+import { prisma } from "@/lib/prisma/prisma";
+import { requireAdmin } from "@/lib/route-protection/user-check";
 
-import { useState } from "react";
-import { createPost } from "@/components/blog-cms/actions/posts";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import Editor from "@/components/blog-cms/editor"; // We will build this next
-import { toast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
+export default async function AdminDashboard() {
+  const session = await requireAdmin();
 
-type PostStatus = "DRAFT" | "PUBLISHED";
-
-export default function NewPostPage() {
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
-  const [excerpt, setExcerpt ] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState<PostStatus>("DRAFT");
-
-  const router = useRouter();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    // const formData = new FormData();
-    // formData.append("title", title);
-    // formData.append("content", content);
-    setLoading(true)
-
-    try {
-      const formData = new FormData()
-      formData.append("title", title)
-      formData.append("content", content)
-      formData.append("excerpt", excerpt) // Add an excerpt field!
-      formData.append("status", status);
-      
-      const result = await createPost(formData)
-      
-      if (result?.success) {
-        toast({
-          title: "Success",
-          description: "Log Entry Synchronized",
-        });
-        router.push(`/blog/${result.slug}`);
-      }
-    } catch {
-      toast({
-        title: "Error",
-        description: "Protocol Failure: Could not save post",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false)
-    }
-    
-    // await createPost(formData);
-    // Add redirect or toast notification here
-  };
+  const posts = await prisma.post.findMany();
+  const published = posts.filter((p) => p.status === "PUBLISHED");
+  const drafts = posts.filter((p) => p.status === "DRAFT");
 
   return (
-    <div className="max-w-4xl mx-auto p-8">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <Input 
-          placeholder="Post Title" 
-          value={title} 
-          onChange={(e) => setTitle(e.target.value)}
-          className="text-3xl font-bold border-none focus-visible:ring-0"
-        />
+    <div className="space-y-8">
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+        <p className="text-sm text-gray-500">
+          Welcome back, {session.user?.name ||session.user?.email}
+        </p>
+      </div>
 
-        <Textarea
-          placeholder="Short excerpt..."
-          value={excerpt}
-          onChange={(e) => setExcerpt(e.target.value)}
-        />
+      {/* Stats cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card title="Total Posts" value={posts.length} />
+        <Card title="Published" value={published.length} />
+        <Card title="Drafts" value={drafts.length} />
+      </div>
 
-        <p className="text-sm font-medium">Post Visibility:</p>
-        <select 
-          value={status} 
-          onChange={(e) => setStatus(e.target.value as PostStatus)}
-          className="bg-transparent border-none text-primary font-bold focus:ring-0"
-        >
-          <option value="DRAFT">Draft (Hidden)</option>
-          <option value="PUBLISHED">Published (Public)</option>
-        </select>
-        
-        {/* The rich text editor component */}
-        <Editor onChange={setContent} />
+      {/* Quick actions */}
+      <div className="border rounded-lg p-6">
+        <h2 className="font-semibold mb-4">Quick Actions</h2>
 
-        <div className="flex justify-end gap-4">
-          <Button variant="outline">Save Draft</Button>
-          <Button type="submit" disabled={loading}>
-            {loading ? "Publishing..." : "Publish to Dev Log"}
-          </Button>
+        <div className="flex gap-4">
+          <a
+            href="/admin/blog/posts/new"
+            className="px-4 py-2 border rounded-md hover:bg-gray-100"
+          >
+            + Create Post
+          </a>
+
+          <a
+            href="/admin/blog/posts"
+            className="px-4 py-2 border rounded-md hover:bg-gray-100"
+          >
+            View All Posts
+          </a>
         </div>
-      </form>
+      </div>
+
+      {/* Recent posts */}
+      <div>
+        <h2 className="font-semibold mb-4">Recent Posts</h2>
+
+        <div className="space-y-3">
+          {posts.slice(0, 5).map((post) => (
+            <div
+              key={post.id}
+              className="flex justify-between border p-3 rounded-md"
+            >
+              <div>
+                <p className="font-medium">{post.title}</p>
+                <p className="text-xs text-gray-500">
+                  {post.status}
+                </p>
+              </div>
+
+              <a
+                href={`/admin/posts/${post.id}`}
+                className="text-sm text-blue-500"
+              >
+                Edit
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Small reusable card */
+function Card({
+  title,
+  value,
+}: {
+  title: string;
+  value: number;
+}) {
+  return (
+    <div className="border rounded-lg p-4">
+      <p className="text-sm text-gray-500">{title}</p>
+      <p className="text-2xl font-bold">{value}</p>
     </div>
   );
 }
