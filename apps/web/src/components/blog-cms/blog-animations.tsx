@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, Clock } from "lucide-react";
 import { getReadingTime } from "@/lib/helper/get-reading-time.helper"; 
 import { Post } from "@/lib/types/posts";
+import { AuthorCard } from "./author-card";
 
 export function BlogListAnimation({ posts }: { posts: Post[] }) {
   return (
@@ -15,6 +16,7 @@ export function BlogListAnimation({ posts }: { posts: Post[] }) {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: i * 0.1 }}
         >
+          
           <Link href={`/blog/${post.slug}`} className="group flex flex-col md:flex-row gap-6 items-start">
             <div className="flex-1 space-y-2">
               <div className="flex items-center gap-3 text-[10px] font-mono uppercase tracking-tighter text-muted-foreground">
@@ -22,6 +24,11 @@ export function BlogListAnimation({ posts }: { posts: Post[] }) {
                 <span className="w-1 h-1 rounded-full bg-primary/40" />
                 <span className="flex items-center gap-1"><Clock className="w-3 h-3"/> {getReadingTime(post.content)}</span>
               </div>
+              {/* <AuthorCard
+                name={post.author.name ?? "Unknown"}
+                role="Full-Stack Developer"
+                avatar={post.author.avatar}
+              /> */}
               <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">
                 {post.title}
               </h3>
