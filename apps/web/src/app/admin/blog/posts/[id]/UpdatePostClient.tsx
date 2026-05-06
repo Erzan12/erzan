@@ -72,16 +72,26 @@ export default function UpdatePostClient({
       <form onSubmit={handleSubmit} className="space-y-6">
    
         <Input
-          placeholder="Post Title"
+          placeholder="Update Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
 
         <Textarea
-          placeholder="Short excerpt..."
+          placeholder="Update excerpt..."
           value={excerpt}
           onChange={(e) => setExcerpt(e.target.value)}
         />
+
+        <p className="text-sm font-medium">Post Visibility:</p>
+        <select 
+          value={status} 
+          onChange={(e) => setStatus(e.target.value as PostStatus)}
+          className="bg-transparent border-none text-primary font-bold focus:ring-0"
+        >
+          <option value="DRAFT">Draft (Hidden)</option>
+          <option value="PUBLISHED">Published (Public)</option>
+        </select>
 
         <Editor 
           value={content}
