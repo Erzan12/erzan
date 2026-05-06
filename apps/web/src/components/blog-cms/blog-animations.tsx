@@ -5,8 +5,9 @@ import { ArrowRight, Clock } from "lucide-react";
 import { getReadingTime } from "@/lib/helper/get-reading-time.helper"; 
 import { Post } from "@/lib/types/posts";
 import { AuthorCard } from "./author-card";
+import { BlogListAnimationProps } from "@/lib/types/blog-list-animation";
 
-export function BlogListAnimation({ posts }: { posts: Post[] }) {
+export function BlogListAnimation({ posts }: BlogListAnimationProps) {
   return (
     <>
       {posts.map((post, i) => (
