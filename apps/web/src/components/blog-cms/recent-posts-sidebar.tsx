@@ -3,10 +3,7 @@ import { ChevronLeft } from "lucide-react";
 import { prisma } from "@/lib/prisma/prisma"; // Adjust path to your singleton
 import { cn } from "@/lib/utils";
 import type { Prisma } from "@prisma/client";
-
-interface RecentPostsSidebarProps {
-  currentSlug?: string;
-}
+import { RecentPostsSidebarProps } from "@/lib/interface/global.interface";
 
 // 1. Precise type definition using Prisma's helper
 type PostPreview = Prisma.PostGetPayload<{
@@ -34,19 +31,24 @@ async function getRecentPosts(): Promise<PostPreview[]> {
   }
 }
 
-export async function RecentPostsSidebar({ currentSlug }: RecentPostsSidebarProps) {
+export async function RecentPostsSidebar({ 
+  currentSlug,
+  showBackButton = false,
+ }: RecentPostsSidebarProps) {
   const posts = await getRecentPosts();
 
   return (
     <nav className="flex flex-col gap-8" aria-label="Recent posts sidebar">
       {/* --- Navigation Back --- */}
-      <Link
-        href="/blog"
-        className="group flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
-      >
-        <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-        Back to Mission Log
-      </Link>
+      {showBackButton && (
+        <Link
+          href="/blog"
+          className="group flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+        >
+          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          Back to Mission Log
+        </Link>
+      )}
 
       {/* --- Recent Posts List --- */}
       <div className="space-y-4">
