@@ -3,7 +3,6 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tag } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { BlogListAnimation } from "@/components/blog-cms/blog-animations";
 import { AuthorCard } from "@/components/blog-cms/author-card";
 import { RecentPostsSidebar } from "@/components/blog-cms/recent-posts-sidebar";
@@ -50,28 +49,30 @@ export default async function BlogPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-10 gap-12">
 
-          <aside className="lg:col-span-3">
+          <aside className="lg:col-span-2">
             <div className="sticky top-32">
-              <RecentPostsSidebar />
+              <RecentPostsSidebar 
+                currentSlug={featuredPost?.slug ?? ""}
+              />
             </div>
           </aside>
           
           {/* --- MAIN FEED (8 columns) --- */}
-          <div className="lg:col-span-8 space-y-12">
+          <div className="lg:col-span-5 space-y-12">
             
             {/* Featured Post: Big, Bold, and Interactive */}
             {featuredPost && (
               <Link href={`/blog/${featuredPost.slug}`} className="group block">
                 <Card className="relative overflow-hidden p-0 border-none bg-transparent shadow-none">
-                  <div className="relative aspect-[21/9] w-full rounded-3xl overflow-hidden mb-6">
+                  <div className="relative aspect-[50/] w-full rounded-3xl overflow-hidden mb-6">
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10" />
-                    <AuthorCard
+                    {/* <AuthorCard
                       name={featuredPost.author.name ?? "Unknown"}
                       role="Full-Stack Developer"
                       avatar={featuredPost.author.avatar}
-                    />
+                    /> */}
                     
                   </div>
                   <div className="space-y-4">
@@ -97,7 +98,7 @@ export default async function BlogPage() {
           </div>
 
           {/* --- SIDEBAR (4 columns) --- */}
-          <aside className="lg:col-span-4 space-y-10">
+          <aside className="lg:col-span-3 space-y-10">
             <div className="sticky top-32 space-y-10">
               
               {/* Category Explorer */}

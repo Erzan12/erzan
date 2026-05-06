@@ -27,7 +27,7 @@ export default async function BlogPostPage({
           {/* --- LEFT SIDEBAR (Recent Posts) --- */}
           <aside className="hidden lg:block lg:col-span-3">
             <div className="sticky top-32">
-               <RecentPostsSidebar currentSlug={post.slug} />
+               <RecentPostsSidebar currentSlug={post.slug} showBackButton/>
             </div>
           </aside>
 
