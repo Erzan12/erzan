@@ -65,12 +65,14 @@ export async function updatePost(
   const title = formData.get("title") as string | null;
   const excerpt = formData.get("excerpt") as string | null;
   const content = formData.get("content") as string | null;
+  const status = formData.get("status") as PostStatus | null;
 
   const updatedPost = await prisma.post.update({
     where: { id: blogID },
     data: {
       ...(title ? { title } : {}),
       ...(excerpt ? { excerpt } : {}),
+      ...(status ? { status } : {}),
       ...(content ? { content } : {}),
       authorId: session.user.id, // only keep this if you REALLY want to overwrite author
     },
