@@ -1,98 +1,116 @@
-"use client";
+import { prisma } from "@/lib/prisma/prisma";
+import { requireAdmin } from "@/lib/route-protection/user-check";
 
-import { useState } from "react";
-import { createPost } from "@/components/blog-cms/actions/posts";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import Editor from "@/components/blog-cms/editor"; // We will build this next
-import { toast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
+export default async function AdminDashboard() {
+  await requireAdmin();
 
-type PostStatus = "DRAFT" | "PUBLISHED";
+  const posts = await prisma.post.findMany({
+    orderBy: { createdAt: "desc" },
+  });
 
-export default function NewPostPage() {
-  const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
-  const [excerpt, setExcerpt ] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState<PostStatus>("DRAFT");
+  const published = posts.filter((p) => p.status === "PUBLISHED");
+  const drafts = posts.filter((p) => p.status === "DRAFT");
 
-  const router = useRouter();
+  const totalViews = posts.reduce((sum, p) => sum + p.views, 0);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    // const formData = new FormData();
-    // formData.append("title", title);
-    // formData.append("content", content);
-    setLoading(true)
+  const topPost = posts.sort((a, b) => b.views - a.views)[0];
 
-    try {
-      const formData = new FormData()
-      formData.append("title", title)
-      formData.append("content", content)
-      formData.append("excerpt", excerpt) // Add an excerpt field!
-      formData.append("status", status);
-      
-      const result = await createPost(formData)
-      
-      if (result?.success) {
-        toast({
-          title: "Success",
-          description: "Log Entry Synchronized",
-        });
-        router.push(`/blog/${result.slug}`);
-      }
-    } catch {
-      toast({
-        title: "Error",
-        description: "Protocol Failure: Could not save post",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false)
-    }
-    
-    // await createPost(formData);
-    // Add redirect or toast notification here
-  };
+  const lastPost = posts[0];
 
   return (
-    <div className="max-w-4xl mx-auto p-8">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <Input 
-          placeholder="Post Title" 
-          value={title} 
-          onChange={(e) => setTitle(e.target.value)}
-          className="text-3xl font-bold border-none px-0 focus-visible:ring-0"
-        />
+    <div className="space-y-8">
+      {/* HEADER */}
+      <div>
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <p className="text-sm text-gray-500">
+          Smart overview of your content
+        </p>
+      </div>
 
-        <Textarea
-          placeholder="Short excerpt..."
-          value={excerpt}
-          onChange={(e) => setExcerpt(e.target.value)}
-        />
+      {/* ANALYTICS CARDS */}
+      <div className="grid md:grid-cols-4 gap-4">
+        <Card title="Total Posts" value={posts.length} />
+        <Card title="Published" value={published.length} />
+        <Card title="Drafts" value={drafts.length} />
+        <Card title="Total Views" value={totalViews} />
+      </div>
 
-        <p className="text-sm font-medium">Post Visibility:</p>
-        <select 
-          value={status} 
-          onChange={(e) => setStatus(e.target.value as PostStatus)}
-          className="bg-transparent border-none text-primary font-bold focus:ring-0"
+      {/* SMART INSIGHTS */}
+      <div className="border rounded-lg p-6 space-y-2">
+        <h2 className="font-semibold">Insights</h2>
+
+        <p>
+          🧠 You have <b>{drafts.length}</b> drafts pending
+        </p>
+
+        <p>
+          📅 Last post:{" "}
+          <b>{lastPost?.title || "No posts yet"}</b>
+        </p>
+
+        <p>
+          🔥 Top post:{" "}
+          <b>{topPost?.title || "No data yet"}</b> (
+          {topPost?.views || 0} views)
+        </p>
+      </div>
+
+      {/* QUICK ACTIONS */}
+      <div className="flex gap-3">
+        <a
+          href="/admin/blog/posts/new"
+          className="px-4 py-2 border rounded-md"
         >
-          <option value="DRAFT">Draft (Hidden)</option>
-          <option value="PUBLISHED">Published (Public)</option>
-        </select>
-        
-        {/* The rich text editor component */}
-        <Editor onChange={setContent} />
+          + Create Post
+        </a>
 
-        <div className="flex justify-end gap-4">
-          <Button variant="outline">Save Draft</Button>
-          <Button type="submit" disabled={loading}>
-            {loading ? "Publishing..." : "Publish to Dev Log"}
-          </Button>
+        <a href="/admin/blog/posts" className="px-4 py-2 border rounded-md">
+          Manage Posts
+        </a>
+      </div>
+
+      {/* Recent posts */}
+      <div>
+        <h2 className="font-semibold mb-4">Recent Posts</h2>
+
+        <div className="space-y-3">
+          {posts.slice(0, 5).map((post) => (
+            <div
+              key={post.id}
+              className="flex justify-between border p-3 rounded-md"
+            >
+              <div>
+                <p className="font-medium">{post.title}</p>
+                <p className="text-xs text-gray-500">
+                  {post.status}
+                </p>
+              </div>
+
+              <a
+                href={`/admin/blog/posts/${post.id}`}
+                className="text-sm text-blue-500"
+              >
+                Edit
+              </a>
+            </div>
+          ))}
         </div>
-      </form>
+      </div>
+    </div>
+  );
+}
+
+function Card({
+  title,
+  value,
+}: {
+  title: string;
+  value: number;
+}) {
+  return (
+    <div className="border rounded-lg p-4">
+      <p className="text-sm text-gray-500">{title}</p>
+      <p className="text-xl font-bold">{value}</p>
     </div>
   );
 }

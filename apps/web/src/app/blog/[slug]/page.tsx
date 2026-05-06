@@ -1,12 +1,19 @@
 import { prisma } from "@/lib/prisma/prisma"
 import { notFound } from "next/navigation"
 import { TableOfContents } from "@/components/blog-cms/table-of-contents"
-import { RecentPostsSidebar } from "@/components/blog-cms/recent-posts-sidebar"
 import Image from "next/image"
+import RecentPostsSidebar from "@/components/blog-cms/recent-posts-sidebar"
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+export default async function BlogPostPage({ 
+  params,
+ }: { 
+  params: Promise<{ slug: string }> 
+ }) {
+
+  const { slug } = await params
+
   const post = await prisma.post.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
     include: { author: true }
   })
 
@@ -20,7 +27,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           {/* --- LEFT SIDEBAR (Recent Posts) --- */}
           <aside className="hidden lg:block lg:col-span-3">
             <div className="sticky top-32">
-               <RecentPostsSidebar currentSlug={post.slug} />
+               <RecentPostsSidebar currentSlug={post.slug} showBackButton/>
             </div>
           </aside>
 
@@ -32,9 +39,9 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
               </h1>
               <div className="flex items-center gap-4 text-muted-foreground border-b border-border pb-8">
                 <Image 
-                   src="/github-avatar.png" // Query this from your User table image field
+                   src={post.author.image ?? "/github-avatar.png"} // Query this from your User table image field
                    alt={post.author.name || "Author"} 
-                   width={40} height={40} 
+                   width={60} height={60} 
                    className="rounded-full ring-2 ring-primary/20" 
                 />
                 <div className="text-sm">

@@ -14,6 +14,11 @@ pnpm dev
 bun dev
 ```
 
+## Run typescript scripts for creating users or any data
+```bash
+npx tsx scripts/create-admin.ts
+```
+
 Local Clean Up
 If this is happening locally, your TypeScript cache is likely hallucinating. Run this "nuke" command in your terminal:
 ```bash
