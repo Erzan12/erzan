@@ -4,15 +4,29 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { Github, BookOpen } from "lucide-react";
 import { NavLink } from "@/components/core/navbar/nav-link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ThemeToggle from "@/components/dark-mode-toggle/theme-toggle";
 import Image from "next/image";
-import { useTheme } from "next-themes";
+import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
-  const { theme } = useTheme();
-
+  const { data: session } = useSession();
   const [open, setOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <nav className="border-b bg-white/80 dark:bg-black/80 backdrop-blur sticky top-0 z-50">
@@ -69,6 +83,53 @@ export default function Navbar() {
             GitHub
           </a>
           <ThemeToggle />
+
+          {/* User avatar dropdown */}
+          {session && (
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="flex items-center rounded-full ring-2 ring-border hover:ring-primary/50 transition-all"
+                aria-label="User menu"
+              >
+                <Image
+                  src={session.user.image ?? "/fallback-avatar.png"}
+                  alt={session.user.name ?? "User"}
+                  width={32}
+                  height={32}
+                  className="rounded-full"
+                />
+              </button>
+
+              {dropdownOpen && (
+                <div className="absolute right-0 top-10 w-52 bg-background border border-border rounded-xl shadow-sm overflow-hidden z-50">
+                  {/* User info */}
+                  <div className="px-4 py-3 border-b border-border">
+                    <p className="text-sm font-medium truncate">{session.user.name}</p>
+                    <p className="text-xs text-muted-foreground truncate">{session.user.email}</p>
+                  </div>
+
+                  {/* Admin */}
+                  <button
+                    onClick={() => { router.push("/admin"); setDropdownOpen(false); }}
+                    className="w-full text-left px-4 py-2.5 text-sm hover:bg-muted transition-colors flex items-center gap-2"
+                  >
+                    <Github size={15} /> Admin panel
+                  </button>
+
+                  <div className="border-t border-border" />
+
+                  {/* Sign out */}
+                  <button
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                    className="w-full text-left px-4 py-2.5 text-sm text-destructive hover:bg-muted transition-colors flex items-center gap-2"
+                  >
+                    Sign out
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* mobile hamburger button */}
