@@ -3,21 +3,26 @@ import { ChevronLeft } from "lucide-react";
 import { prisma } from "@/lib/prisma/prisma";
 import { cn } from "@/lib/utils";
 import { RecentPostsSidebarProps } from "@/lib/interface/global.interface";
+import { unstable_cache } from "next/cache";
+
+const getRecentPosts = unstable_cache(
+  async () => {
+    return prisma.post.findMany({
+      where: { status: "PUBLISHED" },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+      select: { id: true, title: true, slug: true },
+    })
+  },
+  ["recent-posts"],
+  { revalidate: 60 }
+)
 
 export default async function RecentPostsSidebar({
   currentSlug,
   showBackButton = false,
 }: RecentPostsSidebarProps) {
-
-  const posts = await prisma.post.findMany({
-    where: { status: "PUBLISHED" },
-    orderBy: { createdAt: "desc" },
-    take: 8,
-    select: {
-      title: true,
-      slug: true,
-    },
-  });
+  const getPosts = await getRecentPosts();
 
   return (
     <nav className="flex flex-col gap-8">
@@ -35,7 +40,7 @@ export default async function RecentPostsSidebar({
         </h4>
 
         <ul className="flex flex-col gap-1">
-          {posts.map((post) => {
+          {getPosts.map((post) => {
             const isActive = currentSlug === post.slug;
 
             return (
