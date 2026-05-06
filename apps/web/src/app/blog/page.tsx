@@ -1,9 +1,11 @@
 import BlogClient from "@/components/core/blog/blog-client";
+import { authOptions } from "@/lib/auth/auth";
 import { prisma } from "@/lib/prisma/prisma";
 import { requireAdmin } from "@/lib/route-protection/user-check";
+import { getServerSession } from "next-auth";
 
 export default async function BlogPage() {
-  const session = await requireAdmin();
+  const session = await getServerSession(authOptions); // make a page accessible to other users regardless if admin or ordinary users, ordinary users can only view posts while admin can view and create posts
 
   const [posts, profileRes] = await Promise.all([
     prisma.post.findMany({
