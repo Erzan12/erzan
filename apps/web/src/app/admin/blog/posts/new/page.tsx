@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import Editor from "@/components/blog-cms/editor"; // We will build this next
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { createPost } from "@/app/api/blog/posts/route";
+import { createPost } from "@/components/blog-cms/actions/route";
 
 type PostStatus = "DRAFT" | "PUBLISHED";
 
@@ -16,7 +16,7 @@ export default function NewPostPage() {
   const [title, setTitle] = useState("");
   const [excerpt, setExcerpt ] = useState("");
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState<"DRAFT" | "PUBLISHED">("DRAFT");
 
   const router = useRouter();
 
