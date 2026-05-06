@@ -69,6 +69,7 @@ model Post {
   views           Int      @default(0)  
   coverImage      String?
   status          PostStatus
+  published       Boolean? @default(false)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   
