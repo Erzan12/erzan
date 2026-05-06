@@ -7,8 +7,22 @@ import { BlogListAnimation } from "@/components/blog-cms/blog-animations";
 import { AuthorCard } from "@/components/blog-cms/author-card";
 import RecentPostsSidebar from "@/components/blog-cms/recent-posts-sidebar";
 import { BlogClientProps } from "@/lib/interface/global.interface";
+import { unstable_cache } from "next/cache"
 
-export default async function BlogPage({ posts, avatar, profile }: BlogClientProps) {
+const getPosts = unstable_cache(
+  async () => {
+    return prisma.post.findMany({
+      where: { status: "PUBLISHED" },
+      orderBy: { createdAt: "desc" },
+      include: { author: true, tags: true }
+    })
+  },
+  ["blog-posts"], // cache key
+  { revalidate: 60 } // seconds — revalidate every 60s
+)
+
+export default async function BlogPage({ avatar, profile }: BlogClientProps) {
+  const posts = await getPosts()
 
   const enrichedPosts = posts.map(post => ({
     ...post,
