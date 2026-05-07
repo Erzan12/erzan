@@ -1,9 +1,11 @@
 "use client";
 
-import { Github, Twitter, Linkedin, ExternalLink } from "lucide-react";
+import { Github, Twitter, Linkedin, ExternalLink, BookAIcon, Book, BookOpen } from "lucide-react";
 import Link from "next/link";
 
 export default function Footer() {
+  const footerLinkClass = "hover:text-primary flex items-center gap-1";
+
   return (
     <footer className="border-t bg-footer-bg dark:bg-footer-bg/40">
       <div className="max-w-5xl mx-auto px-6 py-10 flex flex-col items-center gap-6 text-sm text-gray-600 dark:text-gray-400">
@@ -19,12 +21,25 @@ export default function Footer() {
 
         {/* Quick links */}
         <div className="flex flex-wrap justify-center gap-6">
-          <ExternalLink href="https://github.com/Erzan12" className="hover:text-primary flex items-center gap-1">
-            <Github size={16} /> GitHub
-          </ExternalLink>
-          <ExternalLink href="https://erzan-docs.vercel.app" className="hover:text-primary" target="_blank">
+          <a
+            href="https://github.com/Erzan12"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary flex items-center gap-1"
+          >
+            <Github size={16} />
+            GitHub
+          </a>
+
+          <a
+            href="https://erzan-docs.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary flex items-center gap-1"
+          >
+            <BookOpen size={16} />
             Docs
-          </ExternalLink>
+          </a>
           <Link href={`/blog`} className="hover:text-primary" target="_black">
             Blog
           </Link>
