@@ -1,8 +1,8 @@
 import { prisma } from "@/lib/prisma/prisma"
 import { notFound } from "next/navigation"
-import { TableOfContents } from "@/components/blog-cms/table-of-contents"
+import { TableOfContents } from "@/components/core/blog/blog-cms/table-of-contents"
 import Image from "next/image"
-import RecentPostsSidebar from "@/components/blog-cms/recent-posts-sidebar"
+import RecentPostsSidebar from "@/components/core/blog/blog-cms/recent-posts-sidebar"
 
 export default async function BlogPostPage({ 
   params,

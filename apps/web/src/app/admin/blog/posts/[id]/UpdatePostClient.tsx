@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import Editor from "@/components/blog-cms/editor";
+import Editor from "@/components/core/blog/blog-cms/editor";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { updatePost } from "@/lib/actions/blog-cms";

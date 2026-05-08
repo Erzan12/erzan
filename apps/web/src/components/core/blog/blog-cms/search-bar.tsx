@@ -2,7 +2,7 @@
 
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Input } from "../ui/input";
+import { Input } from "../../../ui/input";
 import { Post } from "@/lib/types/posts";
 
 export function BlogSearchBar({ posts, onFilter }: { posts: Post[], onFilter: (filtered: Post[]) => void}) {
