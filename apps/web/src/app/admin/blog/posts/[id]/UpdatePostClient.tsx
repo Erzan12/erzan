@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import Editor from "@/components/blog-cms/editor";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { updatePost } from "@/components/blog-cms/actions/route";
+import { updatePost } from "@/lib/actions/blog-cms";
 
 type PostStatus = "DRAFT" | "PUBLISHED";
 
