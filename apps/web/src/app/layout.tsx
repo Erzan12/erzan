@@ -1,40 +1,19 @@
-import "./globals.css"
-import Navbar from "@/components/core/navbar/navbar"
-import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
-import Footer from "@/components/core/footer";
-import { ThemeProvider } from "@/components/dark-mode-toggle/theme-provider";
-import { Analytics } from "@vercel/analytics/next";
-import Providers from "@/components/providers";
+import ClientLayout from "@/components/core/client-layout";
+import "./globals.css";
+import type { Metadata } from "next";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+export const metadata: Metadata = {
+  title: "Erzan | Full Stack Developer",
+  description: "Backend-focused developer building scalable systems",
+  icons: {
+    icon: "/favicon-light.ico",
+  },
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" className={cn("font-sans", geist.variable)} suppressHydrationWarning>
-      <body className="bg-white dark:bg-black text-black dark:text-white">
-        <ThemeProvider>
-          <Providers>
-            <Navbar />
-              {children}
-            <Footer />
-          </Providers>
-        </ThemeProvider>
-        <Analytics />
-      </body>
-    </html>
-  )
+  return <ClientLayout>{children}</ClientLayout>;
 }
-
-export const metadata = {
-  title: "Erzan | Full Stack Developer",
-  description: "Backend-focused developer building scalable systems",
-  icons: {
-    icon: "/favicon-light.ico"
-  }
-}
-

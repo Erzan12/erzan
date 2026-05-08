@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { motion, Variants } from "framer-motion";
 import { Github, Linkedin, Twitter, Mail, ExternalLink, MapPin, Facebook, ArrowLeft } from "lucide-react"
 import Link from "next/link";
+import Image from "next/image";
 // import ThemeToggle from "@/components/dark-mode-toggle/theme-toggle"
 
 // 1. Define the animation variants
@@ -59,9 +60,11 @@ export default function AboutClient({ avatar }: { avatar?: string | null }) {
                   <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                     {/* <span className="text-2xl font-bold text-primary font-sans">EJD</span> */}
                     {avatar && (
-                      <img
+                      <Image
                         src={avatar}
                         alt="Profile"
+                        width={64}
+                        height={64}
                         className="w-full h-full object-cover rounded-full"
                       />
                     )}

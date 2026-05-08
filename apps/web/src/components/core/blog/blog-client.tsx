@@ -36,7 +36,7 @@ export default async function BlogPage({ avatar, profile }: BlogClientProps) {
   const regularPosts = enrichedPosts.slice(1);
 
   return (
-    <main className="min-h-screen pt-32 pb-20 bg-background">
+    <main className="min-h-screen pt-32 pb-20">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10">
         
         {/* Header Section: Minimalist & Clean */}
@@ -46,7 +46,7 @@ export default async function BlogPage({ avatar, profile }: BlogClientProps) {
           </h1>
           <p className="text-lg text-muted-foreground font-medium border-l-2 border-primary/30 pl-6 py-1">
             Documentation of my journey through NestJS architecture, Next.js performance, 
-            and the nuances of full-stack engineering.
+            and the variations of full-stack development.
           </p>
         </div>
 
