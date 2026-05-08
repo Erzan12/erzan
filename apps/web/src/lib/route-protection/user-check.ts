@@ -7,7 +7,7 @@ export async function requireAdmin() {
 
   if (!session) redirect("/login");
 
-  if (session.user?.email !== "do.earljan@gmail.com") {
+  if (session.user.role !== "ADMINISTRATOR") {
     redirect("/");
   }
 
