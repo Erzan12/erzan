@@ -16,14 +16,24 @@ enum PostStatus {
   PUBLISHED
 }
 
+enum UserRole {
+  ADMINISTRATOR
+  GUEST
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  role          UserRole  @default(GUEST)
 
   password      String?   // for email/password login
+
+  // Relations
+  testimonials  Testimonials[]        @relation("UserTestimonials")
+  givenFeedback TestimonialFeedback[] @relation("AdminFeedback")
 
   accounts      Account[]
   sessions      Session[]
@@ -83,4 +93,43 @@ model Tag {
   id    String @id @default(cuid())
   name  String @unique
   posts Post[]
+}
+
+model Testimonials {
+  id           String   @id @default(cuid())
+  name         String 
+  role         String?
+  content      String   @db.Text
+  avatar       String?  //store user iamge url at time of posting
+
+  // Moderation States
+  is_published Boolean  @default(false)
+  is_approve   Boolean  @default(false)
+  is_active    Boolean  @default(true)
+
+  // Relations
+  userId       String   // The Guest who wrote it
+  user         User     @relation("UserTestimonials", fields: [userId], references: [id], onDelete: Cascade)
+
+  // Feedback from Admin
+  feedback     TestimonialFeedback?
+
+  created_at  DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model TestimonialFeedback {
+  id              String    @id @default(cuid())
+  my_feedback     String    @db.Text
+
+  testimonial_id  String    @unique
+  testimonial     Testimonials @relation(fields: [testimonial_id], references: [id], onDelete: Cascade)
+
+  // Who moderated this?
+  adminId        String
+  admin          User        @relation("AdminFeedback", fields: [adminId], references: [id]) 
+
+  created_at      DateTime  @default(now())
 }
