@@ -72,7 +72,7 @@ export default function Navbar() {
                 className="hidden dark:block"
               />
 
-              <span className="font-semibold text-lg">erzan.dev</span>
+              <span className="hidden sm:inline font-semibold text-lg">erzan.dev</span>
             </div>
           </Link>
         </div>
