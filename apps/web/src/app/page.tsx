@@ -1,5 +1,3 @@
-"use client";
-
 import Hero from "@/components/core/hero";
 import Skills from "@/components/core/skills";
 import { projects } from "@/data/projects";
@@ -9,8 +7,13 @@ import CaseStudy from "@/components/core/project-case";
 import Lab from "@/components/core/experimental-lab";
 import Tabs from "@/components/core/tabs";
 import Testimonials from "@/components/core/testimonies/testimony";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth/auth";
+import TestimonialForm from "@/components/core/testimonies/testimonies-cms/testimony-form";
+import GuestLoginButton from "@/components/login/login";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getServerSession(authOptions);
   return (
     <main className="container mx-auto px-6 overflow-x-hidden">
       <Hero />
@@ -30,6 +33,27 @@ export default function Home() {
       
       <Lab />
       <Testimonials />
+      <section className="py-20 px-6 bg-slate-500/5 mb-10">
+        <div className="max-w-2xl mx-auto text-center mb-10">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Leave a Note</h2>
+          <p className="text-slate-500 text-sm mt-2">I value your feedback on our collaborations or projects.</p>
+        </div>
+        
+        {session?.user ? (
+          <TestimonialForm userId={session.user.id} />
+        ) : (
+          <div className="text-center p-12 border border-dashed border-slate-500/30 rounded-[2.5rem] flex flex-col items-center justify-center bg-white/20 backdrop-blur-sm">
+            <p className="text-slate-600 dark:text-slate-400 font-medium">
+              Want to share your thoughts?
+            </p>
+            <p className="text-slate-500 text-xs mt-1">
+              Sign in to verify your identity and leave a testimonial.
+            </p>
+            
+            <GuestLoginButton />
+          </div>
+        )}
+      </section>
     </main>
   )
 }

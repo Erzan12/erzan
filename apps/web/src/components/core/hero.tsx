@@ -1,3 +1,5 @@
+"use client"
+
 import { motion, Variants } from "framer-motion";
 import HeroButton from "../ui/hero-button/hero-button";
 import { Cpu, GitBranch, Hammer, Wrench, Rocket, Server, Terminal } from "lucide-react";
