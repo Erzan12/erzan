@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FileText, LayoutDashboard, Plus } from "lucide-react";
+import { FileText, Layers, LayoutDashboard, MessageCircleHeart, Plus } from "lucide-react";
 
 type Module = {
   title: string;
@@ -39,11 +39,21 @@ const modules: Module[] = [
   {
     title: "Projects",
     key: "projects",
+    icon: <Layers size={18} />,
     children: [
       { title: "All Projects", href: "/admin/projects" },
       { title: "Add Project", href: "/admin/projects/new" },
     ],
   },
+  {
+    title: "Testimonials",
+    key: "testimonials",
+    icon: <MessageCircleHeart size={18}/>,
+    children: [
+      { title: "My Testimonials", href: "/admin/my-testimonials" },
+      { title: "Incoming Testimonials", href: "/admin/my-testimonials/incoming" },
+    ],
+  }
 ];
 
 export function AdminSidebar() {
