@@ -8,7 +8,8 @@ import { useEffect, useRef, useState } from "react";
 import ThemeToggle from "@/components/dark-mode-toggle/theme-toggle";
 import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { routeThemes } from "@/lib/constants/themes";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -16,6 +17,19 @@ export default function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  const pathname = usePathname();
+
+  // 1. Find which route we are currently on to get the background color
+  const activeKey = Object.keys(routeThemes).find(
+    (key) => key !== "default" && pathname.startsWith(key)
+  ) || "default";
+
+  const currentTheme = routeThemes[activeKey];
+
+  // 2. Extract only the background class (e.g., "bg-blue-500/10") 
+  // so the whole navbar doesn't get the text/border colors
+  const navBgClass = currentTheme.split(" ")[0];
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -29,40 +43,49 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="border-b bg-white/80 dark:bg-black/80 backdrop-blur sticky top-0 z-50">
-      <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+    // <nav className=" bg-white/80 dark:bg-black/80 backdrop-blur sticky top-0 z-50">
+    <nav className={`${navBgClass} backdrop-blur sticky top-0 z-50 transition-colors duration-300`}>
+      {/* CRITICAL: Changed 'items-center' to 'items-stretch' 
+         This allows NavLink (h-full) to actually touch the bottom 
+      */}
+      <div className="max-w-5xl mx-auto px-6 h-16 flex items-stretch justify-between">
 
-        {/* logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="flex items-center gap-2">
-            {/* Light mode logo */}
-            <Image
-              src="/favicon.ico"
-              alt="erzan.dev logo"
-              width={32}
-              height={32}
-              className="dark:hidden"
-            />
+        {/* Logo Section (Wrap in items-center so it stays centered) */}
+        <div className="flex items-center">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              {/* Light mode logo */}
+              <Image
+                src="/favicon.ico"
+                alt="erzan.dev logo"
+                width={32}
+                height={32}
+                className="dark:hidden"
+              />
 
-            {/* Dark mode logo */}
-            <Image
-              src="/favicon-light.ico"
-              alt="erzan.dev logo"
-              width={32}
-              height={32}
-              className="hidden dark:block"
-            />
+              {/* Dark mode logo */}
+              <Image
+                src="/favicon-light.ico"
+                alt="erzan.dev logo"
+                width={32}
+                height={32}
+                className="hidden dark:block"
+              />
 
-            <span className="font-semibold text-lg">erzan.dev</span>
-          </div>
-        </Link>
+              <span className="font-semibold text-lg">erzan.dev</span>
+            </div>
+          </Link>
+        </div>
 
         {/* desktop menu */}
-        <div className="hidden md:flex items-center gap-6 text-sm">
+        <div className="hidden md:flex items-stretch gap-6 text-sm">
           <NavLink href="/projects" onClick={() => setOpen(false)}> Projects </NavLink>
           <NavLink href="/system-design" onClick={() => setOpen(false)}> System Design </NavLink>
           <NavLink href="/about" onClick={() => setOpen(false)}> About </NavLink>
           <NavLink href="/blog" onClick={() => setOpen(false)}> Blog </NavLink>
+        </div>
+
+        <div className="flex items-center gap-4">
           <a
             href="https://erzan-docs.vercel.app"
             target="_blank"
