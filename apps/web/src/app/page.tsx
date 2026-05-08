@@ -8,6 +8,7 @@ import HowIThink from "@/components/core/how-i-think";
 import CaseStudy from "@/components/core/project-case";
 import Lab from "@/components/core/experimental-lab";
 import Tabs from "@/components/core/tabs";
+import Testimonials from "@/components/core/testimonies/testimony";
 
 export default function Home() {
   return (
@@ -26,7 +27,9 @@ export default function Home() {
       <Skills />
       <CaseStudy />
       <HowIThink />
+      
       <Lab />
+      <Testimonials />
     </main>
   )
 }
