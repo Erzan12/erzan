@@ -9,10 +9,10 @@ export default function GuestLoginButton() {
   const [email, setPassword] = useState("");
 
   const loginWithCredentials = async () => {
-    await signIn("credentials", {
+    await signIn("guest-login", {
       name,
       email,
-      // callbackUrl: "/admin",
+      callbackUrl: "/",
     });
   };
   
