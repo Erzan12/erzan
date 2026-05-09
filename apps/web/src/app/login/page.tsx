@@ -12,7 +12,7 @@ export default function LoginPage() {
   };
 
   const loginWithCredentials = async () => {
-    await signIn("credentials", {
+    await signIn("admin-login", {
       email,
       password,
       callbackUrl: "/admin",
