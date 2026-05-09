@@ -48,7 +48,7 @@ export const authOptions: NextAuthOptions = {
         email: {},
       },
 
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         const name = credentials?.name?.trim();
         const email = credentials?.email?.trim().toLowerCase();
 
@@ -75,7 +75,7 @@ export const authOptions: NextAuthOptions = {
             data: {
               name,
               email,
-              role: "GUEST",
+              role: UserRole.GUEST,
             },
           });
         }
@@ -89,6 +89,34 @@ export const authOptions: NextAuthOptions = {
         };
       },
     }),
+    Credentials({
+      id: "admin-login",
+      name: "Admin Login",
+
+      credentials: {
+        email: {},
+        password: {},
+      },
+
+      async authorize(credentials, req) {
+        const email = credentials?.email;
+        const password = credentials?.password;
+
+        if (
+          email === process.env.ADMIN_EMAIL &&
+          password === process.env.ADMIN_PASSWORD
+        ) {
+          return {
+            id: "admin-id",
+            email,
+            role: UserRole.ADMINISTRATOR,
+            name: "Admin",
+          };
+        }
+
+        return null;
+      },
+    })
   ],
   pages: { signIn: "/login" },
   callbacks: {
