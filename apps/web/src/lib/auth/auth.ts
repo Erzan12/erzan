@@ -1,4 +1,5 @@
-import GitHub from "next-auth/providers/github";
+import GitHubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma/prisma";
@@ -11,9 +12,13 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter, // keep if using GitHub OAuth
   session: { strategy: "jwt" },
   providers: [
-    GitHub({
+    GitHubProvider({
       clientId: process.env.GITHUB_ID!,
       clientSecret: process.env.GITHUB_SECRET!,
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
     // Credentials({
     //   name: "Credentials",
@@ -136,8 +141,58 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-    async signIn({ user }) {
-      return !!user.email; // allow any authenticated user
+    // This ensures all GitHub logins become GUEST.
+    // async signIn({ user, account }) {
+    //   if (account?.provider === "github" && user.email) {
+    //     await prisma.user.upsert({
+    //       where: {
+    //         email: user.email,
+    //       },
+    //       update: {
+    //         name: user.name,
+    //         image: user.image,
+    //         role: "GUEST",
+    //       },
+    //       create: {
+    //         email: user.email,
+    //         name: user.name,
+    //         image: user.image,
+    //         role: "GUEST",
+    //       },
+    //     });
+    //   }
+
+    //   return true;
+    // },
+    async signIn({ user, account }) {
+      if (!user.email) return false;
+
+      const existingUser = await prisma.user.findUnique({
+        where: { email: user.email },
+      });
+
+      if (existingUser) {
+        // Update provider data, allow login
+        await prisma.user.update({
+          where: { email: user.email },
+          data: {
+            name: user.name,
+            image: user.image,
+            role: UserRole.GUEST,
+          },
+        });
+      } else {
+        await prisma.user.create({
+          data: {
+            email: user.email,
+            name: user.name,
+            image: user.image,
+            role: UserRole.GUEST,
+          },
+        });
+      }
+
+      return true;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
