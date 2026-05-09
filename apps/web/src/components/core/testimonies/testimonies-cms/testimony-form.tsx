@@ -53,7 +53,7 @@ export default function TestimonialForm({ userId }: { userId: string }) {
                 />
                 <input
                 name="role"
-                placeholder="Role (e.g. Senior Dev)"
+                placeholder="Role (e.g. Senior Dev or Client)"
                 className="w-full px-4 py-3 rounded-2xl bg-white/50 dark:bg-slate-900/40 border border-slate-500/20 focus:ring-2 focus:ring-slate-500/20 outline-none transition-all text-sm"
                 />
             </div>
