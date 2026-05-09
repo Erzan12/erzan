@@ -4,87 +4,39 @@ import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma/prisma";
 import type { NextAuthOptions } from "next-auth";
-import bcrypt from "bcryptjs";
 import { UserRole } from "@prisma/client";
 import { Adapter } from "next-auth/adapters";
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma) as Adapter, // keep if using GitHub OAuth
+  adapter: PrismaAdapter(prisma) as Adapter,
   session: { strategy: "jwt" },
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_ID!,
       clientSecret: process.env.GITHUB_SECRET!,
+      authorization: { params: { scope: "read:user user:email" } },
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
-    // Credentials({
-    //   name: "Credentials",
-    //   credentials: { email: {}, password: {} },
-    //   async authorize(credentials) {
-    //     if (!credentials?.email || !credentials?.password) return null;
-
-    //     const user = await prisma.user.findUnique({
-    //       where: { email: credentials.email },
-    //     });
-
-    //       if (!user?.password || !user.email) return null; // ← guard email null
-
-    //     const valid = await bcrypt.compare(credentials.password, user.password);
-    //     if (!valid) return null;
-
-    //     return {
-    //       id: user.id,
-    //       email: user.email,        // now string, not string | null
-    //       name: user.name ?? null,
-    //       image: user.image ?? null,
-    //       role: user.role,
-    //     };
-    //   },
-    // }),
     Credentials({
       id: "guest-login",
       name: "Guest Login",
-
-      credentials: {
-        name: {},
-        email: {},
-      },
-
-      async authorize(credentials, req) {
+      credentials: { name: {}, email: {} },
+      async authorize(credentials) {
         const name = credentials?.name?.trim();
         const email = credentials?.email?.trim().toLowerCase();
-
-        // validation
-        if (!name || !email) {
-          throw new Error("Name and email are required");
-        }
-
-        // basic email validation
+        if (!name || !email) throw new Error("Name and email are required");
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) throw new Error("Invalid email");
 
-        if (!emailRegex.test(email)) {
-          throw new Error("Invalid email");
-        }
-
-        // check existing user
-        let user = await prisma.user.findUnique({
-          where: { email },
-        });
-
-        // create guest user if not existing
+        let user = await prisma.user.findUnique({ where: { email } });
         if (!user) {
           user = await prisma.user.create({
-            data: {
-              name,
-              email,
-              role: UserRole.GUEST,
-            },
+            data: { name, email, role: UserRole.GUEST },
           });
         }
-
         return {
           id: user.id,
           name: user.name,
@@ -94,45 +46,85 @@ export const authOptions: NextAuthOptions = {
         };
       },
     }),
-    Credentials({
-      id: "admin-login",
-      name: "Admin Login",
-
-      credentials: {
-        email: {},
-        password: {},
-      },
-
-      async authorize(credentials, req) {
-        const email = credentials?.email;
-        const password = credentials?.password;
-
-        if (
-          email === process.env.ADMIN_EMAIL &&
-          password === process.env.ADMIN_PASSWORD
-        ) {
-          return {
-            id: "admin-id",
-            email,
-            role: UserRole.ADMINISTRATOR,
-            name: "Admin",
-          };
-        }
-
-        return null;
-      },
-    })
   ],
   pages: { signIn: "/login" },
+
+  events: {
+    async createUser({ user }) {
+      if (!user.email) return;
+      const isAdmin = user.email === process.env.ADMIN_EMAIL;
+      await prisma.user.update({
+        where: { email: user.email },
+        data: { role: isAdmin ? UserRole.ADMINISTRATOR : UserRole.GUEST },
+      });
+    },
+    async signIn({ user }) {
+      if (!user.email) return;
+      const isAdmin = user.email === process.env.ADMIN_EMAIL;
+      await prisma.user.update({
+        where: { email: user.email },
+        data: { role: isAdmin ? UserRole.ADMINISTRATOR : UserRole.GUEST },
+      });
+    },
+  },
+
   callbacks: {
+    async signIn({ user, account }) {
+      if (!user.email) return false;
+      if (!account || account.provider === "credentials") return true;
+
+      const existingUser = await prisma.user.findUnique({
+        where: { email: user.email },
+        include: { accounts: true },
+      });
+
+      if (!existingUser) return true;
+
+      const alreadyLinked = existingUser.accounts.some(
+        (acc) =>
+          acc.provider === account.provider &&
+          acc.providerAccountId === account.providerAccountId
+      );
+
+      if (alreadyLinked) return true;
+
+      // 🔗 Auto-link new provider to existing user
+      await prisma.account.create({
+        data: {
+          userId: existingUser.id,
+          type: account.type,
+          provider: account.provider,
+          providerAccountId: account.providerAccountId,
+          refresh_token: account.refresh_token ?? null,
+          access_token: account.access_token ?? null,
+          expires_at: account.expires_at ?? null,
+          token_type: account.token_type ?? null,
+          scope: account.scope ?? null,
+          id_token: account.id_token ?? null,
+          session_state: (account.session_state as string) ?? null,
+        },
+      });
+
+      // Tell NextAuth to use existing user instead of creating a new one
+      user.id = existingUser.id;
+
+      return true;
+    },
+
     async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.image = user.image ?? null;
-        token.role = user.role;
+      const email = user?.email ?? (token.email as string | undefined);
+      if (email) {
+        const dbUser = await prisma.user.findUnique({ where: { email } });
+        if (dbUser) {
+          token.id = dbUser.id;
+          token.role = dbUser.role;
+          token.image = dbUser.image;
+          token.email = dbUser.email;
+        }
       }
       return token;
     },
+
     async session({ session, token }) {
       if (session.user) {
         (session.user as any).id = token.id;
@@ -141,59 +133,7 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-    // This ensures all GitHub logins become GUEST.
-    // async signIn({ user, account }) {
-    //   if (account?.provider === "github" && user.email) {
-    //     await prisma.user.upsert({
-    //       where: {
-    //         email: user.email,
-    //       },
-    //       update: {
-    //         name: user.name,
-    //         image: user.image,
-    //         role: "GUEST",
-    //       },
-    //       create: {
-    //         email: user.email,
-    //         name: user.name,
-    //         image: user.image,
-    //         role: "GUEST",
-    //       },
-    //     });
-    //   }
-
-    //   return true;
-    // },
-    async signIn({ user, account }) {
-      if (!user.email) return false;
-
-      const existingUser = await prisma.user.findUnique({
-        where: { email: user.email },
-      });
-
-      if (existingUser) {
-        // Update provider data, allow login
-        await prisma.user.update({
-          where: { email: user.email },
-          data: {
-            name: user.name,
-            image: user.image,
-            role: UserRole.GUEST,
-          },
-        });
-      } else {
-        await prisma.user.create({
-          data: {
-            email: user.email,
-            name: user.name,
-            image: user.image,
-            role: UserRole.GUEST,
-          },
-        });
-      }
-
-      return true;
-    },
   },
+
   secret: process.env.NEXTAUTH_SECRET,
 };
