@@ -20,7 +20,7 @@ export default async function BlogPostPage({
   if (!post) notFound()
 
   return (
-    <main className="min-h-screen pt-32 pb-20 bg-background">
+    <main className="min-h-screen pt-32 pb-20">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           

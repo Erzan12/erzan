@@ -109,7 +109,7 @@ export default async function BlogPage({ avatar, profile }: BlogClientProps) {
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {["Next.js", "NestJS", "PostgreSQL", "Supabase", "Architecture"].map(tag => (
-                    <button key={tag} className="px-4 py-2 text-sm rounded-full bg-background border border-border hover:border-primary/50 hover:text-primary transition-all">
+                    <button key={tag} className="px-4 py-2 text-sm rounded-full border border-border hover:border-primary/50 hover:text-primary transition-all">
                       {tag}
                     </button>
                   ))}
