@@ -1,43 +1,46 @@
 "use client";
 
-import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
-  const loginWithGitHub = () => {
-    signIn("github", { callbackUrl: "/admin" });
-  };
+  useEffect(() => {
+    if (status === "authenticated") {
+      const role = (session?.user as any)?.role;
+      if (role === "ADMINISTRATOR") {
+        router.replace("/admin");
+      } else {
+        router.replace("/");
+      }
+    }
+  }, [status, session, router]);
 
-  const loginWithCredentials = async () => {
-    await signIn("admin-login", {
-      email,
-      password,
-      callbackUrl: "/admin",
-    });
-  };
+  if (status === "loading" || status === "authenticated") {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-sm text-muted-foreground">Redirecting...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-      <button onClick={loginWithGitHub}>
+      <button
+        onClick={() => signIn("github")}
+        className="mt-2 inline-flex items-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-semibold hover:opacity-90 transition-all active:scale-95"
+      >
         Sign in with GitHub
       </button>
 
-      <input
-        placeholder="email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-
-      <input
-        type="password"
-        placeholder="password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-
-      <button onClick={loginWithCredentials}>
-        Login with Email
+      <button
+        onClick={() => signIn("google")}
+        className="mt-2 inline-flex items-center gap-2 px-6 py-3 bg-red-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-semibold hover:opacity-90 transition-all active:scale-95"
+      >
+        Sign in with Google
       </button>
     </div>
   );

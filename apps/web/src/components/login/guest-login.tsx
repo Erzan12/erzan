@@ -1,42 +1,35 @@
 "use client";
 
-import { signIn } from "next-auth/react";
-import { Github } from "lucide-react";
-import { useState } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useEffect } from "react";
 import { SiGithub, SiGoogle } from "react-icons/si";
+import { useRouter } from "next/navigation";
 
 export default function GuestLoginButton() {
-  const [name, setName] = useState("");
-  const [email, setPassword] = useState("");
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
-  const loginWithCredentials = async () => {
-    await signIn("guest-login", {
-      name,
-      email,
-      callbackUrl: "/",
-    });
-  };
-  
+  useEffect(() => {
+    if (status === "authenticated") {
+      const role = (session?.user as any)?.role;
+      if (role === "ADMINISTRATOR") {
+        router.replace("/admin");
+      } else {
+        router.replace("/");
+      }
+    }
+  }, [status, session, router]);
+
+  if (status === "loading" || status === "authenticated") {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-sm text-muted-foreground">Redirecting...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="py-10 flex flex-col items-center justify-center gap-4">
-      {/* <input
-        placeholder="Name"
-        onChange={(e) => setName(e.target.value)}
-      />
-
-      <input
-        type="email"
-        placeholder="Email"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-
-      <button 
-        onClick={loginWithCredentials}
-        className="mt-4 inline-flex items-center gap-2 px-15 py-3 bg-slate-400 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-semibold hover:opacity-90 transition-all active:scale-95"
-      >
-        Login as Guest
-      </button> */}
-
       <button
         onClick={() => signIn("github")} // It will auto-redirect back to the same page after login
         className="mt-2 inline-flex items-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-semibold hover:opacity-90 transition-all active:scale-95"
@@ -46,9 +39,7 @@ export default function GuestLoginButton() {
       </button>
 
       <button
-        onClick={() =>
-          signIn("google", { callbackUrl: "/" })
-        }
+        onClick={() => signIn("google")}
         className="mt-2 inline-flex items-center gap-2 px-6 py-3 bg-red-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-semibold hover:opacity-90 transition-all active:scale-95"
       >
         <SiGoogle size={18} />
