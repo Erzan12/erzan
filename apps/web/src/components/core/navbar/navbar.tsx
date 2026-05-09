@@ -116,8 +116,8 @@ export default function Navbar() {
                 aria-label="User menu"
               >
                 <Image
-                  src={session.user.image ?? "/fallback-avatar.png"}
-                  alt={session.user.name ?? "User"}
+                  src={session.user.image || "/images/person.png"}
+                  alt={session.user.name || "User"}
                   width={32}
                   height={32}
                   className="rounded-full"
