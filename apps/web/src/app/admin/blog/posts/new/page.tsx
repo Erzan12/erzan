@@ -4,10 +4,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import Editor from "@/components/blog-cms/editor"; // We will build this next
+import Editor from "@/components/core/blog/blog-cms/editor"; // We will build this next
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { createPost } from "@/components/blog-cms/actions/route";
+import { createPost } from "@/lib/actions/blog-cms";
 
 type PostStatus = "DRAFT" | "PUBLISHED";
 

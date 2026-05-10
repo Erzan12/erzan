@@ -116,8 +116,8 @@ export default function Navbar() {
                 aria-label="User menu"
               >
                 <Image
-                  src={session.user.image ?? "/fallback-avatar.png"}
-                  alt={session.user.name ?? "User"}
+                  src={session.user.image || "/images/person.png"}
+                  alt={session.user.name || "User"}
                   width={32}
                   height={32}
                   className="rounded-full"
@@ -133,12 +133,25 @@ export default function Navbar() {
                   </div>
 
                   {/* Admin */}
-                  <button
+                  {/* <button
                     onClick={() => { router.push("/admin"); setDropdownOpen(false); }}
                     className="w-full text-left px-4 py-2.5 text-sm hover:bg-muted transition-colors flex items-center gap-2"
                   >
                     <Github size={15} /> Admin panel
-                  </button>
+                  </button> */}
+
+                   {/* Show only if NOT guest */}
+                    {session.user.role !== "GUEST" && (
+                      <button
+                        onClick={() => {
+                          router.push("/admin");
+                          setDropdownOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2.5 text-sm hover:bg-muted transition-colors flex items-center gap-2"
+                      >
+                        <Github size={15} /> Admin panel
+                      </button>
+                    )}
 
                   <div className="border-t border-border" />
 

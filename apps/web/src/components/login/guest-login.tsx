@@ -1,10 +1,11 @@
 "use client";
 
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { SiGithub, SiGoogle } from "react-icons/si";
+import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+export default function GuestLoginButton() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -28,19 +29,21 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+    <div className="py-10 flex flex-col items-center justify-center gap-4">
       <button
-        onClick={() => signIn("github")}
+        onClick={() => signIn("github")} // It will auto-redirect back to the same page after login
         className="mt-2 inline-flex items-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-semibold hover:opacity-90 transition-all active:scale-95"
       >
-        Sign in with GitHub
+        <SiGithub size={18} />
+        Continue with GitHub
       </button>
 
       <button
         onClick={() => signIn("google")}
         className="mt-2 inline-flex items-center gap-2 px-6 py-3 bg-red-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-semibold hover:opacity-90 transition-all active:scale-95"
       >
-        Sign in with Google
+        <SiGoogle size={18} />
+        Continue with Google
       </button>
     </div>
   );

@@ -3,9 +3,9 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tag } from "lucide-react";
 import Link from "next/link";
-import { BlogListAnimation } from "@/components/blog-cms/blog-animations";
-import { AuthorCard } from "@/components/blog-cms/author-card";
-import RecentPostsSidebar from "@/components/blog-cms/recent-posts-sidebar";
+import { BlogListAnimation } from "@/components/core/blog/blog-cms/blog-animations";
+import { AuthorCard } from "@/components/core/blog/blog-cms/author-card";
+import RecentPostsSidebar from "@/components/core/blog/blog-cms/recent-posts-sidebar";
 import { BlogClientProps } from "@/lib/interface/global.interface";
 import { unstable_cache } from "next/cache"
 
@@ -109,7 +109,7 @@ export default async function BlogPage({ avatar, profile }: BlogClientProps) {
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {["Next.js", "NestJS", "PostgreSQL", "Supabase", "Architecture"].map(tag => (
-                    <button key={tag} className="px-4 py-2 text-sm rounded-full bg-background border border-border hover:border-primary/50 hover:text-primary transition-all">
+                    <button key={tag} className="px-4 py-2 text-sm rounded-full border border-border hover:border-primary/50 hover:text-primary transition-all">
                       {tag}
                     </button>
                   ))}

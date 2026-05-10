@@ -1,11 +1,24 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   images: {
-    domains: ["avatars.githubusercontent.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
+    ],
   },
-  allowedDevOrigins: ['local-origin.dev', '*.local-origin.dev', 'localhost:3001'],
+
+  allowedDevOrigins: [
+    "local-origin.dev",
+    "*.local-origin.dev",
+    "localhost:3001",
+  ],
 };
 
 export default nextConfig;
