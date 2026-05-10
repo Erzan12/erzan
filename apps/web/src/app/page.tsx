@@ -43,7 +43,7 @@ export default async function Home() {
         {/* </div> */}
       </section>
       <Skills />
-      <CaseStudy />
+      <CaseStudy project={projects[0]}/>
       <HowIThink />
       {/* <Lab /> */}
       <Testimonials items={approvedTestimonials} />
