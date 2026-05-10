@@ -10,7 +10,23 @@ import { uploadOAuthAvatar } from "../supabase/upload-avatar/upload-avatar";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter,
-  session: { strategy: "jwt" },
+  session: {
+    strategy: "jwt",
+    maxAge: 60 * 60 * 24, // 1 day
+    updateAge: 60 * 60, // 1 hour
+  },
+
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  },
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_ID!,
@@ -48,61 +64,9 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  
   pages: { signIn: "/login" },
-
-  // events: {
-  //   // async createUser({ user }) {
-  //   //   if (!user.email) return;
-  //   //   const isAdmin = user.email === process.env.ADMIN_EMAIL;
-  //   //   await prisma.user.update({
-  //   //     where: { email: user.email },
-  //   //     data: { role: isAdmin ? UserRole.ADMINISTRATOR : UserRole.GUEST },
-  //   //   });
-  //   // },
-  //   async createUser({ user }) {
-  //     if (!user.email) return;
-
-  //     let finalImage = user.image;
-
-  //     // Save external OAuth avatar permanently
-  //     if (
-  //       user.image &&
-  //       user.image.startsWith("http") &&
-  //       user.id
-  //     ) {
-  //       const uploadedImage =
-  //         await uploadOAuthAvatar(
-  //           user.image,
-  //           user.id
-  //         );
-
-  //       if (uploadedImage) {
-  //         finalImage = uploadedImage;
-  //       }
-  //     }
-
-  //     const isAdmin =
-  //       user.email === process.env.ADMIN_EMAIL;
-
-  //     await prisma.user.update({
-  //       where: { email: user.email },
-  //       data: {
-  //         role: isAdmin
-  //           ? UserRole.ADMINISTRATOR
-  //           : UserRole.GUEST,
-  //         image: finalImage,
-  //       },
-  //     });
-  //   },
-  //   async signIn({ user }) {
-  //     if (!user.email) return;
-  //     const isAdmin = user.email === process.env.ADMIN_EMAIL;
-  //     await prisma.user.update({
-  //       where: { email: user.email },
-  //       data: { role: isAdmin ? UserRole.ADMINISTRATOR : UserRole.GUEST },
-  //     });
-  //   },
-  // },
+  
   events: {
     async createUser({ user }) {
       if (!user.email) return;
