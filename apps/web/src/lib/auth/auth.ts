@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma/prisma";
 import type { NextAuthOptions } from "next-auth";
 import { UserRole } from "@prisma/client";
 import { Adapter } from "next-auth/adapters";
+import { uploadOAuthAvatar } from "../supabase/upload-avatar/upload-avatar";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter,
@@ -50,12 +51,47 @@ export const authOptions: NextAuthOptions = {
   pages: { signIn: "/login" },
 
   events: {
+    // async createUser({ user }) {
+    //   if (!user.email) return;
+    //   const isAdmin = user.email === process.env.ADMIN_EMAIL;
+    //   await prisma.user.update({
+    //     where: { email: user.email },
+    //     data: { role: isAdmin ? UserRole.ADMINISTRATOR : UserRole.GUEST },
+    //   });
+    // },
     async createUser({ user }) {
       if (!user.email) return;
-      const isAdmin = user.email === process.env.ADMIN_EMAIL;
+
+      let finalImage = user.image;
+
+      // Save external OAuth avatar permanently
+      if (
+        user.image &&
+        user.image.startsWith("http") &&
+        user.id
+      ) {
+        const uploadedImage =
+          await uploadOAuthAvatar(
+            user.image,
+            user.id
+          );
+
+        if (uploadedImage) {
+          finalImage = uploadedImage;
+        }
+      }
+
+      const isAdmin =
+        user.email === process.env.ADMIN_EMAIL;
+
       await prisma.user.update({
         where: { email: user.email },
-        data: { role: isAdmin ? UserRole.ADMINISTRATOR : UserRole.GUEST },
+        data: {
+          role: isAdmin
+            ? UserRole.ADMINISTRATOR
+            : UserRole.GUEST,
+          image: finalImage,
+        },
       });
     },
     async signIn({ user }) {
