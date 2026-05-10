@@ -44,8 +44,8 @@ export default function ProjectCarousel({ projects }: { projects: Project[] }) {
         </h2>
         <div className="h-1 w-20 rounded-full bg-gradient-to-r from-slate-900 to-slate-400 dark:from-white dark:to-slate-600 mb-6" />
         <p className="text-slate-500 dark:text-slate-400 leading-relaxed max-w-2xl">
-          A collection of works where I apply my principles of scalability, 
-          clean architecture, and performance.
+          A collection of my works, personal projects, and freelanced projects where I apply and prioritize scalable architectures, clean and readable codes, 
+          sustainable systems, and developer experience when building applications.
         </p>
       </div>
 
@@ -139,7 +139,7 @@ export default function ProjectCarousel({ projects }: { projects: Project[] }) {
                     {project.demoLink ? (
                       <Button 
                         size="sm" 
-                        className="flex-1 rounded-2xl gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:opacity-90 transition-all" 
+                        className="flex-1 rounded-2xl gap-2 bg-slate-900 dark:bg-white dark:hover:bg-slate-500/50 text-white dark:text-slate-900 dark:hover:text-white hover:bg-slate-500/70 hover:opacity-90 transition-all" 
                         asChild
                       >
                         <a href={project.demoLink} target="_blank" rel="noreferrer">

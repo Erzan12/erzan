@@ -1,5 +1,6 @@
 "use client";
 
+import { ProjectCAS } from "@/lib/types/project-cas";
 import { motion } from "framer-motion";
 import {
   ShieldCheck,
@@ -38,7 +39,7 @@ const caseStudy = {
   ],
 };
 
-export default function CaseStudy() {
+export default function CaseStudy({ project }: { project: ProjectCAS }) {
   return (
     <section className="py-24 max-w-6xl mx-auto px-1">
       {/* Header */}
@@ -105,7 +106,9 @@ export default function CaseStudy() {
             bg-white/40 dark:bg-white/[0.03]
             backdrop-blur-md
           ">
-            <ArrowUpRight className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+            <a href={project.demoLink} target="_blank" rel="noreferrer">
+               <ArrowUpRight className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+            </a>
           </div>
         </div>
 
