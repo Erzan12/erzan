@@ -45,8 +45,8 @@ export default async function BlogPage({ avatar, profile }: BlogClientProps) {
             Mission <span className="text-primary italic">Log</span>
           </h1>
           <p className="text-lg text-muted-foreground font-medium border-l-2 border-primary/30 pl-6 py-1">
-            Documentation of my journey through NestJS architecture, Next.js performance, 
-            and the variations of full-stack development.
+            Documentation of my journey through my day to day task, learning's, new idea's, new implemenations, projects and integrations. I pursue continious growth with different architecture, performance optimizations, caching,   
+            and the variations of full-stack development. There's a lot I want to learn, different kind's of obstacles, bugs, errors and navigations through different kind of patterns and exploitations on how to deal with challenges easily.
           </p>
         </div>
 
@@ -127,8 +127,10 @@ export default async function BlogPage({ avatar, profile }: BlogClientProps) {
                   />
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Building high-performance applications in the Philippines. Currently scaling 
-                  ShopStack and maintaining vessel maintenance systems.
+                  Building high-performance applications in the Philippines. Currently scaling personal projects like
+                  ShopStack, my Portfolio version 2 transitioning to CMS type with plans to integrate chatbot and 
+                  maintaining existing ERP system ABAS for my current employer, and currently developing the backend, 
+                  JWT, cookies, swagger API, services, versioning etc. for the upcoming new version of ABAS v3. 
                 </p>
               </section>
             </div>
