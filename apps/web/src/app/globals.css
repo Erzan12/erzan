@@ -269,7 +269,7 @@
   .row-span-2 { grid-row: span 1 / span 1; }
 }
 
-@keyframes marquee {
+/* @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(calc(-33.33% - 1rem)); }
 }
@@ -277,6 +277,24 @@
 @keyframes marquee-reverse {
   0% { transform: translateX(calc(-33.33% - 1rem)); }
   100% { transform: translateX(0); }
+} */
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 .animate-marquee {
