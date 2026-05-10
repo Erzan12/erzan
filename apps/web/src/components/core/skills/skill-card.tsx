@@ -11,6 +11,7 @@ import {
 
 type Skills = {
   category: string;
+  badge: string;
   icon: ReactNode;
   description: string;
   items: string[];
@@ -58,11 +59,26 @@ export default function SkillCard({
       /* use the passed className and ensure h-full for bento spanning */
       className={cn("w-full h-full", className)} 
     >
-      <Card className="group relative w-full h-full overflow-hidden border border-border 
-                       bg-olive-about-card/40 dark:bg-olive-dark-about-card/50 border border-border 
-                       backdrop-blur-xl rounded-3xl shadow-none 
-                       hover:border-primary/40 hover:bg-olive-about-card/40
-                       transition-all duration-500 flex flex-col min-h-[300px]">
+      <Card
+        className="
+          group relative overflow-hidden
+          rounded-[2rem]
+          border border-slate-500/10
+          bg-white/50 dark:bg-slate-900/40
+          backdrop-blur-md
+          transition-all duration-500
+          hover:border-slate-400/20
+          hover:shadow-[0_10px_40px_rgba(0,0,0,0.08)]
+          dark:hover:shadow-[0_10px_40px_rgba(0,0,0,0.35)]
+          h-full
+
+          before:absolute before:inset-0
+          before:bg-gradient-to-br
+          before:from-white/[0.03]
+          before:to-transparent
+          before:pointer-events-none
+        "
+      >
         
         {/* glow Layer and Header remain the same */}
         {/* dynamic glow layer */}
@@ -78,12 +94,35 @@ export default function SkillCard({
           )}
         </AnimatePresence>
         
-        <CardHeader className="pb-4 flex-shrink-0">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-xl text-primary font-bold font-sans tracking-tight">
-              {skill.category}
-            </CardTitle>
-            <div className="p-3 rounded-2xl bg-primary group-hover:bg-primary/10 transition-all duration-500">
+        <CardHeader className="pb-5 relative z-10">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <div
+                className="
+                  inline-flex items-center gap-2
+                  px-3 py-1 rounded-full
+                  border border-slate-500/10
+                  bg-slate-900/5 dark:bg-white/5
+                  text-[10px] uppercase tracking-[0.2em]
+                  text-slate-500 mb-4
+                "
+              >
+                {skill.badge}
+              </div>
+
+              <CardTitle className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                {skill.category}
+              </CardTitle>
+            </div>
+
+            <div
+              className="
+                w-14 h-14 rounded-2xl
+                flex items-center justify-center
+                border border-slate-500/10
+                bg-white/30 dark:bg-white/[0.03]
+              "
+            >
               {skill.icon}
             </div>
           </div>
@@ -91,31 +130,40 @@ export default function SkillCard({
         
         <CardContent className="flex-1 flex flex-col justify-between pt-0">
           <div className="mb-4">
-            <p className="text-sm text-foreground/80 dark:text-cream-dark-50/90 font-sans leading-relaxed">
+            <p className="text-sm leading-relaxed text-slate-500 dark:text-slate-400">
               {skill.description}
             </p>
           </div>
 
           {/* grid for icons changed to flex-wrap to better handle various card widths */}
-          <div className="flex flex-wrap gap-4 mt-auto">
+          <div className="flex flex-wrap gap-3 mt-8">
             {skill.items.map((tech: string) => (
               <motion.div
                 key={tech}
-                className="flex items-center gap-2 group/icon"
-                onMouseEnter={() => setActiveColor(techIcons[tech]?.color || "#ffffff")}
+                onMouseEnter={() =>
+                  setActiveColor(techIcons[tech]?.color || "#ffffff")
+                }
                 onMouseLeave={() => setActiveColor(null)}
                 whileHover={{ y: -2 }}
+                className="
+                  flex items-center gap-2
+                  px-3 py-2 rounded-2xl
+                  border border-slate-500/10
+                  bg-slate-500/[0.03]
+                  dark:bg-white/[0.03]
+                  text-xs text-slate-600 dark:text-slate-300
+                  transition-all duration-300
+                  hover:border-slate-400/20
+                "
               >
-                <div 
-                  className="text-2xl transition-all duration-300 grayscale opacity-70 
-                             group-hover/icon:grayscale-0 group-hover/icon:opacity-100"
+                <div
+                  className="text-lg"
                   style={{ color: techIcons[tech]?.color }}
                 >
                   {techIcons[tech]?.icon || <SiTypescript />}
                 </div>
-                <span className="text-[9px] font-bold uppercase tracking-widest opacity-0 
-                               group-hover/icon:opacity-100 transition-opacity duration-300 
-                               line-clamp-1 px-1 text-center">
+
+                <span className="font-medium tracking-wide">
                   {tech}
                 </span>
               </motion.div>
