@@ -34,19 +34,18 @@ export default async function Home() {
       <Hero />
       <Tabs />
       <section className="py-20 max-w-6xl mx-auto px-1">
-        <div className="mt-16">
-          <h2 className="text-3xl font-bold tracking-tight font-sans mb-4">Featured Projects</h2>
-          <div className="h-1 w-20 bg-primary rounded-full" />
+        {/* <div className="mt-16"> */}
+          {/* <h2 className="text-3xl font-bold tracking-tight font-sans mb-4">Featured Projects</h2> */}
+          {/* <div className="h-1 w-20 bg-primary rounded-full" /> */}
           <ProjectsCarousel
             projects={projects.filter((p) => p.featured)}
           />
-        </div>
+        {/* </div> */}
       </section>
       <Skills />
       <CaseStudy />
       <HowIThink />
-      
-      <Lab />
+      {/* <Lab /> */}
       <Testimonials items={approvedTestimonials} />
       <section className="py-20 px-6 bg-slate-500/3 mb-10 mx-auto max-w-6xl">
         <div className="max-w-2xl mx-auto text-center mb-10">
