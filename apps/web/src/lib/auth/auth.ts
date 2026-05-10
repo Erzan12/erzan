@@ -50,57 +50,104 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: { signIn: "/login" },
 
+  // events: {
+  //   // async createUser({ user }) {
+  //   //   if (!user.email) return;
+  //   //   const isAdmin = user.email === process.env.ADMIN_EMAIL;
+  //   //   await prisma.user.update({
+  //   //     where: { email: user.email },
+  //   //     data: { role: isAdmin ? UserRole.ADMINISTRATOR : UserRole.GUEST },
+  //   //   });
+  //   // },
+  //   async createUser({ user }) {
+  //     if (!user.email) return;
+
+  //     let finalImage = user.image;
+
+  //     // Save external OAuth avatar permanently
+  //     if (
+  //       user.image &&
+  //       user.image.startsWith("http") &&
+  //       user.id
+  //     ) {
+  //       const uploadedImage =
+  //         await uploadOAuthAvatar(
+  //           user.image,
+  //           user.id
+  //         );
+
+  //       if (uploadedImage) {
+  //         finalImage = uploadedImage;
+  //       }
+  //     }
+
+  //     const isAdmin =
+  //       user.email === process.env.ADMIN_EMAIL;
+
+  //     await prisma.user.update({
+  //       where: { email: user.email },
+  //       data: {
+  //         role: isAdmin
+  //           ? UserRole.ADMINISTRATOR
+  //           : UserRole.GUEST,
+  //         image: finalImage,
+  //       },
+  //     });
+  //   },
+  //   async signIn({ user }) {
+  //     if (!user.email) return;
+  //     const isAdmin = user.email === process.env.ADMIN_EMAIL;
+  //     await prisma.user.update({
+  //       where: { email: user.email },
+  //       data: { role: isAdmin ? UserRole.ADMINISTRATOR : UserRole.GUEST },
+  //     });
+  //   },
+  // },
   events: {
-    // async createUser({ user }) {
-    //   if (!user.email) return;
-    //   const isAdmin = user.email === process.env.ADMIN_EMAIL;
-    //   await prisma.user.update({
-    //     where: { email: user.email },
-    //     data: { role: isAdmin ? UserRole.ADMINISTRATOR : UserRole.GUEST },
-    //   });
-    // },
     async createUser({ user }) {
       if (!user.email) return;
 
       let finalImage = user.image;
 
-      // Save external OAuth avatar permanently
-      if (
-        user.image &&
-        user.image.startsWith("http") &&
-        user.id
-      ) {
-        const uploadedImage =
-          await uploadOAuthAvatar(
-            user.image,
-            user.id
-          );
-
-        if (uploadedImage) {
-          finalImage = uploadedImage;
-        }
+      if (user.image && user.image.startsWith("http") && user.id) {
+        const uploadedImage = await uploadOAuthAvatar(user.image, user.id);
+        if (uploadedImage) finalImage = uploadedImage;
       }
 
-      const isAdmin =
-        user.email === process.env.ADMIN_EMAIL;
+      const isAdmin = user.email === process.env.ADMIN_EMAIL;
 
       await prisma.user.update({
         where: { email: user.email },
         data: {
-          role: isAdmin
-            ? UserRole.ADMINISTRATOR
-            : UserRole.GUEST,
+          role: isAdmin ? UserRole.ADMINISTRATOR : UserRole.GUEST,
           image: finalImage,
         },
       });
     },
+
     async signIn({ user }) {
+      console.log("ADMIN_EMAIL env:", process.env.ADMIN_EMAIL);
+      console.log("User email:", user.email);
+      console.log("Match:", user.email === process.env.ADMIN_EMAIL);
+      
       if (!user.email) return;
-      const isAdmin = user.email === process.env.ADMIN_EMAIL;
-      await prisma.user.update({
+
+      // Fetch current role first — don't blindly overwrite
+      const existingUser = await prisma.user.findUnique({
         where: { email: user.email },
-        data: { role: isAdmin ? UserRole.ADMINISTRATOR : UserRole.GUEST },
+        select: { role: true },
       });
+
+      const isAdmin = user.email === process.env.ADMIN_EMAIL;
+
+      // Only update if role needs to change
+      const correctRole = isAdmin ? UserRole.ADMINISTRATOR : UserRole.GUEST;
+      if (existingUser?.role !== correctRole) {
+        await prisma.user.update({
+          where: { email: user.email },
+          data: { role: correctRole },
+        });
+      }
     },
   },
 
