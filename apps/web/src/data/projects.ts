@@ -1,4 +1,5 @@
 import { Project } from "@/lib/types/project";
+import { ProjectCAS } from "@/lib/types/project-cas";
 
 export const projects: Project[] = [
   {
@@ -82,3 +83,7 @@ export const projects: Project[] = [
     featured: true,
   },
 ];
+
+export const project: ProjectCAS = {
+  demoLink: "https://slsu-clinic-appointment-system.onrender.com",
+}
