@@ -1,16 +1,36 @@
 "use client";
 
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { moderateTestimonial } from "@/lib/actions/testimonials-cms";
-import { Check, X, MessageSquare, Clock, Globe } from "lucide-react";
+import { Check, X, MessageSquare, Clock, Globe, Send } from "lucide-react";
 import { format } from "date-fns";
 
 export function ModerationCard({ item, type }: { item: any, type: 'pending' | 'published' }) {
   const [isPending, startTransition] = useTransition();
+const [showModal, setShowModal] = useState(false);
+  const [feedback, setFeedback] = useState("");
+  const [actionType, setActionType] = useState<boolean | null>(null);
 
   const handleAction = (approve: boolean) => {
     startTransition(async () => {
       await moderateTestimonial(item.id, { approve });
+    });
+  };
+
+//   const [isPending, startTransition] = useTransition();
+
+  const triggerAction = (approve: boolean) => {
+    setActionType(approve);
+    setShowModal(true);
+  };
+
+  const handleConfirm = () => {
+    startTransition(async () => {
+      await moderateTestimonial(item.id, { 
+        approve: actionType!, 
+        feedback: feedback 
+      });
+      setShowModal(false);
     });
   };
 
@@ -92,6 +112,41 @@ export function ModerationCard({ item, type }: { item: any, type: 'pending' | 'p
             </button>
           )}
         </div>
+        <div className="flex gap-2">
+            <button onClick={() => triggerAction(true)} className="p-3 bg-green-500/10 text-green-600 rounded-xl"><Check /></button>
+            <button onClick={() => triggerAction(false)} className="p-3 bg-red-500/10 text-red-600 rounded-xl"><X /></button>
+        </div>
+
+        {/* Feedback Modal */}
+        {showModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+              <div className="bg-white dark:bg-slate-900 p-8 rounded-[2.5rem] w-full max-w-md border border-slate-500/20 shadow-2xl">
+                  <h3 className="text-xl font-bold mb-2">
+                      {actionType ? "Approve Testimonial?" : "Reject Testimonial?"}
+                  </h3>
+                  <p className="text-sm text-slate-500 mb-4">Add a message to {item.name}. This will be emailed to them.</p>
+                  
+                  <textarea
+                      className="w-full p-4 bg-slate-500/5 rounded-2xl border-none focus:ring-2 focus:ring-primary outline-none text-sm mb-4"
+                      rows={3}
+                      placeholder="E.g. Thanks for the kind words! / Could you clarify..."
+                      onChange={(e) => setFeedback(e.target.value)}
+                  />
+
+                  <div className="flex gap-3">
+                  <button onClick={() => setShowModal(false)} className="flex-1 py-3 font-medium text-slate-500">Cancel</button>
+                      <button 
+                          onClick={handleConfirm} 
+                          disabled={isPending}
+                          className="flex-1 py-3 bg-slate-900 dark:bg-white dark:text-slate-900 text-white rounded-xl font-bold flex items-center justify-center gap-2"
+                      >
+                          {isPending ? "Sending..." : "Confirm & Email"}
+                          <Send size={16} />
+                      </button>
+                  </div>
+              </div>
+          </div>
+        )}
       </div>
     </div>
   );
