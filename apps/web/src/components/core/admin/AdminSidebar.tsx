@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FileText, Layers, LayoutDashboard, MessageCircleHeart, Plus } from "lucide-react";
+import { FileText, FolderKanban, Layers, LayoutDashboard, MessageCircleHeart, Plus } from "lucide-react";
 
 type Module = {
   title: string;
@@ -25,8 +25,9 @@ const modules: Module[] = [
     icon: <FileText size={18} />,
     children: [
       { 
-        title: "All Posts", 
+        title: "Manage Posts", 
         href: "/admin/blog/posts",
+        icon: <FolderKanban size={18} />,
 
       },
       { 
@@ -51,7 +52,7 @@ const modules: Module[] = [
     icon: <MessageCircleHeart size={18}/>,
     children: [
       { title: "My Testimonials", href: "/admin/my-testimonials" },
-      { title: "Invitations", href: "/admin/my-testimonials/incoming" },
+      { title: "Invitations", href: "/admin/my-testimonials/invitations" },
     ],
   }
 ];
