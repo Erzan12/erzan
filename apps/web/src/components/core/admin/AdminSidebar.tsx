@@ -51,7 +51,7 @@ const modules: Module[] = [
     icon: <MessageCircleHeart size={18}/>,
     children: [
       { title: "My Testimonials", href: "/admin/my-testimonials" },
-      { title: "Incoming Testimonials", href: "/admin/my-testimonials/incoming" },
+      { title: "Invitations", href: "/admin/my-testimonials/incoming" },
     ],
   }
 ];
