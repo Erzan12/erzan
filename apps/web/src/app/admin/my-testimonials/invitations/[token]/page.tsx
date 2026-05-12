@@ -36,7 +36,5 @@ export default async function InvitePage({
   }
 
   // DO NOT mark accepted here
-  redirect(
-    `/testimonial/create?token=${token}`
-  );
+  redirect(`/?token=${token}#testimonials`);
 }
