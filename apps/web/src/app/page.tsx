@@ -19,7 +19,7 @@ export default async function Home() {
   // Fetch only approved and active testimonials
   const approvedTestimonials = await prisma.testimonials.findMany({
     where: {
-      is_approve: true,
+      is_approved: true,
       is_active: true,
     },
     include: {
