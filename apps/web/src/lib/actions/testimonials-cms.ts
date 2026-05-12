@@ -22,7 +22,7 @@ export async function submitTestimonial(data: {
       role: data.role,
       content: data.content,
       userId: data.userId,
-      is_approve: false,
+      is_approved: false,
       is_published: false,
       is_active: true,
     },
@@ -51,7 +51,7 @@ export async function moderateTestimonial(
     const testimonial = await tx.testimonials.update({
       where: { id },
       data: {
-        is_approve: data.approve,
+        is_approved: data.approve,
         is_published: data.approve, // Auto-publish on approval
       },
     });
