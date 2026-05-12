@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FileText, FolderKanban, Layers, LayoutDashboard, MessageCircleHeart, Plus } from "lucide-react";
+import { FileText, FolderKanban, Layers, LayoutDashboard, MailCheck, MessageCircleHeart, Plus, Send } from "lucide-react";
 
 type Module = {
   title: string;
@@ -51,8 +51,14 @@ const modules: Module[] = [
     key: "testimonials",
     icon: <MessageCircleHeart size={18}/>,
     children: [
-      { title: "My Testimonials", href: "/admin/my-testimonials" },
-      { title: "Invitations", href: "/admin/my-testimonials/invitations" },
+      { title: "My Testimonials", 
+        href: "/admin/my-testimonials",
+        icon: <MailCheck size={16} /> 
+      },
+      { title: "Invitations", 
+        href: "/admin/my-testimonials/invitations",
+        icon: <Send size={16} /> 
+      },
     ],
   }
 ];
