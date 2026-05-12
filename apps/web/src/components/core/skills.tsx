@@ -125,8 +125,8 @@ export default function Skills() {
         <div className="h-1 w-20 rounded-full bg-gradient-to-r from-slate-900 to-slate-400 dark:from-white dark:to-slate-600 mb-6" />
 
         <p className="text-slate-500 dark:text-slate-400 leading-relaxed">
-          A collection of technologies, workflows, and engineering principles I
-          use to design scalable and maintainable modern web applications.
+          A collection of different technologies, workflows, tools and engineering principles I
+          utilize to design, maintain and optimize scalable modern Web Applications and API's.
         </p>
       </div>
 
