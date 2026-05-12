@@ -32,7 +32,7 @@ interface InvitationCardProps {
 export function InvitationCard({
   item,
 }: InvitationCardProps) {
-  const inviteLink = `${process.env.NEXT_PUBLIC_APP_URL}/testimonial/invite/${item.token}`;
+  const inviteLink = `${process.env.NEXT_PUBLIC_APP_URL}/my-testimonial/invitations/${item.token}`;
 
   async function copyLink() {
     await navigator.clipboard.writeText(inviteLink);
