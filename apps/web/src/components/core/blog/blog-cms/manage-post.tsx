@@ -1,7 +1,7 @@
 "use client";
 
-import { ModerationCard } from "./testimony-moderation-card"; // This is the card design we discussed
 import { Inbox, CheckCircle } from "lucide-react";
+import { ModerationCard } from "../../testimonies/testimonies-cms/testimony-moderation-card";  // This is the card design we discussed
 
 interface ModerationListProps {
   items: any[];
