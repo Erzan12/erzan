@@ -43,9 +43,10 @@ export default function ProjectCarousel({ projects }: { projects: Project[] }) {
           Featured Projects
         </h2>
         <div className="h-1 w-20 rounded-full bg-gradient-to-r from-slate-900 to-slate-400 dark:from-white dark:to-slate-600 mb-6" />
-        <p className="text-slate-500 dark:text-slate-400 leading-relaxed max-w-2xl">
-          A collection of my works, personal projects, and freelanced projects where I apply and prioritize scalable architectures, clean and readable codes, 
-          sustainable systems, and developer experience when building applications.
+        <p className="text-slate-500 dark:text-slate-400 leading-relaxed max-w-4xl">
+          A collection of my work, personal and freelanced projects where I apply and prioritize scalable architectures, clean and readable 
+          codes with proper documentaions showcasing my understanding and developer experience about building sustainable applications,
+          api's and systems from local development, with CI/CD to Staging branch for QA and Tester up to Production branch.
         </p>
       </div>
 
