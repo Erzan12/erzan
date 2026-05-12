@@ -9,6 +9,7 @@ import {
   CheckCircle2,
   ArrowUpRight,
 } from "lucide-react";
+import { SiGithub } from "react-icons/si";
 
 const caseStudy = {
   title: "SLSU Clinic Appointment System",
@@ -97,18 +98,46 @@ export default function CaseStudy({ project }: { project: ProjectCAS }) {
             </p>
           </div>
 
-          {/* Floating CTA */}
-          <div className="
-            hidden md:flex
-            w-14 h-14 rounded-2xl
-            items-center justify-center
-            border border-slate-500/10
-            bg-white/40 dark:bg-white/[0.03]
-            backdrop-blur-md
-          ">
-            <a href={project.demoLink} target="_blank" rel="noreferrer">
-               <ArrowUpRight className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+          <div className="hidden md:flex items-center gap-3">
+            
+            <a
+              href="https://github.com/Erzan12/slsu-clinic-appointment-system"
+              target="_blank"
+              rel="noreferrer"
+              className="
+                h-14 px-6
+                rounded-2xl
+                flex items-center justify-center gap-2
+                bg-slate-900 dark:bg-white
+                text-white dark:text-slate-900
+                font-semibold
+                hover:opacity-90
+                transition-all
+              "
+            >
+              <SiGithub className="w-5 h-5" />
+              <span>Repo</span>
             </a>
+
+            <a
+              href="https://slsu-clinic-appointment-system.onrender.com/"
+              target="_blank"
+              rel="noreferrer"
+              className="
+                h-14 w-14
+                rounded-2xl
+                flex items-center justify-center
+                border border-slate-500/10
+                bg-white/40 dark:bg-white/[0.03]
+                backdrop-blur-md
+                hover:bg-white/60
+                dark:hover:bg-white/[0.06]
+                transition-all
+              "
+            >
+              <ArrowUpRight className="w-5 h-5 text-slate-700 dark:text-slate-300" />
+            </a>
+
           </div>
         </div>
 
