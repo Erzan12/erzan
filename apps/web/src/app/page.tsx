@@ -13,9 +13,13 @@ import TestimonialForm from "@/components/core/testimonies/testimonies-cms/testi
 import GuestLoginButton from "@/components/login/guest-login";
 import { prisma } from "@/lib/prisma/prisma";
 
-export default async function Home() {
-  const session = await getServerSession(authOptions);
+type Props = {
+  searchParams: Promise<{ token?: string }>;
+};
 
+export default async function Home({ searchParams }: Props) {
+  const session = await getServerSession(authOptions);
+  const { token } = await searchParams;
   // Fetch only approved and active testimonials
   const approvedTestimonials = await prisma.testimonials.findMany({
     where: {
@@ -47,7 +51,7 @@ export default async function Home() {
       <HowIThink />
       {/* <Lab /> */}
       <Testimonials items={approvedTestimonials} />
-      <section className="py-20 px-6 bg-slate-500/3 mb-10 mx-auto max-w-6xl">
+      <section id="testimonials" className="py-20 px-6 bg-slate-500/3 mb-10 mx-auto max-w-6xl">
         <div className="max-w-2xl mx-auto text-center mb-10">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Leave a Note</h2>
           <p className="text-slate-500 text-sm mt-2">I value your feedback on our collaborations or projects.</p>
@@ -55,6 +59,9 @@ export default async function Home() {
         
         {session?.user ? (
           <TestimonialForm userId={session.user.id} />
+        ) : token ? (
+          // Invited guest — show form without login
+          <TestimonialForm userId={token} isInvited />
         ) : (
           <div className="text-center p-12 border border-dashed border-slate-500/30 rounded-[2.5rem] flex flex-col items-center justify-center bg-white/20 backdrop-blur-sm">
             <p className="text-slate-600 dark:text-slate-400 font-medium">

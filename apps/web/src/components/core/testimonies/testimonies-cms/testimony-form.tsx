@@ -4,7 +4,13 @@ import { useState, useTransition } from "react";
 import { submitTestimonial } from "@/lib/mail/internal-mailer/testimonials-cms";
 import { Send, CheckCircle2 } from "lucide-react";
 
-export default function TestimonialForm({ userId }: { userId: string }) {
+export default function TestimonialForm({ 
+  userId, 
+  isInvited = false 
+}: { 
+  userId: string;
+  isInvited?: boolean;
+}) {
     const [ isPending, startTransition ] = useTransition();
     const [ submitted, setSubmitted ] = useState(false);
     const [ error, setError ] = useState<string | null>(null);
