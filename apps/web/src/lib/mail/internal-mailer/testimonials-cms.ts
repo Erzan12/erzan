@@ -35,52 +35,91 @@ export async function submitTestimonial(data: {
 /**
  * ADMIN: Moderate a testimonial (Approve/Reject with optional feedback)
  */
+// export async function moderateTestimonial(
+//   id: string, 
+//   data: { approve: boolean; feedback?: string }
+// ) {
+//   const session = await getServerSession(authOptions);
+  
+//   // Security check: Ensure only administrators can moderate
+//   if (session?.user?.role !== "ADMINISTRATOR") {
+//     throw new Error("Unauthorized");
+//   }
+
+//   // const result = await prisma.$transaction(async (tx) => {
+//     // 1. Update the testimonial status
+//     const testimonial = await tx.testimonials.update({
+//       where: { id },
+//       data: {
+//         is_approved: data.approve,
+//         is_published: data.approve, // Auto-publish on approval
+//       },
+//     });
+
+//     // 2. Handle feedback/rejection reason
+//     if (data.feedback) {
+//       await tx.testimonialFeedback.upsert({
+//         where: { testimonial_id: id },
+//         update: { 
+//           my_feedback: data.feedback, 
+//           adminId: session.user.id 
+//         },
+//         create: {
+//           testimonial_id: id,
+//           my_feedback: data.feedback,
+//           adminId: session.user.id,
+//         },
+//       });
+//     }
+
+//     return testimonial;
+//   // });
+
+//   revalidatePath("/admin/my-testimonials");
+//   revalidatePath("/");
+//   return result;
+// }
+
 export async function moderateTestimonial(
-  id: string, 
+  id: string,
   data: { approve: boolean; feedback?: string }
 ) {
   const session = await getServerSession(authOptions);
-  
-  // Security check: Ensure only administrators can moderate
+
   if (session?.user?.role !== "ADMINISTRATOR") {
     throw new Error("Unauthorized");
   }
 
-  const result = await prisma.$transaction(async (tx) => {
-    // 1. Update the testimonial status
-    const testimonial = await tx.testimonials.update({
-      where: { id },
-      data: {
-        is_approved: data.approve,
-        is_published: data.approve, // Auto-publish on approval
+  const testimonial = await prisma.testimonials.update({
+    where: { id },
+    data: {
+      is_approved: data.approve,
+      is_published: data.approve,
+    },
+  });
+
+  if (data.feedback) {
+    await prisma.testimonialFeedback.upsert({
+      where: { testimonial_id: id },
+      update: {
+        my_feedback: data.feedback,
+        adminId: session.user.id,
+      },
+      create: {
+        testimonial_id: id,
+        my_feedback: data.feedback,
+        adminId: session.user.id,
       },
     });
-
-    // 2. Handle feedback/rejection reason
-    if (data.feedback) {
-      await tx.testimonialFeedback.upsert({
-        where: { testimonial_id: id },
-        update: { 
-          my_feedback: data.feedback, 
-          adminId: session.user.id 
-        },
-        create: {
-          testimonial_id: id,
-          my_feedback: data.feedback,
-          adminId: session.user.id,
-        },
-      });
-    }
-
-    return testimonial;
-  });
+  }
 
   revalidatePath("/admin/my-testimonials");
   revalidatePath("/");
-  return result;
+  return testimonial;
 }
 
-export async function sendInvitationAction(formData: FormData) {
+// internal mailer
+export async function sendInternalNotificationActions(formData: FormData) {
   const resend = new Resend(process.env.RESEND_API_KEY);
 
   const session = await getServerSession(authOptions);
@@ -130,3 +169,4 @@ export async function sendInvitationAction(formData: FormData) {
 
   revalidatePath("/admin/my-testimonials/invitations");
 }
+
