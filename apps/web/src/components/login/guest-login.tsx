@@ -9,16 +9,28 @@ export default function GuestLoginButton() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
+  // useEffect(() => {
+  //   if (status === "authenticated") {
+  //     const role = (session?.user as any)?.role;
+  //     if (role === "ADMINISTRATOR") {
+  //       router.replace("/admin");
+  //     } else {
+  //       router.replace("/");
+  //     }
+  //   }
+  // }, [status, session, router]);
+
   useEffect(() => {
-    if (status === "authenticated") {
-      const role = (session?.user as any)?.role;
-      if (role === "ADMINISTRATOR") {
-        router.replace("/admin");
-      } else {
-        router.replace("/");
-      }
+    if (status !== "authenticated") return;
+
+    const role = session?.user?.role ?? "GUEST";
+
+    if (role === "ADMINISTRATOR") {
+      router.replace("/admin");
+    } else {
+      router.replace("/");
     }
-  }, [status, session, router]);
+  }, [status]);
 
   if (status === "loading" || status === "authenticated") {
     return (

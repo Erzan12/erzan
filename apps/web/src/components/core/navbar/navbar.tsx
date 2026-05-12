@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { routeThemes } from "@/lib/constants/themes";
+import { SiGithub } from "react-icons/si";
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -141,7 +142,7 @@ export default function Navbar() {
                   </button> */}
 
                    {/* Show only if NOT guest */}
-                    {session.user.role !== "GUEST" && (
+                    {(session?.user?.role ?? "GUEST") !== "GUEST" && (
                       <button
                         onClick={() => {
                           router.push("/admin");
@@ -149,7 +150,7 @@ export default function Navbar() {
                         }}
                         className="w-full text-left px-4 py-2.5 text-sm hover:bg-muted transition-colors flex items-center gap-2"
                       >
-                        <Github size={15} /> Admin panel
+                        <SiGithub size={15} /> Admin panel
                       </button>
                     )}
 

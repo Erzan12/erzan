@@ -3,6 +3,7 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { SiGithub, SiGoogle } from "react-icons/si";
 
 export default function LoginPage() {
   const { data: session, status } = useSession();
@@ -33,6 +34,7 @@ export default function LoginPage() {
         onClick={() => signIn("github")}
         className="mt-2 inline-flex items-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-semibold hover:opacity-90 transition-all active:scale-95"
       >
+        <SiGithub size={18} />
         Sign in with GitHub
       </button>
 
@@ -40,6 +42,7 @@ export default function LoginPage() {
         onClick={() => signIn("google")}
         className="mt-2 inline-flex items-center gap-2 px-6 py-3 bg-red-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-semibold hover:opacity-90 transition-all active:scale-95"
       >
+        <SiGoogle size={18} />
         Sign in with Google
       </button>
     </div>
