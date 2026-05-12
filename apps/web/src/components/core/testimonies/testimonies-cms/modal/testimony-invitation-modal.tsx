@@ -10,9 +10,12 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { sendInvitationAction } from "@/lib/actions/testimonials-cms";
+import { inviteUserAction } from "@/lib/actions/inviteUserAction";
+import { useActionState } from "react";
 
 export function SendInvitationModal() {
+  const [state, formAction, isPending] = useActionState(inviteUserAction, null);
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -30,7 +33,7 @@ export function SendInvitationModal() {
           Enter an email to send a testimonial invitation.
         </DialogDescription>
 
-        <form action={sendInvitationAction} className="space-y-4 mt-4">
+        {/* <form action={inviteUserAction} className="space-y-4 mt-4">
           <Input
             name="email"
             type="email"
@@ -43,6 +46,18 @@ export function SendInvitationModal() {
           >
             Send
           </Button>
+        </form> */}
+        <form action={formAction} className="space-y-4 mt-4">
+          <Input name="email" type="email" placeholder="client@email.com" />
+          <Button type="submit" disabled={isPending} className="w-full ...">
+            {isPending ? "Sending..." : "Send"}
+          </Button>
+          {state?.success === false && (
+            <p className="text-red-500 text-sm">Failed to send invitation.</p>
+          )}
+          {state?.success === true && (
+            <p className="text-green-500 text-sm">Invitation sent!</p>
+          )}
         </form>
       </DialogContent>
     </Dialog>

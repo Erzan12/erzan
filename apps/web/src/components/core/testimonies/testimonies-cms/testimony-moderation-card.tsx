@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { moderateTestimonial } from "@/lib/actions/testimonials-cms";
+import { moderateTestimonial } from "@/lib/mail/internal-mailer/testimonials-cms";
 import { Check, X, MessageSquare, Clock, Globe, Send } from "lucide-react";
 import { format } from "date-fns";
 
