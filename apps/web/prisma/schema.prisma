@@ -21,6 +21,13 @@ enum UserRole {
   GUEST
 }
 
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  DECLINED
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -37,6 +44,7 @@ model User {
 
   accounts      Account[]
   sessions      Session[]
+  invitations   TestimonialInvitation[]
 
   posts         Post[]
 }
@@ -95,6 +103,30 @@ model Tag {
   posts Post[]
 }
 
+model TestimonialInvitation {
+  id           String   @id @default(cuid())
+
+  email        String
+  token        String   @unique
+
+  status       InvitationStatus @default(PENDING)
+
+  expires_at    DateTime
+  accepted_at   DateTime?
+
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  // Who sent invitation
+  invited_by_id  String
+  invited_by     User @relation(fields: [invited_by_id], references: [id], onDelete: Cascade)
+
+  testimonial   Testimonials?
+
+  @@index([email])
+  @@index([status])
+}
+
 model Testimonials {
   id           String   @id @default(cuid())
   name         String 
@@ -103,18 +135,22 @@ model Testimonials {
   avatar       String?  //store user iamge url at time of posting
 
   // Moderation States
-  is_published Boolean  @default(false)
-  is_approve   Boolean  @default(false)
-  is_active    Boolean  @default(true)
+  is_published  Boolean  @default(false)
+  is_approved   Boolean  @default(false)
+  is_active     Boolean  @default(true)
 
   // Relations
   userId       String   // The Guest who wrote it
   user         User     @relation("UserTestimonials", fields: [userId], references: [id], onDelete: Cascade)
 
+  invitation_id String? @unique
+  invitation   TestimonialInvitation? @relation(fields: [invitation_id], references: [id])
+
   // Feedback from Admin
   feedback     TestimonialFeedback?
 
-  created_at  DateTime @default(now())
+  submitted_at DateTime?
+  created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
 
   @@index([userId])

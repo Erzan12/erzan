@@ -1,4 +1,4 @@
-import { AdminLayout } from "@/components/core/blog/blog-cms/admin/AdminLayout";
+import { AdminLayout } from "@/components/core/admin/AdminLayout";
 import { requireAdmin } from "@/lib/route-protection/user-check";
 
 export default async function Layout({

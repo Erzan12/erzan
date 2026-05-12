@@ -112,10 +112,10 @@ const [showModal, setShowModal] = useState(false);
             </button>
           )}
         </div>
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
             <button onClick={() => triggerAction(true)} className="p-3 bg-green-500/10 text-green-600 rounded-xl"><Check /></button>
             <button onClick={() => triggerAction(false)} className="p-3 bg-red-500/10 text-red-600 rounded-xl"><X /></button>
-        </div>
+        </div> */}
 
         {/* Feedback Modal */}
         {showModal && (

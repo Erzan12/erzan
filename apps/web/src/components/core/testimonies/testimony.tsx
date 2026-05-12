@@ -68,6 +68,34 @@ export default function Testimonials({ items }: TestimonialsProps) {
 
   // if (items.length === 0) return null;
 
+  if (items.length === 0) {
+    return (
+      <section className="py-24 overflow-hidden mx-auto max-w-6xl mb-10">
+        <div className="max-w-5xl mx-auto text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
+            Testimonies
+          </h2>
+
+          <p className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+            Kind words from colleagues, coworkers, clients and readers about my work and contributions.
+          </p>
+        </div>
+
+        <div className="flex flex-col items-center justify-center py-16 px-6 rounded-[2.5rem] border border-dashed border-slate-500/20 bg-slate-500/5 text-center">
+          <Quote className="w-10 h-10 text-slate-400 mb-4" />
+
+          <h3 className="text-lg font-semibold text-slate-800 dark:text-white">
+            No testimonials yet
+          </h3>
+
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 max-w-md">
+            Be the first one to leave a testimony and share your experience working with me.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-24 overflow-hidden mx-auto max-w-6xl mb-10">
       <div className="max-w-5xl mx-auto text-center mb-16">
