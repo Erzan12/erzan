@@ -5,13 +5,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default async function TestimonialsAdminPage() {
   // Fetch data on the server
   const pending = await prisma.testimonials.findMany({
-    where: { is_approve: false, is_active: true },
+    where: { is_approved: false, is_active: true },
     include: { feedback: true, user: true },
     orderBy: { created_at: "desc" },
   });
 
   const published = await prisma.testimonials.findMany({
-    where: { is_approve: true, is_active: true },
+    where: { is_approved: true, is_active: true },
     include: { feedback: true, user: true },
     orderBy: { updated_at: "desc" },
   });
