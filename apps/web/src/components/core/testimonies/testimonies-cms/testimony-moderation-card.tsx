@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { moderateTestimonial } from "@/lib/mail/internal-mailer/testimonials-cms";
 import { Check, X, MessageSquare, Clock, Globe, Send } from "lucide-react";
 import { format } from "date-fns";
+import { moderateTestimonial } from "@/lib/actions/testimonials-cms";
 
 export function ModerationCard({ item, type }: { item: any, type: 'pending' | 'published' }) {
   const [isPending, startTransition] = useTransition();
@@ -25,12 +25,23 @@ const [showModal, setShowModal] = useState(false);
   };
 
   const handleConfirm = () => {
+    if (!actionType && !feedback) {
+      // Optional: validation to require feedback on rejection
+      alert("Please provide a reason for rejection.");
+      return;
+    }
+
     startTransition(async () => {
-      await moderateTestimonial(item.id, { 
-        approve: actionType!, 
-        feedback: feedback 
-      });
-      setShowModal(false);
+      try {
+        await moderateTestimonial(item.id, { 
+          approve: actionType!, 
+          feedback: feedback // This goes to your Server Action
+        });
+        setShowModal(false);
+        setFeedback(""); // Reset for next use
+      } catch (error) {
+        console.error("Failed to moderate:", error);
+      }
     });
   };
 
@@ -80,12 +91,12 @@ const [showModal, setShowModal] = useState(false);
           )}
         </div>
 
-        {/* Action Buttons */}
+        {/* Action Buttons with modal feedback from admin*/}
         <div className="flex flex-row md:flex-col gap-2">
           {type === 'pending' ? (
             <>
               <button 
-                onClick={() => handleAction(true)}
+                onClick={() => triggerAction(true)} // Change from handleAction
                 disabled={isPending}
                 className="p-3 bg-green-500/10 text-green-600 rounded-xl hover:bg-green-500 hover:text-white transition-all shadow-sm"
                 title="Approve"
@@ -93,29 +104,21 @@ const [showModal, setShowModal] = useState(false);
                 <Check size={20} />
               </button>
               <button 
-                onClick={() => handleAction(false)}
-                disabled={isPending}
-                className="p-3 bg-red-500/10 text-red-600 rounded-xl hover:bg-red-500 hover:text-white transition-all shadow-sm"
-                title="Reject"
+                onClick={() => triggerAction(false)} // Change from handleAction
+              // ... same classes
               >
                 <X size={20} />
               </button>
             </>
           ) : (
             <button 
-              onClick={() => handleAction(false)}
-              disabled={isPending}
-              className="p-3 bg-slate-500/10 text-slate-500 rounded-xl hover:bg-slate-900 dark:hover:bg-white dark:hover:text-slate-900 hover:text-white transition-all shadow-sm"
-              title="Unpublish"
+              onClick={() => triggerAction(false)} // Open modal even for unpublishing if you want feedback
+            // ... same classes
             >
               <X size={20} />
             </button>
           )}
         </div>
-        {/* <div className="flex gap-2">
-            <button onClick={() => triggerAction(true)} className="p-3 bg-green-500/10 text-green-600 rounded-xl"><Check /></button>
-            <button onClick={() => triggerAction(false)} className="p-3 bg-red-500/10 text-red-600 rounded-xl"><X /></button>
-        </div> */}
 
         {/* Feedback Modal */}
         {showModal && (
@@ -135,14 +138,22 @@ const [showModal, setShowModal] = useState(false);
 
                   <div className="flex gap-3">
                   <button onClick={() => setShowModal(false)} className="flex-1 py-3 font-medium text-slate-500">Cancel</button>
-                      <button 
-                          onClick={handleConfirm} 
-                          disabled={isPending}
-                          className="flex-1 py-3 bg-slate-900 dark:bg-white dark:text-slate-900 text-white rounded-xl font-bold flex items-center justify-center gap-2"
-                      >
-                          {isPending ? "Sending..." : "Confirm & Email"}
-                          <Send size={16} />
-                      </button>
+                    <button 
+                        onClick={handleConfirm} 
+                        disabled={isPending}
+                        className="flex-1 py-3 bg-slate-900 dark:bg-white dark:text-slate-900 text-white rounded-xl font-bold flex items-center justify-center gap-2 disabled:opacity-50"
+                    >
+                        {isPending ? (
+                          <>
+                            <span className="animate-spin mr-2">...</span>
+                            Sending...
+                          </>
+                        ) : (
+                          <>
+                            Confirm & Email <Send size={16} />
+                          </>
+                        )}
+                    </button>
                   </div>
               </div>
           </div>
