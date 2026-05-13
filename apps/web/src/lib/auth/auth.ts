@@ -89,30 +89,30 @@ export const authOptions: NextAuthOptions = {
       });
     },
 
-    async signIn({ user }) {
-      console.log("ADMIN_EMAIL env:", process.env.ADMIN_EMAIL);
-      console.log("User email:", user.email);
-      console.log("Match:", user.email === process.env.ADMIN_EMAIL);
+    // async signIn({ user }) {
+    //   console.log("ADMIN_EMAIL env:", process.env.ADMIN_EMAIL);
+    //   console.log("User email:", user.email);
+    //   console.log("Match:", user.email === process.env.ADMIN_EMAIL);
       
-      if (!user.email) return;
+    //   if (!user.email) return;
 
-      // Fetch current role first — don't blindly overwrite
-      const existingUser = await prisma.user.findUnique({
-        where: { email: user.email },
-        select: { role: true },
-      });
+    //   // Fetch current role first — don't blindly overwrite
+    //   const existingUser = await prisma.user.findUnique({
+    //     where: { email: user.email },
+    //     select: { role: true },
+    //   });
 
-      const isAdmin = user.email === process.env.ADMIN_EMAIL;
+    //   const isAdmin = user.email === process.env.ADMIN_EMAIL;
 
-      // Only update if role needs to change
-      const correctRole = isAdmin ? UserRole.ADMINISTRATOR : UserRole.GUEST;
-      if (existingUser?.role !== correctRole) {
-        await prisma.user.update({
-          where: { email: user.email },
-          data: { role: correctRole },
-        });
-      }
-    },
+    //   // Only update if role needs to change
+    //   const correctRole = isAdmin ? UserRole.ADMINISTRATOR : UserRole.GUEST;
+    //   if (existingUser?.role !== correctRole) {
+    //     await prisma.user.update({
+    //       where: { email: user.email },
+    //       data: { role: correctRole },
+    //     });
+    //   }
+    // },
   },
 
   callbacks: {
@@ -158,17 +158,51 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
 
+    // async jwt({ token, user }) {
+    //   const email = user?.email ?? (token.email as string | undefined);
+
+    //   // Prevent invalid prisma query
+    //   if (!email) {
+    //     return token;
+    //   }
+
+    //   if (email) {
+    //     const dbUser = await prisma.user.findUnique({ where: { email } });
+    //     if (dbUser) {
+    //       token.id = dbUser.id;
+    //       token.role = dbUser.role;
+    //       token.image = dbUser.image;
+    //       token.email = dbUser.email;
+    //     }
+    //   }
+    //   return token;
+    // },
+
     async jwt({ token, user }) {
-      const email = user?.email ?? (token.email as string | undefined);
-      if (email) {
-        const dbUser = await prisma.user.findUnique({ where: { email } });
-        if (dbUser) {
-          token.id = dbUser.id;
-          token.role = dbUser.role;
-          token.image = dbUser.image;
-          token.email = dbUser.email;
-        }
+      const email =
+        typeof user?.email === "string"
+          ? user.email
+          : typeof token?.email === "string"
+          ? token.email
+          : null;
+
+      if (!email) {
+        return token;
       }
+
+      const dbUser = await prisma.user.findFirst({
+        where: {
+          email,
+        },
+      });
+
+      if (dbUser) {
+        token.id = dbUser.id;
+        token.role = dbUser.role;
+        token.image = dbUser.image;
+        token.email = dbUser.email;
+      }
+
       return token;
     },
 

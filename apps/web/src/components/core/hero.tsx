@@ -4,7 +4,7 @@ import { motion, Variants } from "framer-motion";
 import HeroButton from "../ui/hero-button/hero-button";
 import { Cpu, GitBranch, Hammer, Wrench, Rocket, Server, Terminal } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -14,12 +14,16 @@ const container: Variants = {
   },
 }
 
+type HeroProps = {
+  token?: string;
+};
+
 const item: Variants = {
   hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
 }
 
-export default function Hero() {
+export default function Hero({ token }: HeroProps) {
   const fullText = "Hi I'm Earl Jan Do! [Erzan] I'm a FullStack Developer, Welcome!";
   const [displayText, setDisplayText] = useState("");
   const [phase, setPhase] = useState<'typing' | 'pausing' | 'deleting'>('typing');
@@ -93,6 +97,43 @@ export default function Hero() {
     tag: "text-amber-400 font-mono",
     role: "text-emerald-400 font-semibold",
   };
+
+  // useEffect(() => {
+  //   if (!token) return;
+
+  //   const timeout = setTimeout(() => {
+  //     const section = document.getElementById("testimonials");
+
+  //     if (section) {
+  //       section.scrollIntoView({
+  //         behavior: "smooth",
+  //         block: "start",
+  //       });
+  //     }
+  //   }, 1200);
+
+  //   return () => clearTimeout(timeout);
+  // }, [token]);
+
+const hasScrolled = useRef(false);
+
+useEffect(() => {
+  if (!token) return;
+  if (hasScrolled.current) return;
+
+  const id = setTimeout(() => {
+    const el = document.getElementById("testimonials");
+    if (!el) return;
+
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    hasScrolled.current = true;
+  }, 800);
+
+  return () => clearTimeout(id);
+}, [token]);
+
+  console.log("Hero token:", token);
 
   return (
     <main>
@@ -216,7 +257,77 @@ export default function Hero() {
                 </div>
               </Card>
             </motion.div>
+            {token && (
+  <button
+    onClick={() =>
+      document.getElementById("testimonials")?.scrollIntoView({
+        behavior: "smooth",
+      })
+    }
+    className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50
+               rounded-full bg-emerald-500/10 border border-emerald-400/30
+               px-5 py-3 text-sm text-emerald-300 backdrop-blur-md"
+  >
+    ↓ Leave Your Testimonial
+  </button>
+)}
           </motion.div>
+          {/* {token && (
+              <motion.button
+                initial={{ opacity: 0, y: 20 }}
+                animate={{
+                  opacity: 1,
+                  y: [0, -6, 0],
+                }}
+                transition={{
+                  opacity: { duration: 0.5, delay: 1.5 },
+                  y: {
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  },
+                }}
+                onClick={scrollToTestimonials}
+                className="
+                  fixed
+                  bottom-8
+                  left-1/2
+                  -translate-x-1/2
+                  z-50
+
+                  flex
+                  items-center
+                  gap-2
+
+                  rounded-full
+                  border
+                  border-emerald-400/20
+
+                  bg-zinc-900/80
+                  px-5
+                  py-3
+
+                  text-sm
+                  font-medium
+                  text-emerald-300
+
+                  shadow-2xl
+                  shadow-emerald-500/10
+
+                  backdrop-blur-xl
+
+                  transition-all
+                  duration-300
+
+                  hover:scale-105
+                  hover:bg-zinc-900
+                  hover:border-emerald-400/40
+                "
+              >
+                <span className="text-lg">↓</span>
+                Leave Your Testimonial
+              </motion.button>
+            )} */}
         </div>
       </div>
     </main>

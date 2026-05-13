@@ -15,12 +15,19 @@ import { prisma } from "@/lib/prisma/prisma";
 import { Suspense } from "react";
 
 type Props = {
-  searchParams: Promise<{ token?: string }>;
+  searchParams: {
+    token?: string;
+  };
 };
 
-export default async function Home({ searchParams }: Props) {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { token?: string };
+}) {
   const session = await getServerSession(authOptions);
-  const { token } = await searchParams;
+
+  const token = searchParams?.token;
   // Fetch only approved and active testimonials
   const approvedTestimonials = await prisma.testimonials.findMany({
     where: {
@@ -36,7 +43,7 @@ export default async function Home({ searchParams }: Props) {
   });
   return (
     <main className="container mx-auto px-6 overflow-x-hidden">
-      <Hero />
+      <Hero token={token}/>
       <Tabs />
       <section className="py-20 max-w-6xl mx-auto px-1">
         {/* <div className="mt-16"> */}
@@ -52,9 +59,14 @@ export default async function Home({ searchParams }: Props) {
       <HowIThink />
       {/* <Lab /> */}
       {/* <Testimonials items={approvedTestimonials} /> */}
-      <Suspense fallback={null}>
-        <Testimonials items={approvedTestimonials} token={token} />
-      </Suspense>
+      <section
+        id="testimonials"
+        className="scroll-mt-24"
+      >
+        <Suspense fallback={null}>
+          <Testimonials items={approvedTestimonials} token={token} />
+        </Suspense>
+      </section>
       <section className="py-20 px-6 bg-slate-500/3 mb-10 mx-auto max-w-6xl">
         <div className="max-w-2xl mx-auto text-center mb-10">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Leave a Note</h2>

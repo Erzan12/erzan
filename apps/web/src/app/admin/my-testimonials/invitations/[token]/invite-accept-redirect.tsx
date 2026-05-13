@@ -10,8 +10,9 @@ import { useEffect } from "react";
 export default function InviteAcceptRedirect({ token }: { token: string }) {
   useEffect(() => {
     const url = new URL("/", window.location.origin);
-    url.searchParams.set("token", token);
-    url.hash = "testimonials";
+    // url.searchParams.set("token", token);
+    // url.hash = "testimonials";
+    window.location.href = "/#testimonials";
     window.location.replace(url.toString());
   }, [token]);
 
