@@ -171,6 +171,7 @@ GITHUB_TOKEN=your_github_token_here
 - CMS Transition
 - Blog post CMS Type Admin Controlled
 - Testimonies section CMS Type, invites peers for testimonials working with me or as my colleague, Added workflow approve and reject, Admin Control for moderation
+- Updated and enhanced color hue's and layout design per module
 
 ### 📦 Releases
 ```bash
