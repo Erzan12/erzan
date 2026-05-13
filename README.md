@@ -167,13 +167,20 @@ GITHUB_TOKEN=your_github_token_here
 - Schedule call
 - More quality of life changes UI/UX and content
 
+## New additions/features
+- CMS Transition
+- Blog post CMS Type Admin Controlled
+- Testimonies section CMS Type, invites peers for testimonials working with me or as my colleague, Added workflow approve and reject, Admin Control for moderation
+
 ### 📦 Releases
 ```bash
 v0.7.0 – Documentation & UI Interaction Update
 v0.8.0 – Dynamic Projects & GitHub Integration
 v1.0.0 – Public Portfolio Platform Release 🎉
 v1.0.1 - Patch bug fixes and typo errors (Upcoming)
-v1.5.0 - Minor update in the blog page in Portfolio to make CMS to easily control and manage my data (Upcoming)
+v1.5.0 - Transition to CMS Type Portfolio,
+       - Minor update in the blog page in Portfolio to make CMS to easily control and manage my data (Upcoming)
+       - Added blog and testimonial section, admin moderated
 ```
 
 ### 📄 License
