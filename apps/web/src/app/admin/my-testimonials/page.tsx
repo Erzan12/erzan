@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma/prisma";
 import ModerationList from "@/components/core/testimonies/testimonies-cms/testimony-moderation-list";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"; // Assuming shadcn/ui or similar
 
+export const dynamic = "force-dynamic";
+
 export default async function TestimonialsAdminPage() {
   // Fetch data on the server
   const pending = await prisma.testimonials.findMany({

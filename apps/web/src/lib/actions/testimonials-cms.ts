@@ -30,6 +30,7 @@ export async function submitTestimonial(data: {
   });
 
   revalidatePath("/");
+  revalidatePath("/admin/my-testimonials");
   return testimonial;
 }
 
