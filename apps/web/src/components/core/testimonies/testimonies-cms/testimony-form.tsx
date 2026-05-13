@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useTransition } from "react";
-import { submitTestimonial } from "@/lib/mail/internal-mailer/testimonials-cms";
 import { Send, CheckCircle2 } from "lucide-react";
+import { submitTestimonial } from "@/lib/actions/testimonials-cms";
 
 export default function TestimonialForm({ 
   userId, 
