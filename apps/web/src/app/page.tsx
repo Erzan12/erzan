@@ -12,6 +12,7 @@ import { authOptions } from "@/lib/auth/auth";
 import TestimonialForm from "@/components/core/testimonies/testimonies-cms/testimony-form";
 import GuestLoginButton from "@/components/login/guest-login";
 import { prisma } from "@/lib/prisma/prisma";
+import { Suspense } from "react";
 
 type Props = {
   searchParams: Promise<{ token?: string }>;
@@ -50,8 +51,11 @@ export default async function Home({ searchParams }: Props) {
       <CaseStudy project={projects[0]}/>
       <HowIThink />
       {/* <Lab /> */}
-      <Testimonials items={approvedTestimonials} />
-      <section id="testimonials" className="py-20 px-6 bg-slate-500/3 mb-10 mx-auto max-w-6xl">
+      {/* <Testimonials items={approvedTestimonials} /> */}
+      <Suspense fallback={null}>
+        <Testimonials items={approvedTestimonials} token={token} />
+      </Suspense>
+      <section className="py-20 px-6 bg-slate-500/3 mb-10 mx-auto max-w-6xl">
         <div className="max-w-2xl mx-auto text-center mb-10">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Leave a Note</h2>
           <p className="text-slate-500 text-sm mt-2">I value your feedback on our collaborations or projects.</p>

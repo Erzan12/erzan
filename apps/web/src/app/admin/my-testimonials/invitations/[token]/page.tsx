@@ -1,14 +1,12 @@
 import { prisma } from "@/lib/prisma/prisma";
-import { redirect } from "next/navigation";
+import InviteAcceptRedirect from "./invite-accept-redirect";
 
 type Props = {
-  params: Promise<{ token: string }>;
+  params: { token: string };
 };
 
-export default async function InvitePage({
-  params,
-}: Props) {
-  const { token } = await params;
+export default async function InvitePage({ params }: Props) {
+    const { token } = params;
 
   const invitation =
     await prisma.testimonialInvitation.findUnique({
@@ -35,6 +33,7 @@ export default async function InvitePage({
     return <div>Invitation expired</div>;
   }
 
-  // DO NOT mark accepted here
-  redirect(`/?token=${token}#testimonials`);
+  // DO NOT mark accepted here. Use client navigation so #testimonials survives
+  // (HTTP redirects often drop the fragment from Location).
+  return <InviteAcceptRedirect token={token} />;
 }
