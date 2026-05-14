@@ -1,18 +1,18 @@
-import { getServerSession } from "next-auth"; // This is the card design we discussed
-import { Inbox, CheckCircle, X, XCircle } from "lucide-react";
+import { Inbox, CheckCircle, XCircle } from "lucide-react";
+import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth";
-import { ModerationCard } from "./testimony-moderation-card";
+import { BlogModerationCard } from "./blog-moderation-card";
 
 interface ModerationListProps {
   items: any[];
-  type: "review" | "published" | "rejected";
+  type: "draft" | "published" | "rejected";
 }
 
-export default async function TestimonyModerationList({
-  items,
-  type,
+export default async function BlogModerationList({ 
+  items, 
+  type 
 }: ModerationListProps) {
-  
+
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.id) {
@@ -22,8 +22,7 @@ export default async function TestimonyModerationList({
   if (items.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 px-6 border-2 border-dashed border-slate-500/10 rounded-[3rem] bg-slate-500/5">
-
-        {type === "review" && (
+        {type === "draft" && (
           <>
             <div className="p-4 bg-white dark:bg-slate-900 rounded-2xl shadow-xl mb-4">
               <CheckCircle className="w-8 h-8 text-green-500" />
@@ -54,17 +53,16 @@ export default async function TestimonyModerationList({
         {type === "rejected" && (
           <>
             <div className="p-4 bg-white dark:bg-slate-900 rounded-2xl shadow-xl mb-4">
-              <XCircle className="w-8 h-8 text-red-500 border-red-500/20" />
+              <XCircle className="w-8 h-8 text-red-400" />
             </div>
             <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-              No Testimonials has been rejected yet
+              Nothing rejected yet
             </h3>
             <p className="text-slate-500 text-sm mt-1 text-center">
               Rejected testimonials will appear here.
             </p>
           </>
         )}
-
       </div>
     );
   }
@@ -72,11 +70,11 @@ export default async function TestimonyModerationList({
   return (
     <div className="grid grid-cols-1 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {items.map((item) => (
-        <ModerationCard
-          key={item.id}
-          item={item}
-          type={type}
-          adminId={session?.user?.id}
+        <BlogModerationCard 
+          key={item.id} 
+          item={item} 
+          type={type} 
+          adminId={session?.user?.id} 
         />
       ))}
     </div>

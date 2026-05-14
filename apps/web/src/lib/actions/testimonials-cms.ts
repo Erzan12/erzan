@@ -36,8 +36,11 @@ export async function submitTestimonial(data: {
 
 export async function moderateTestimonial(
   id: string,
-  data: { approve: boolean; feedback?: string }
+  data: { approve: boolean; feedback?: string; },
+  adminId: string,
 ) {
+  const status = data.approve ? "APPROVED" : "REJECTED";
+
   const session = await getServerSession(authOptions);
 
   if (session?.user?.role !== "ADMINISTRATOR") {
@@ -50,6 +53,19 @@ export async function moderateTestimonial(
     data: {
       is_approved: data.approve,
       is_published: data.approve,
+      is_active: data.approve,     // optional rule
+      feedback: data.feedback
+        ? {
+            create: {
+              my_feedback: data.feedback,
+              admin: {
+                connect: {
+                  id: adminId, // <- you must pass this
+                },
+              },
+            },
+          }
+        : undefined,
     },
     include: {
       user: true, // Assuming relation is named 'user'

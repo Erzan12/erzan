@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma/prisma";
-import ModerationList from "@/components/core/testimonies/testimonies-cms/testimony-moderation-list";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"; // Assuming shadcn/ui or similar
+import BlogModerationList from "@/components/core/blog/blog-cms/blog-moderation-list";
+
+export const dynamic = "force-dynamic";
 
 export default async function ManagePostsAdminPage() {
   // Fetch data on the server
@@ -11,10 +13,16 @@ export default async function ManagePostsAdminPage() {
     orderBy: { createdAt: "desc" },
   });
 
-  const published = await prisma.testimonials.findMany({
-    where: { is_approved: true, is_active: true },
-    include: { feedback: true, user: true },
-    orderBy: { updated_at: "desc" },
+  const published = await prisma.post.findMany({
+    where: { status: "PUBLISHED" },
+    include: { author: true },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const rejected = await prisma.post.findMany({
+    where: { status: "REJECTED" },
+    include: { author: true },
+    orderBy: { createdAt: "desc" },
   });
 
   return (
@@ -24,25 +32,29 @@ export default async function ManagePostsAdminPage() {
         <p className="text-slate-500 text-sm mt-2">Manage and review your Blog posts.</p>
       </header>
 
-      <Tabs defaultValue="pending" className="w-full">
+      <Tabs defaultValue="draft" className="w-full">
         <TabsList className="bg-slate-500/5 p-1 rounded-xl mb-8">
-          <TabsTrigger value="pending" className="rounded-lg px-8">
+          <TabsTrigger value="draft" className="rounded-lg px-8">
             Draft ({draft.length})
           </TabsTrigger>
           <TabsTrigger value="published" className="rounded-lg px-8">
             Published ({published.length})
           </TabsTrigger>
-          {/* <TabsTrigger value="published" className="rounded-lg px-8">
-            Upcoming ({published.length})
-          </TabsTrigger> */}
+          <TabsTrigger value="rejected" className="rounded-lg px-8">
+            Rejected ({rejected.length})
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="pending">
-          <ModerationList items={draft} type="pending" />
+        <TabsContent value="draft">
+          <BlogModerationList items={draft} type="draft" />
         </TabsContent>
         
         <TabsContent value="published">
-          <ModerationList items={published} type="published" />
+          <BlogModerationList items={published} type="published" />
+        </TabsContent>
+
+        <TabsContent value="rejected">
+          <BlogModerationList items={rejected} type="rejected" />
         </TabsContent>
       </Tabs>
     </div>

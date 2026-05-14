@@ -2,16 +2,20 @@
 
 import { useEffect } from "react";
 
-/**
- * Server redirect() cannot rely on URL fragments: many stacks omit `#...`
- * from the HTTP Location header, so the browser never scrolls to the section.
- * A client-side navigation preserves hash and triggers native scroll-to-id.
- */
-export default function InviteAcceptRedirect({ token }: { token: string }) {
+export default function InviteAcceptRedirect({
+  token,
+}: {
+  token: string;
+}) {
   useEffect(() => {
     const url = new URL("/", window.location.origin);
+
+    // IMPORTANT
     url.searchParams.set("token", token);
+
+    // Scroll target
     url.hash = "testimonials";
+
     window.location.replace(url.toString());
   }, [token]);
 

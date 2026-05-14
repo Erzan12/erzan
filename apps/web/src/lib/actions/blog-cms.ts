@@ -14,7 +14,7 @@ export async function createPost(formData: FormData) {
 
   const rawStatus = formData.get("status");
 
-  if (rawStatus !== "DRAFT" && rawStatus !== "PUBLISHED") {
+  if (rawStatus !== "DRAFT" && rawStatus !== "PUBLISHED" && rawStatus !== "REJECTED") {
     return { error: "Invalid status value" };
   }
 
@@ -84,4 +84,32 @@ export async function updatePost(
     success: true,
     post: updatedPost,
   };
+}
+
+export async function moderatePost(
+  postId: string,
+  data: {
+    approve: boolean;
+    adminId: string;
+    feedback?: string;
+  }
+) {
+  const status = data.approve ? "PUBLISHED" : "REJECTED";
+
+  const updatedPost = await prisma.post.update({
+    where: { id: postId },
+    data: {
+      status,
+      published: data.approve,
+      updatedAt: new Date(),
+    },
+    include: {
+      author: true,
+    },
+  });
+
+  // optional: refresh admin UI
+  revalidatePath("/admin/blog/posts");
+
+  return updatedPost;
 }

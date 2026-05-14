@@ -14,13 +14,19 @@ import GuestLoginButton from "@/components/login/guest-login";
 import { prisma } from "@/lib/prisma/prisma";
 import { Suspense } from "react";
 
-type Props = {
+// type Props = {
+//   searchParams: {
+//     token?: string;
+//   };
+// };
+export default async function Home({
+  searchParams,
+}: {
   searchParams: Promise<{ token?: string }>;
-};
-
-export default async function Home({ searchParams }: Props) {
-  const session = await getServerSession(authOptions);
+}) {
   const { token } = await searchParams;
+  const session = await getServerSession(authOptions);
+
   // Fetch only approved and active testimonials
   const approvedTestimonials = await prisma.testimonials.findMany({
     where: {
@@ -34,9 +40,27 @@ export default async function Home({ searchParams }: Props) {
       created_at: "desc",
     },
   });
+
+  const invitation = token
+    ? await prisma.testimonialInvitation.findUnique({
+        where: { token },
+      })
+    : null;
+
+  const validToken =
+    invitation &&
+    invitation.status === "PENDING" &&
+    new Date() < invitation.expires_at
+      ? token
+      : undefined;
+
+  console.log('valid token value:', validToken)
+
+  console.log("search params token:", token);
+
   return (
     <main className="container mx-auto px-6 overflow-x-hidden">
-      <Hero />
+      <Hero token={validToken}/>
       <Tabs />
       <section className="py-20 max-w-6xl mx-auto px-1">
         {/* <div className="mt-16"> */}
@@ -52,16 +76,21 @@ export default async function Home({ searchParams }: Props) {
       <HowIThink />
       {/* <Lab /> */}
       {/* <Testimonials items={approvedTestimonials} /> */}
-      <Suspense fallback={null}>
-        <Testimonials items={approvedTestimonials} token={token} />
-      </Suspense>
-      <section className="py-20 px-6 bg-slate-500/3 mb-10 mx-auto max-w-6xl">
+      <section
+        id="testimonials"
+        className="scroll-mt-24"
+      >
+        <Suspense fallback={null}>
+          <Testimonials items={approvedTestimonials} token={token} />
+        </Suspense>
+      </section>
+      <section id="leave-note" className="py-20 px-6 bg-slate-500/3 mb-10 mx-auto max-w-6xl">
         <div className="max-w-2xl mx-auto text-center mb-10">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Leave a Note</h2>
           <p className="text-slate-500 text-sm mt-2">I value your feedback on our collaborations or projects.</p>
         </div>
         
-        {session?.user ? (
+        {/* {session?.user ? (
           <TestimonialForm userId={session.user.id} />
         ) : token ? (
           // Invited guest — show form without login
@@ -76,6 +105,38 @@ export default async function Home({ searchParams }: Props) {
             </p>
             
             <GuestLoginButton />
+          </div>
+        )} */}
+        {validToken ? (
+          session?.user ? (
+            <TestimonialForm
+              userId={session.user.id}
+              invitationToken={validToken}
+              isInvited
+            />
+          ) : (
+            <div className="text-center p-12 border border-dashed border-slate-500/30 rounded-[2.5rem] flex flex-col items-center justify-center bg-white/20 backdrop-blur-sm">
+              <p className="text-slate-600 dark:text-slate-400 font-medium">
+                You were invited to leave a testimonial
+              </p>
+
+              <p className="text-slate-500 text-xs mt-1">
+                Sign in first to verify your identity.
+              </p>
+
+              <GuestLoginButton />
+            </div>
+          )
+        )
+         : (
+          <div className="text-center p-12 border border-dashed border-slate-500/30 rounded-[2.5rem] flex flex-col items-center justify-center bg-white/20 backdrop-blur-sm">
+            <p className="text-slate-600 dark:text-slate-400 font-medium">
+              Testimonials are invite-only
+            </p>
+
+            <p className="text-slate-500 text-xs mt-1">
+              Contact me if you'd like to leave feedback.
+            </p>
           </div>
         )}
       </section>

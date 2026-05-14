@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useLayoutEffect } from "react";
 import { Quote } from "lucide-react";
 
 interface TestimonialsProps {
@@ -19,11 +18,6 @@ function TestimonialCard({ t }: { t: any }) {
     widths[t.name.charCodeAt(0) % widths.length];
 
   return (
-    // <div className={`
-    //   relative p-6 my-3 rounded-3xl bg-white/50 dark:bg-slate-900/40 
-    //   border border-slate-500/10 backdrop-blur-md flex flex-col justify-between
-    //   ${size === 'wide' ? 'w-[450px]' : 'w-[320px]'}
-    // `}>
     <div className={`
       relative p-6 my-3 rounded-3xl
       bg-white/50 dark:bg-slate-900/40
@@ -54,12 +48,6 @@ function TestimonialCard({ t }: { t: any }) {
 }
 
 export default function Testimonials({ items, token }: TestimonialsProps) {
-  // const searchParams = useSearchParams();
-  // const token = searchParams.get("token");
-
-  // Split items into two rows for the marquee
-  // const row1 = useMemo(() => items.slice(0, Math.ceil(items.length / 2)), [items]);
-  // const row2 = useMemo(() => items.slice(Math.ceil(items.length / 2)), [items]);
   const row1 = items.filter((_, i) => i % 2 === 0);
   const row2 = items.filter((_, i) => i % 2 !== 0);
 
@@ -67,64 +55,6 @@ export default function Testimonials({ items, token }: TestimonialsProps) {
 
   const displayRow1 = shouldAnimate ? [...row1, ...row1] : row1;
   const displayRow2 = shouldAnimate ? [...row2, ...row2] : row2;
-
-  // useEffect(() => {
-  //   if (!token) return;
-
-  //   const tryScroll = (attempts = 0) => {
-  //     const element = document.getElementById("testimonials");
-  //     if (element) {
-  //       element.scrollIntoView({ behavior: "smooth", block: "start" });
-  //     } else if (attempts < 10) {
-  //       setTimeout(() => tryScroll(attempts + 1), 150);
-  //     }
-  //   };
-
-  //   // Give Next.js time to hydrate and paint
-  //   setTimeout(() => tryScroll(), 300);
-  // }, [token]);
-
-  const inviteToken =
-    token?.trim() ||
-    (typeof window !== "undefined"
-      ? new URLSearchParams(window.location.search).get("token")?.trim()
-      : undefined);
-
-  function scrollTestimonialsIntoView() {
-    const el = document.getElementById("testimonials");
-    if (!el) return false;
-    const offset = 96; // sticky nav + breathing room
-    const top = el.getBoundingClientRect().top + window.scrollY - offset;
-    window.scrollTo({ top: Math.max(0, top), behavior: "auto" });
-    return true;
-  }
-
-  // Run as early as possible so we beat scroll restoration / layout shifts.
-  useLayoutEffect(() => {
-    if (!inviteToken) return;
-    if (scrollTestimonialsIntoView()) return;
-
-    let cancelled = false;
-    const schedule = [0, 50, 150, 400, 800];
-    const ids = schedule.map((ms) =>
-      window.setTimeout(() => {
-        if (!cancelled) scrollTestimonialsIntoView();
-      }, ms),
-    );
-    return () => {
-      cancelled = true;
-      ids.forEach(clearTimeout);
-    };
-  }, [inviteToken]);
-
-  // Hash navigation can run before layout is stable; smooth retry after paint.
-  useEffect(() => {
-    if (!inviteToken) return;
-    const id = window.setTimeout(() => scrollTestimonialsIntoView(), 0);
-    return () => clearTimeout(id);
-  }, [inviteToken]);
-
-  // if (items.length === 0) return null;
 
   if (items.length === 0) {
     return (

@@ -14,6 +14,7 @@ datasource db {
 enum PostStatus {
   DRAFT
   PUBLISHED
+  REJECTED
 }
 
 enum UserRole {
@@ -26,6 +27,12 @@ enum InvitationStatus {
   ACCEPTED
   EXPIRED
   DECLINED
+}
+
+enum TestimonialStatus {
+  REVIEW
+  APPROVED
+  REJECTED
 }
 
 model User {
@@ -133,6 +140,7 @@ model Testimonials {
   role         String?
   content      String   @db.Text
   avatar       String?  //store user iamge url at time of posting
+  status       TestimonialStatus  @default(REVIEW)
 
   // Moderation States
   is_published  Boolean  @default(false)

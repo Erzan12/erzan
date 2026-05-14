@@ -4,7 +4,7 @@ import { motion, Variants } from "framer-motion";
 import HeroButton from "../ui/hero-button/hero-button";
 import { Cpu, GitBranch, Hammer, Wrench, Rocket, Server, Terminal } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -14,15 +14,21 @@ const container: Variants = {
   },
 }
 
+type HeroProps = {
+  token?: string;
+};
+
 const item: Variants = {
   hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
 }
 
-export default function Hero() {
+export default function Hero({ token }: HeroProps) {
   const fullText = "Hi I'm Earl Jan Do! [Erzan] I'm a FullStack Developer, Welcome!";
   const [displayText, setDisplayText] = useState("");
   const [phase, setPhase] = useState<'typing' | 'pausing' | 'deleting'>('typing');
+
+  const [showInviteButton, setShowInviteButton] = useState(!!token);
 
   useEffect(() => {
     if (phase === 'typing') {
@@ -93,6 +99,26 @@ export default function Hero() {
     tag: "text-amber-400 font-mono",
     role: "text-emerald-400 font-semibold",
   };
+
+  const hasScrolled = useRef(false);
+
+  useEffect(() => {
+    if (!token) return;
+    if (hasScrolled.current) return;
+
+    const id = setTimeout(() => {
+      const el = document.getElementById("testimonials");
+      if (!el) return;
+
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      hasScrolled.current = true;
+    }, 800);
+
+    return () => clearTimeout(id);
+  }, [token]);
+
+  console.log("Hero token:", token);
 
   return (
     <main>
@@ -216,6 +242,28 @@ export default function Hero() {
                 </div>
               </Card>
             </motion.div>
+            {showInviteButton && (
+              <button
+                onClick={() => {
+                  document.getElementById("leave-note")?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+
+                  setTimeout(() => {
+                    setShowInviteButton(false);
+                  }, 300);
+                }}
+                className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300
+                          rounded-full bg-slate-500/10 border border-slate-400/20
+                          px-5 py-3 text-sm text-slate-900 backdrop-blur-md"
+              >
+                <span className="flex items-center gap-2">
+                  <span className="animate-bounce inline-block">↓</span>
+                  <span>Leave Your Testimonial</span>
+                </span>
+              </button>
+            )}
           </motion.div>
         </div>
       </div>
