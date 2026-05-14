@@ -87,96 +87,99 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
-          <a
-            href="https://erzan-docs.vercel.app"
-            target="_blank"
-            className="flex items-center gap-1 hover:text-black dark:hover:text-white transition relative after:absolute 
-            after:left-0 after:-bottom-1 after:h-[1px] after:w-0 after:bg-current after:transition-all hover:after:w-full"
-          >
-            <BookOpen size={16} />
-            Docs
-          </a>
+          <div className="hidden md:flex items-center gap-4">
+            <a
+              href="https://erzan-docs.vercel.app"
+              target="_blank"
+              className="flex items-center gap-1 hover:text-black dark:hover:text-white transition relative after:absolute 
+              after:left-0 after:-bottom-1 after:h-[1px] after:w-0 after:bg-current after:transition-all hover:after:w-full"
+            >
+              <BookOpen size={16} />
+              Docs
+            </a>
 
-          <a
-            href="https://github.com/Erzan12"
-            target="_blank"
-            className="flex items-center gap-1 hover:text-black dark:hover:text-white transition relative after:absolute 
-            after:left-0 after:-bottom-1 after:h-[1px] after:w-0 after:bg-current after:transition-all hover:after:w-full"
-          >
-            <Github size={16} />
-            GitHub
-          </a>
-          <ThemeToggle />
+            <a
+              href="https://github.com/Erzan12"
+              target="_blank"
+              className="flex items-center gap-1 hover:text-black dark:hover:text-white transition relative after:absolute 
+              after:left-0 after:-bottom-1 after:h-[1px] after:w-0 after:bg-current after:transition-all hover:after:w-full"
+            >
+              <Github size={16} />
+              GitHub
+            </a>
+          </div>
 
-          {/* User avatar dropdown */}
-          {session && (
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center rounded-full ring-2 ring-border hover:ring-primary/50 transition-all"
-                aria-label="User menu"
-              >
-                <Image
-                  src={session.user.image || "/images/person.png"}
-                  alt={session.user.name || "User"}
-                  width={32}
-                  height={32}
-                  className="rounded-full"
-                />
-              </button>
-
-              {dropdownOpen && (
-                <div className="absolute right-0 top-10 w-52 bg-background border border-border rounded-xl shadow-sm overflow-hidden z-50">
-                  {/* User info */}
-                  <div className="px-4 py-3 border-b border-border">
-                    <p className="text-sm font-medium truncate">{session.user.name}</p>
-                    <p className="text-xs text-muted-foreground truncate">{session.user.email}</p>
-                  </div>
-
-                  {/* Admin */}
-                  {/* <button
-                    onClick={() => { router.push("/admin"); setDropdownOpen(false); }}
-                    className="w-full text-left px-4 py-2.5 text-sm hover:bg-muted transition-colors flex items-center gap-2"
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+              {/* User avatar dropdown */}
+              {session && (
+                <div className="relative" ref={dropdownRef}>
+                  <button
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    className="flex items-center rounded-full ring-2 ring-border hover:ring-primary/50 transition-all"
+                    aria-label="User menu"
                   >
-                    <Github size={15} /> Admin panel
-                  </button> */}
+                    <Image
+                      src={session.user.image || "/images/person.png"}
+                      alt={session.user.name || "User"}
+                      width={32}
+                      height={32}
+                      className="rounded-full"
+                    />
+                  </button>
 
-                   {/* Show only if NOT guest */}
-                    {(session?.user?.role ?? "GUEST") !== "GUEST" && (
-                      <button
-                        onClick={() => {
-                          router.push("/admin");
-                          setDropdownOpen(false);
-                        }}
+                  {dropdownOpen && (
+                    <div className="absolute right-0 top-10 w-52 bg-background border border-border rounded-xl shadow-sm overflow-hidden z-50">
+                      {/* User info */}
+                      <div className="px-4 py-3 border-b border-border">
+                        <p className="text-sm font-medium truncate">{session.user.name}</p>
+                        <p className="text-xs text-muted-foreground truncate">{session.user.email}</p>
+                      </div>
+
+                      {/* Admin */}
+                      {/* <button
+                        onClick={() => { router.push("/admin"); setDropdownOpen(false); }}
                         className="w-full text-left px-4 py-2.5 text-sm hover:bg-muted transition-colors flex items-center gap-2"
                       >
-                        <SiGithub size={15} /> Admin panel
+                        <Github size={15} /> Admin panel
+                      </button> */}
+
+                      {/* Show only if NOT guest */}
+                        {(session?.user?.role ?? "GUEST") !== "GUEST" && (
+                          <button
+                            onClick={() => {
+                              router.push("/admin");
+                              setDropdownOpen(false);
+                            }}
+                            className="w-full text-left px-4 py-2.5 text-sm hover:bg-muted transition-colors flex items-center gap-2"
+                          >
+                            <SiGithub size={15} /> Admin panel
+                          </button>
+                        )}
+
+                      <div className="border-t border-border" />
+
+                      {/* Sign out */}
+                      <button
+                        onClick={() => signOut({ callbackUrl: "/" })}
+                        className="w-full text-left px-4 py-2.5 text-sm text-destructive hover:bg-muted transition-colors flex items-center gap-2"
+                      >
+                        Sign out
                       </button>
-                    )}
-
-                  <div className="border-t border-border" />
-
-                  {/* Sign out */}
-                  <button
-                    onClick={() => signOut({ callbackUrl: "/" })}
-                    className="w-full text-left px-4 py-2.5 text-sm text-destructive hover:bg-muted transition-colors flex items-center gap-2"
-                  >
-                    Sign out
-                  </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
-          )}
+
+            {/* mobile hamburger button */}
+            <button
+              className="md:hidden"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <X size={22} /> : <Menu size={22} />}
+            </button>
         </div>
-
-        {/* mobile hamburger button */}
-        <button
-          className="md:hidden"
-          onClick={() => setOpen(!open)}
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
-
       </div>
       {/* mobile menu */}
       <div
@@ -217,7 +220,7 @@ export default function Navbar() {
                 GitHub
             </a>
 
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
         </div>
       </div>
     </nav>
