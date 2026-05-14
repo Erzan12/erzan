@@ -98,40 +98,23 @@ export default function Hero({ token }: HeroProps) {
     role: "text-emerald-400 font-semibold",
   };
 
-  // useEffect(() => {
-  //   if (!token) return;
+  const hasScrolled = useRef(false);
 
-  //   const timeout = setTimeout(() => {
-  //     const section = document.getElementById("testimonials");
+  useEffect(() => {
+    if (!token) return;
+    if (hasScrolled.current) return;
 
-  //     if (section) {
-  //       section.scrollIntoView({
-  //         behavior: "smooth",
-  //         block: "start",
-  //       });
-  //     }
-  //   }, 1200);
+    const id = setTimeout(() => {
+      const el = document.getElementById("testimonials");
+      if (!el) return;
 
-  //   return () => clearTimeout(timeout);
-  // }, [token]);
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
 
-const hasScrolled = useRef(false);
+      hasScrolled.current = true;
+    }, 800);
 
-useEffect(() => {
-  if (!token) return;
-  if (hasScrolled.current) return;
-
-  const id = setTimeout(() => {
-    const el = document.getElementById("testimonials");
-    if (!el) return;
-
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-
-    hasScrolled.current = true;
-  }, 800);
-
-  return () => clearTimeout(id);
-}, [token]);
+    return () => clearTimeout(id);
+  }, [token]);
 
   console.log("Hero token:", token);
 
@@ -258,76 +241,20 @@ useEffect(() => {
               </Card>
             </motion.div>
             {token && (
-  <button
-    onClick={() =>
-      document.getElementById("testimonials")?.scrollIntoView({
-        behavior: "smooth",
-      })
-    }
-    className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50
-               rounded-full bg-emerald-500/10 border border-emerald-400/30
-               px-5 py-3 text-sm text-emerald-300 backdrop-blur-md"
-  >
-    ↓ Leave Your Testimonial
-  </button>
-)}
-          </motion.div>
-          {/* {token && (
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{
-                  opacity: 1,
-                  y: [0, -6, 0],
-                }}
-                transition={{
-                  opacity: { duration: 0.5, delay: 1.5 },
-                  y: {
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  },
-                }}
-                onClick={scrollToTestimonials}
-                className="
-                  fixed
-                  bottom-8
-                  left-1/2
-                  -translate-x-1/2
-                  z-50
-
-                  flex
-                  items-center
-                  gap-2
-
-                  rounded-full
-                  border
-                  border-emerald-400/20
-
-                  bg-zinc-900/80
-                  px-5
-                  py-3
-
-                  text-sm
-                  font-medium
-                  text-emerald-300
-
-                  shadow-2xl
-                  shadow-emerald-500/10
-
-                  backdrop-blur-xl
-
-                  transition-all
-                  duration-300
-
-                  hover:scale-105
-                  hover:bg-zinc-900
-                  hover:border-emerald-400/40
-                "
+              <button
+                onClick={() =>
+                  document.getElementById("testimonials")?.scrollIntoView({
+                    behavior: "smooth",
+                  })
+                }
+                className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50
+                          rounded-full bg-emerald-500/10 border border-emerald-400/30
+                          px-5 py-3 text-sm text-emerald-300 backdrop-blur-md"
               >
-                <span className="text-lg">↓</span>
-                Leave Your Testimonial
-              </motion.button>
-            )} */}
+                ↓ Leave Your Testimonial
+              </button>
+            )}
+          </motion.div>
         </div>
       </div>
     </main>

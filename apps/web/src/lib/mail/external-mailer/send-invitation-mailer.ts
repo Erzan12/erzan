@@ -18,7 +18,7 @@ export async function sendInvitationEmail(toEmail: string, token: string) {
         <div>
           <h2>You were invited to leave a testimonial</h2>
           <p>Click below to continue:</p>
-          <a href="${process.env.NEXT_PUBLIC_APP_URL}/admin/my-testimonials/invitations/${token}">
+          <a href="${process.env.NEXT_PUBLIC_APP_URL}/?token=${token}#testimonials">
             Accept Invitation
           </a>
           <p>This link expires in 7 days.</p>

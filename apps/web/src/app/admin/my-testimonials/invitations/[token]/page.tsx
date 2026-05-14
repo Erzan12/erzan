@@ -50,6 +50,8 @@ type Props = {
 export default async function InvitePage({ params }: Props) {
   const { token } = await params;
 
+  console.log("TOKEN PARAM:", token);
+
   const invitation =
     await prisma.testimonialInvitation.findUnique({
       where: { token },

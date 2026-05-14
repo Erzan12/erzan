@@ -14,20 +14,19 @@ import GuestLoginButton from "@/components/login/guest-login";
 import { prisma } from "@/lib/prisma/prisma";
 import { Suspense } from "react";
 
-type Props = {
-  searchParams: {
-    token?: string;
-  };
-};
-
+// type Props = {
+//   searchParams: {
+//     token?: string;
+//   };
+// };
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { token?: string };
+  searchParams: Promise<{ token?: string }>;
 }) {
+  const { token } = await searchParams;
   const session = await getServerSession(authOptions);
 
-  const token = searchParams?.token;
   // Fetch only approved and active testimonials
   const approvedTestimonials = await prisma.testimonials.findMany({
     where: {
@@ -41,9 +40,27 @@ export default async function Home({
       created_at: "desc",
     },
   });
+
+  const invitation = token
+    ? await prisma.testimonialInvitation.findUnique({
+        where: { token },
+      })
+    : null;
+
+  const validToken =
+    invitation &&
+    invitation.status === "PENDING" &&
+    new Date() < invitation.expires_at
+      ? token
+      : undefined;
+
+  console.log('valid token value:', validToken)
+
+  console.log("search params token:", token);
+
   return (
     <main className="container mx-auto px-6 overflow-x-hidden">
-      <Hero token={token}/>
+      <Hero token={validToken}/>
       <Tabs />
       <section className="py-20 max-w-6xl mx-auto px-1">
         {/* <div className="mt-16"> */}
