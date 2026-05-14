@@ -9,7 +9,7 @@ import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { updatePost } from "@/lib/actions/blog-cms";
 
-type PostStatus = "DRAFT" | "PUBLISHED";
+type PostStatus = "DRAFT" | "PUBLISHED" | "REJECTED";
 
 export default function UpdatePostClient({
   blogId,
@@ -20,7 +20,7 @@ export default function UpdatePostClient({
     title: string;
     content: string;
     excerpt: string | null;
-    status: "DRAFT" | "PUBLISHED";
+    status: "DRAFT" | "PUBLISHED" | "REJECTED";
   };
 }) {
   const [content, setContent] = useState(post.content);
