@@ -20,17 +20,17 @@ export default function GuestLoginButton() {
   //   }
   // }, [status, session, router]);
 
-  useEffect(() => {
-    if (status !== "authenticated") return;
+  // useEffect(() => {
+  //   if (status !== "authenticated") return;
 
-    const role = session?.user?.role ?? "GUEST";
+  //   const role = session?.user?.role ?? "GUEST";
 
-    if (role === "ADMINISTRATOR") {
-      router.replace("/admin");
-    } else {
-      router.replace("/");
-    }
-  }, [status]);
+  //   if (role === "ADMINISTRATOR") {
+  //     router.replace("/admin");
+  //   } else {
+  //     router.replace("/");
+  //   }
+  // }, [status]);
 
   if (status === "loading" || status === "authenticated") {
     return (
@@ -43,7 +43,9 @@ export default function GuestLoginButton() {
   return (
     <div className="py-10 flex flex-col items-center justify-center gap-4">
       <button
-        onClick={() => signIn("github")} // It will auto-redirect back to the same page after login
+        onClick={() => signIn("github", {
+          callbackUrl: window.location.href,
+        })} // It will auto-redirect back to the same page after login
         className="mt-2 inline-flex items-center gap-2 px-6 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-semibold hover:opacity-90 transition-all active:scale-95"
       >
         <SiGithub size={18} />
@@ -51,7 +53,9 @@ export default function GuestLoginButton() {
       </button>
 
       <button
-        onClick={() => signIn("google")}
+        onClick={() => signIn("google", {
+          callbackUrl: window.location.href,
+        })}
         className="mt-2 inline-flex items-center gap-2 px-6 py-3 bg-red-900 dark:bg-white text-white dark:text-slate-900 rounded-2xl font-semibold hover:opacity-90 transition-all active:scale-95"
       >
         <SiGoogle size={18} />
