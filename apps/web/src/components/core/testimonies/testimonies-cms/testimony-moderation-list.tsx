@@ -1,34 +1,70 @@
-"use client";
-
-import { ModerationCard } from "./testimony-moderation-card"; // This is the card design we discussed
-import { Inbox, CheckCircle } from "lucide-react";
+import { getServerSession } from "next-auth"; // This is the card design we discussed
+import { Inbox, CheckCircle, X, XCircle } from "lucide-react";
+import { authOptions } from "@/lib/auth/auth";
+import { ModerationCard } from "./testimony-moderation-card";
 
 interface ModerationListProps {
   items: any[];
-  type: "pending" | "published";
+  type: "review" | "published" | "rejected";
 }
 
-export default function ModerationList({ items, type }: ModerationListProps) {
+export default async function TestimonyModerationList({
+  items,
+  type,
+}: ModerationListProps) {
+  
+  const session = await getServerSession(authOptions);
+
+  if (!session?.user?.id) {
+    throw new Error("Unauthorized");
+  }
+
   if (items.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 px-6 border-2 border-dashed border-slate-500/10 rounded-[3rem] bg-slate-500/5">
-        {type === "pending" ? (
+
+        {type === "review" && (
           <>
             <div className="p-4 bg-white dark:bg-slate-900 rounded-2xl shadow-xl mb-4">
               <CheckCircle className="w-8 h-8 text-green-500" />
             </div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white">All caught up!</h3>
-            <p className="text-slate-500 text-sm mt-1 text-center">There are no testimonials waiting for review.</p>
-          </>
-        ) : (
-          <>
-             <div className="p-4 bg-white dark:bg-slate-900 rounded-2xl shadow-xl mb-4">
-              <Inbox className="w-8 h-8 text-slate-400" />
-            </div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Nothing published yet</h3>
-            <p className="text-slate-500 text-sm mt-1 text-center">Approved testimonials will appear here.</p>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+              All caught up!
+            </h3>
+            <p className="text-slate-500 text-sm mt-1 text-center">
+              There are no testimonials waiting for review.
+            </p>
           </>
         )}
+
+        {type === "published" && (
+          <>
+            <div className="p-4 bg-white dark:bg-slate-900 rounded-2xl shadow-xl mb-4">
+              <Inbox className="w-8 h-8 text-slate-400" />
+            </div>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+              Nothing published yet
+            </h3>
+            <p className="text-slate-500 text-sm mt-1 text-center">
+              Approved testimonials will appear here.
+            </p>
+          </>
+        )}
+
+        {type === "rejected" && (
+          <>
+            <div className="p-4 bg-white dark:bg-slate-900 rounded-2xl shadow-xl mb-4">
+              <XCircle className="w-8 h-8 text-red-500 border-red-500/20" />
+            </div>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+              No Testimonials has been rejected yet
+            </h3>
+            <p className="text-slate-500 text-sm mt-1 text-center">
+              Rejected testimonials will appear here.
+            </p>
+          </>
+        )}
+
       </div>
     );
   }
@@ -36,7 +72,12 @@ export default function ModerationList({ items, type }: ModerationListProps) {
   return (
     <div className="grid grid-cols-1 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {items.map((item) => (
-        <ModerationCard key={item.id} item={item} type={type} />
+        <ModerationCard
+          key={item.id}
+          item={item}
+          type={type}
+          adminId={session?.user?.id}
+        />
       ))}
     </div>
   );

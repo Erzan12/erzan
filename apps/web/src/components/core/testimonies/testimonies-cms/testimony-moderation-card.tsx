@@ -5,40 +5,56 @@ import { Check, X, MessageSquare, Clock, Globe, Send } from "lucide-react";
 import { format } from "date-fns";
 import { moderateTestimonial } from "@/lib/actions/testimonials-cms";
 
-export function ModerationCard({ item, type }: { item: any, type: 'pending' | 'published' }) {
-  const [isPending, startTransition] = useTransition();
-const [showModal, setShowModal] = useState(false);
+export function ModerationCard({
+  item,
+  type,
+  adminId
+}: {
+  item: any,
+  type: 'review' | 'published' | 'rejected',
+  adminId: string
+}) {
+  const [isReview, startTransition] = useTransition();
+  const [showModal, setShowModal] = useState(false);
   const [feedback, setFeedback] = useState("");
-  const [actionType, setActionType] = useState<boolean | null>(null);
+  const [actionType, setActionType] = useState<"approve" | "reject" | null>(null);
 
-  const handleAction = (approve: boolean) => {
-    startTransition(async () => {
-      await moderateTestimonial(item.id, { approve });
-    });
-  };
+  // const handleAction = (approve: boolean) => {
+  //   startTransition(async () => {
+  //     await moderateTestimonial(item.id, { 
+  //       approve: actionType === "approve",
+  //       feedback: feedback
+  //     });
+  //   });
+  // };
 
 //   const [isPending, startTransition] = useTransition();
 
-  const triggerAction = (approve: boolean) => {
-    setActionType(approve);
+  const triggerAction = (type: "approve" | "reject") => {
+    setActionType(type);
     setShowModal(true);
   };
 
   const handleConfirm = () => {
-    if (!actionType && !feedback) {
-      // Optional: validation to require feedback on rejection
+    if (actionType === "reject" && !feedback.trim()) {
       alert("Please provide a reason for rejection.");
       return;
     }
 
     startTransition(async () => {
       try {
-        await moderateTestimonial(item.id, { 
-          approve: actionType!, 
-          feedback: feedback // This goes to your Server Action
-        });
+        await moderateTestimonial(
+          item.id,
+          {
+            approve: actionType === "approve",
+            feedback,
+          },
+          adminId // or session.user.id
+        );
+
         setShowModal(false);
-        setFeedback(""); // Reset for next use
+        setFeedback("");
+        setActionType(null);
       } catch (error) {
         console.error("Failed to moderate:", error);
       }
@@ -93,26 +109,29 @@ const [showModal, setShowModal] = useState(false);
 
         {/* Action Buttons with modal feedback from admin*/}
         <div className="flex flex-row md:flex-col gap-2">
-          {type === 'pending' ? (
+          {type === 'review' ? (
             <>
-              <button 
-                onClick={() => triggerAction(true)} // Change from handleAction
-                disabled={isPending}
-                className="p-3 bg-green-500/10 text-green-600 rounded-xl hover:bg-green-500 hover:text-white transition-all shadow-sm"
+              <button
+                onClick={() => triggerAction("approve")}
+                disabled={isReview}
+                className="p-3 bg-green-500/10 text-green-600 rounded-xl hover:bg-green-500 hover:text-white transition-all shadow-sm disabled:opacity-40 disabled:cursor-not-allowed"
                 title="Approve"
               >
                 <Check size={20} />
               </button>
-              <button 
-                onClick={() => triggerAction(false)} // Change from handleAction
-              // ... same classes
+
+              <button
+                onClick={() => triggerAction("reject")}
+                disabled={isReview}
+                className="p-3 bg-red-500/10 text-red-600 rounded-xl hover:bg-red-500 hover:text-white transition-all shadow-sm disabled:opacity-40 disabled:cursor-not-allowed"
+                title="Reject"
               >
                 <X size={20} />
               </button>
             </>
           ) : (
             <button 
-              onClick={() => triggerAction(false)} // Open modal even for unpublishing if you want feedback
+              onClick={() => triggerAction("reject")} // Open modal even for unpublishing if you want feedback
             // ... same classes
             >
               <X size={20} />
@@ -125,7 +144,9 @@ const [showModal, setShowModal] = useState(false);
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
               <div className="bg-white dark:bg-slate-900 p-8 rounded-[2.5rem] w-full max-w-md border border-slate-500/20 shadow-2xl">
                   <h3 className="text-xl font-bold mb-2">
-                      {actionType ? "Approve Testimonial?" : "Reject Testimonial?"}
+                    {actionType === "approve"
+                    ? "Approve Testimonial?"
+                    : "Reject Testimonial?"}
                   </h3>
                   <p className="text-sm text-slate-500 mb-4">Add a message to {item.name}. This will be emailed to them.</p>
                   
@@ -140,10 +161,10 @@ const [showModal, setShowModal] = useState(false);
                   <button onClick={() => setShowModal(false)} className="flex-1 py-3 font-medium text-slate-500">Cancel</button>
                     <button 
                         onClick={handleConfirm} 
-                        disabled={isPending}
+                        disabled={isReview}
                         className="flex-1 py-3 bg-slate-900 dark:bg-white dark:text-slate-900 text-white rounded-xl font-bold flex items-center justify-center gap-2 disabled:opacity-50"
                     >
-                        {isPending ? (
+                        {isReview ? (
                           <>
                             <span className="animate-spin mr-2">...</span>
                             Sending...
