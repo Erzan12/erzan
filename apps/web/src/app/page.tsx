@@ -84,7 +84,7 @@ export default async function Home({
           <Testimonials items={approvedTestimonials} token={token} />
         </Suspense>
       </section>
-      <section className="py-20 px-6 bg-slate-500/3 mb-10 mx-auto max-w-6xl">
+      <section id="leave-note" className="py-20 px-6 bg-slate-500/3 mb-10 mx-auto max-w-6xl">
         <div className="max-w-2xl mx-auto text-center mb-10">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Leave a Note</h2>
           <p className="text-slate-500 text-sm mt-2">I value your feedback on our collaborations or projects.</p>

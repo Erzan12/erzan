@@ -28,6 +28,8 @@ export default function Hero({ token }: HeroProps) {
   const [displayText, setDisplayText] = useState("");
   const [phase, setPhase] = useState<'typing' | 'pausing' | 'deleting'>('typing');
 
+  const [showInviteButton, setShowInviteButton] = useState(!!token);
+
   useEffect(() => {
     if (phase === 'typing') {
       const timeout = setTimeout(() => {
@@ -240,18 +242,26 @@ export default function Hero({ token }: HeroProps) {
                 </div>
               </Card>
             </motion.div>
-            {token && (
+            {showInviteButton && (
               <button
-                onClick={() =>
-                  document.getElementById("testimonials")?.scrollIntoView({
+                onClick={() => {
+                  document.getElementById("leave-note")?.scrollIntoView({
                     behavior: "smooth",
-                  })
-                }
-                className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50
-                          rounded-full bg-emerald-500/10 border border-emerald-400/30
-                          px-5 py-3 text-sm text-emerald-300 backdrop-blur-md"
+                    block: "start",
+                  });
+
+                  setTimeout(() => {
+                    setShowInviteButton(false);
+                  }, 300);
+                }}
+                className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300
+                          rounded-full bg-slate-500/10 border border-slate-400/20
+                          px-5 py-3 text-sm text-slate-900 backdrop-blur-md"
               >
-                ↓ Leave Your Testimonial
+                <span className="flex items-center gap-2">
+                  <span className="animate-bounce inline-block">↓</span>
+                  <span>Leave Your Testimonial</span>
+                </span>
               </button>
             )}
           </motion.div>
