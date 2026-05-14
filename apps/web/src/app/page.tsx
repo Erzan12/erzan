@@ -90,7 +90,7 @@ export default async function Home({
           <p className="text-slate-500 text-sm mt-2">I value your feedback on our collaborations or projects.</p>
         </div>
         
-        {session?.user ? (
+        {/* {session?.user ? (
           <TestimonialForm userId={session.user.id} />
         ) : token ? (
           // Invited guest — show form without login
@@ -105,6 +105,38 @@ export default async function Home({
             </p>
             
             <GuestLoginButton />
+          </div>
+        )} */}
+        {validToken ? (
+          session?.user ? (
+            <TestimonialForm
+              userId={session.user.id}
+              invitationToken={validToken}
+              isInvited
+            />
+          ) : (
+            <div className="text-center p-12 border border-dashed border-slate-500/30 rounded-[2.5rem] flex flex-col items-center justify-center bg-white/20 backdrop-blur-sm">
+              <p className="text-slate-600 dark:text-slate-400 font-medium">
+                You were invited to leave a testimonial
+              </p>
+
+              <p className="text-slate-500 text-xs mt-1">
+                Sign in first to verify your identity.
+              </p>
+
+              <GuestLoginButton />
+            </div>
+          )
+        )
+         : (
+          <div className="text-center p-12 border border-dashed border-slate-500/30 rounded-[2.5rem] flex flex-col items-center justify-center bg-white/20 backdrop-blur-sm">
+            <p className="text-slate-600 dark:text-slate-400 font-medium">
+              Testimonials are invite-only
+            </p>
+
+            <p className="text-slate-500 text-xs mt-1">
+              Contact me if you'd like to leave feedback.
+            </p>
           </div>
         )}
       </section>
